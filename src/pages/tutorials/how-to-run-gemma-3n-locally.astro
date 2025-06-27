@@ -1,0 +1,47 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+
+const pageTitle = "How to Run Gemma 3n Locally with Ollama: A Step-by-Step Guide";
+const pageDescription = "Learn the easiest way to run Google's Gemma 3n on your own machine. This tutorial guides you through installing Ollama and running the model with simple commands.";
+---
+
+<MainLayout title={pageTitle} description={pageDescription}>
+  <article class="prose prose-invert max-w-4xl mx-auto px-4 py-24 sm:py-32">
+    <h1>{pageTitle}</h1>
+    <p class="lead">
+      Running powerful AI models on your local machine is easier than ever. In this guide, we'll walk you through the simplest method to get Google's state-of-the-art Gemma 3n model running on your laptop or desktop using Ollama. No complex setup, just a few simple commands.
+    </p>
+
+    <h2>Prerequisites</h2>
+    <ul>
+      <li>A modern computer (macOS, Linux, or Windows with WSL2).</li>
+      <li>An internet connection to download the model.</li>
+    </ul>
+
+    <h2>Step 1: Install Ollama</h2>
+    <p>Ollama is a fantastic tool that bundles model weights, configuration, and a runner into a single, easy-to-use package. It's the fastest way to get started.</p>
+    <p>
+      Head over to the <a href="https://ollama.com/" target="_blank" rel="noopener noreferrer">Ollama website</a> and download the installer for your operating system. Run the installer to get Ollama set up on your system. It will run in the background.
+    </p>
+
+    <h2>Step 2: Pull the Gemma 3n Model</h2>
+    <p>Once Ollama is installed, open your terminal (Terminal on macOS/Linux, or Command Prompt/PowerShell on Windows).</p>
+    <p>To download and run the E4B (4B parameter, embed-only) version of Gemma 3n, use the following command:</p>
+    <pre><code>ollama run gemma-3n:e4b</code></pre>
+    <p>If you want the smaller E2B (2B parameter) version, you can use:</p>
+    <pre><code>ollama run gemma-3n:e2b</code></pre>
+    <p>Ollama will download the model file, which might take a few minutes depending on your internet speed. Once it's done, you'll be dropped into an interactive chat session right in your terminal!</p>
+
+    <h2>Step 3: Chat with the Model</h2>
+    <p>That's it! You can now start interacting with Gemma 3n. Ask it questions, have it summarize text, or give it any other task. For example:</p>
+    <pre><code>&gt;&gt;&gt; Why is the sky blue?</code></pre>
+
+    <h2>Conclusion</h2>
+    <p>Congratulations! You now have a powerful, multimodal AI model running locally on your computer. With Ollama, the process is incredibly streamlined. From here, you can explore using Ollama's API to build applications on top of Gemma 3n, or try out other models from their extensive library.</p>
+  </article>
+</MainLayout>
+<style>
+  .prose {
+    /* Add any custom prose styles here if needed */
+  }
+</style> 
