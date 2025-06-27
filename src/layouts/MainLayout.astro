@@ -21,7 +21,21 @@ const {
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
-		<title>{title}</title>
+		<title>{`${title} | Gemma-3n.net`}</title>
+
+    <!-- SEO & Social Sharing -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content={Astro.url.href}>
+    <meta property="og:title" content={`${title} | Gemma-3n.net`}>
+    <meta property="og:description" content={description}>
+    <meta property="og:image" content={new URL('social-card.png', Astro.url).href}>
+    <meta property="og:site_name" content="Gemma-3n.net">
+    
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content={Astro.url.href}>
+    <meta property="twitter:title" content={`${title} | Gemma-3n.net`}>
+    <meta property="twitter:description" content={description}>
+    <meta property="twitter:image" content={new URL('social-card.png', Astro.url).href}>
 
     <!-- Google Analytics -->
     <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-LFF5X9VMHP"></script>
