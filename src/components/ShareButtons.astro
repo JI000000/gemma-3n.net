@@ -40,15 +40,23 @@ const shareLinks = {
 <script is:inline>
     const copyBtn = document.getElementById('copy-link-btn');
     const copyFeedback = document.getElementById('copy-feedback');
+    const postUrl = window.location.href;
 
-    copyBtn.addEventListener('click', () => {
-        navigator.clipboard.writeText(window.location.href).then(() => {
-            copyFeedback.textContent = 'Link copied!';
-            setTimeout(() => {
-                copyFeedback.textContent = '';
-            }, 2000);
-        }).catch(err => {
-            copyFeedback.textContent = 'Failed to copy';
+    if (copyBtn) {
+        copyBtn.addEventListener('click', () => {
+            navigator.clipboard.writeText(postUrl).then(() => {
+                if (copyFeedback) {
+                    copyFeedback.textContent = 'Link copied!';
+                    setTimeout(() => {
+                        copyFeedback.textContent = '';
+                    }, 2000);
+                }
+            }).catch(err => {
+                if (copyFeedback) {
+                    copyFeedback.textContent = 'Failed to copy';
+                }
+                console.error('Failed to copy: ', err);
+            });
         });
-    });
+    }
 </script> 
