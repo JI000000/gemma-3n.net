@@ -2,21 +2,22 @@
 import ThemeToggleButton from './ThemeToggleButton.astro';
 
 const navLinks = [
-  { href: "#what-is-gemma", text: "About" },
-  { href: "#benchmarks", text: "Benchmarks" },
-  { href: "#resources", text: "Resources" },
-  { href: "#faq", text: "FAQ" },
+  { href: "/#what-is-gemma", text: "About" },
+  { href: "/#benchmarks", text: "Benchmarks" },
+  { href: "/tutorials", text: "Tutorials" },
+  { href: "/#resources", text: "Resources" },
+  { href: "/#faq", text: "FAQ" },
 ];
 ---
 
-<header class="fixed top-0 left-0 right-0 z-50 bg-gray-900/80 backdrop-blur-sm">
+<header class="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm">
   <div class="max-w-7xl mx-auto px-4">
     <div class="flex items-center justify-between h-16">
-      <a href="/" class="text-xl font-bold text-white">Gemma-3n.net</a>
+      <a href="/" class="text-xl font-bold text-slate-900 dark:text-white">Gemma-3n.net</a>
       <div class="flex items-center space-x-8">
         <nav class="hidden md:flex space-x-8">
           {navLinks.map(link => (
-            <a href={link.href} class="text-gray-300 hover:text-white transition-colors">{link.text}</a>
+            <a href={link.href} class="text-slate-600 dark:text-gray-300 hover:text-slate-900 dark:hover:text-white transition-colors">{link.text}</a>
           ))}
         </nav>
         <ThemeToggleButton />
