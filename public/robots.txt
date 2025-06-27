@@ -3,4 +3,4 @@ User-agent: *
 Allow: /
 
 # Sitemap location
-Sitemap: https://gemma-3n.net/sitemap-0.xml 
+Sitemap: https://gemma-3n.net/sitemap-index.xml 
