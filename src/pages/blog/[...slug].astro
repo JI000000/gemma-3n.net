@@ -2,6 +2,8 @@
 import { getCollection } from 'astro:content';
 import MainLayout from '../../layouts/MainLayout.astro';
 import type { CollectionEntry } from 'astro:content';
+import Giscus from '../../../components/Giscus.astro';
+import ShareButtons from '../../../components/ShareButtons.astro';
 
 export async function getStaticPaths() {
   const blogEntries = await getCollection('blog');
@@ -41,15 +43,20 @@ const schema = {
 <script type="application/ld+json" set:html={JSON.stringify(schema)} />
 
 <MainLayout title={entry.data.title} description={entry.data.description}>
-  <article class="prose dark:prose-invert max-w-4xl mx-auto px-4 py-24 sm:py-32">
-    <header class="mb-8">
-      <h1 class="!text-4xl sm:!text-5xl !leading-tight">{entry.data.title}</h1>
-      <p class="text-lg text-slate-500 dark:text-gray-400">
-        Posted on <time datetime={entry.data.pubDate.toISOString()}>
-          {new Date(entry.data.pubDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
-        </time> by {entry.data.author}
-      </p>
+  <div class="max-w-4xl mx-auto px-4">
+    <header class="py-12 sm:py-20 text-center">
+      <p class="text-sm text-blue-600 dark:text-blue-400 font-semibold">{new Date(entry.data.pubDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
+      <h1 class="text-3xl sm:text-5xl font-bold mt-2 text-slate-900 dark:text-white !leading-tight">{entry.data.title}</h1>
     </header>
-    <Content />
-  </article>
-</MainLayout> 
+    <article class="prose prose-slate dark:prose-invert max-w-none">
+      <Content />
+    </article>
+    
+    <ShareButtons title={entry.data.title} url={Astro.url} />
+    <Giscus />
+  </div>
+</MainLayout>
+
+<style>
+  /* Add your styles here */
+</style> 
