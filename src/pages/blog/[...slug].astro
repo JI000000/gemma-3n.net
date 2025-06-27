@@ -2,8 +2,8 @@
 import { getCollection } from 'astro:content';
 import MainLayout from '../../layouts/MainLayout.astro';
 import type { CollectionEntry } from 'astro:content';
-import Giscus from '../../../components/Giscus.astro';
-import ShareButtons from '../../../components/ShareButtons.astro';
+import Giscus from '../../components/Giscus.astro';
+import ShareButtons from '../../components/ShareButtons.astro';
 
 export async function getStaticPaths() {
   const blogEntries = await getCollection('blog');
