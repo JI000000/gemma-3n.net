@@ -1,7 +1,7 @@
 ---
 title: "Fine-Tuning Gemma 3n with LoRA for Custom Tasks"
 description: "A step-by-step guide to adapting the powerful Gemma 3n model for your specific needs using Low-Rank Adaptation (LoRA), one of the most efficient fine-tuning techniques."
-pubDate: 2024-07-22
+pubDate: 2025-06-25
 heroImage: "/blog-placeholder-2.jpg"
 ---
 
