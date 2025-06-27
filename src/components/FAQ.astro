@@ -17,7 +17,22 @@ const faqs = [
     answer: "Absolutely. The models are designed to be fine-tuned. Google provides recipes and support through frameworks like Keras, PyTorch, and JAX to facilitate this process.",
   },
 ];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": faqs.map(faq => ({
+    "@type": "Question",
+    "name": faq.question,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": faq.answer
+    }
+  }))
+};
 ---
+
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />
 
 <section id="faq" class="py-20 sm:py-32 bg-white dark:bg-slate-900">
   <div class="max-w-4xl mx-auto px-4">
@@ -31,13 +46,13 @@ const faqs = [
       {faqs.map((faq, index) => (
         <div class="bg-slate-50 dark:bg-gray-800 rounded-lg" data-faq-item>
           <button class="flex items-center justify-between w-full p-6 text-left" data-faq-button>
-            <span class="text-lg font-medium text-slate-900 dark:text-white">{faq.question}</span>
+            <span class="text-lg font-medium text-slate-900 dark:text-white" itemprop="name">{faq.question}</span>
             <svg class="w-6 h-6 text-gray-400 dark:text-gray-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
             </svg>
           </button>
-          <div class="hidden px-6 pb-6" data-faq-answer>
-            <p class="text-slate-600 dark:text-gray-400">{faq.answer}</p>
+          <div class="hidden px-6 pb-6" data-faq-answer itemprop="acceptedAnswer" itemscope itemtype="https://schema.org/Answer">
+            <p class="text-slate-600 dark:text-gray-400" itemprop="text">{faq.answer}</p>
           </div>
         </div>
       ))}
