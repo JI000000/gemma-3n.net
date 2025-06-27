@@ -41,36 +41,37 @@ const giscusConfig = {
 <script is:inline>
     // This script ensures Giscus theme follows the website's theme switcher.
     function setGiscusTheme() {
-        function sendMessage(theme) {
-            const iframe = document.querySelector('iframe.giscus-frame');
-            if (iframe && iframe.contentWindow) {
-                iframe.contentWindow.postMessage({ giscus: { setTheme: theme } }, 'https://giscus.app');
-            }
-        }
-        
-        // Use 'dark_dimmed' for a better look that matches our dark theme
         const theme = localStorage.getItem('theme') === 'dark' ? 'dark_dimmed' : 'light';
-        sendMessage(theme);
+        const iframe = document.querySelector('iframe.giscus-frame');
+
+        if (iframe && iframe.contentWindow) {
+            iframe.contentWindow.postMessage({ giscus: { setTheme: theme } }, 'https://giscus.app');
+        }
     }
 
-    // Set theme on page load or when astro navigates
-    document.addEventListener('astro:page-load', () => {
-        const observer = new MutationObserver((mutations, obs) => {
-            const iframe = document.querySelector('iframe.giscus-frame');
+    // This function waits for the Giscus iframe to load and then sets the theme.
+    // It's more robust than observing mutations.
+    function applyThemeWhenGiscusReady() {
+        const giscusContainer = document.getElementById('giscus-container');
+        if (!giscusContainer) return;
+
+        // Stop trying after 10 seconds
+        let attempts = 0;
+        const maxAttempts = 50; // 50 * 200ms = 10 seconds
+
+        const interval = setInterval(() => {
+            const iframe = giscusContainer.querySelector('iframe.giscus-frame');
             if (iframe) {
                 setGiscusTheme();
-                obs.disconnect(); 
+                clearInterval(interval);
+            } else if (attempts >= maxAttempts) {
+                clearInterval(interval);
             }
-        });
-        
-        const giscusContainer = document.getElementById('giscus-container');
-        if (giscusContainer) {
-            observer.observe(giscusContainer, {
-                childList: true,
-                subtree: true
-            });
-        }
-    });
-    // Listen for our theme toggle button's custom event
+            attempts++;
+        }, 200);
+    }
+
+    // Set theme on page load and when the theme toggle button is clicked.
+    document.addEventListener('astro:page-load', applyThemeWhenGiscusReady);
     document.addEventListener('theme-changed', setGiscusTheme);
 </script> 
