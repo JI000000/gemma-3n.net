@@ -14,64 +14,40 @@ const giscusConfig = {
     lang: "en",
 };
 ---
-<div id="giscus-container" class="giscus mt-16">
-    <script 
-        src="https://giscus.app/client.js"
-        data-repo={giscusConfig.repo}
-        data-repo-id={giscusConfig.repoId}
-        data-category={giscusConfig.category}
-        data-category-id={giscusConfig.categoryId}
-        data-mapping={giscusConfig.mapping}
-        data-strict={giscusConfig.strict}
-        data-reactions-enabled={giscusConfig.reactionsEnabled}
-        data-emit-metadata={giscusConfig.emitMetadata}
-        data-input-position={giscusConfig.inputPosition}
-        data-theme="preferred_color_scheme"
-        data-lang={giscusConfig.lang}
-        crossorigin="anonymous"
-        async
-    >
-    </script>
-</div>
+<div id="giscus-container" class="giscus mt-16"></div>
+
+<script is:inline>
+    function loadGiscus() {
+        const container = document.getElementById('giscus-container');
+        if (!container) return;
+
+        // Clean up previous instance
+        while (container.firstChild) {
+            container.removeChild(container.firstChild);
+        }
+
+        const giscusScript = document.createElement('script');
+        
+        const theme = localStorage.getItem('theme') === 'dark' ? 'dark_dimmed' : 'light';
+
+        giscusScript.src = 'https://giscus.app/client.js';
+        giscusScript.async = true;
+        giscusScript.crossOrigin = 'anonymous';
+        
+        for (const key in giscusConfig) {
+            giscusScript.setAttribute(`data-${key.replace(/([A-Z])/g, "-$1").toLowerCase()}`, giscusConfig[key]);
+        }
+        giscusScript.setAttribute('data-theme', theme);
+        
+        container.appendChild(giscusScript);
+    }
+
+    document.addEventListener('astro:page-load', loadGiscus);
+    document.addEventListener('theme-changed', loadGiscus);
+</script>
+
 <style>
     .giscus {
         margin-top: 4rem;
     }
-</style>
-<script is:inline>
-    // This script ensures Giscus theme follows the website's theme switcher.
-    function setGiscusTheme() {
-        const theme = localStorage.getItem('theme') === 'dark' ? 'dark_dimmed' : 'light';
-        const iframe = document.querySelector('iframe.giscus-frame');
-
-        if (iframe && iframe.contentWindow) {
-            iframe.contentWindow.postMessage({ giscus: { setTheme: theme } }, 'https://giscus.app');
-        }
-    }
-
-    // This function waits for the Giscus iframe to load and then sets the theme.
-    // It's more robust than observing mutations.
-    function applyThemeWhenGiscusReady() {
-        const giscusContainer = document.getElementById('giscus-container');
-        if (!giscusContainer) return;
-
-        // Stop trying after 10 seconds
-        let attempts = 0;
-        const maxAttempts = 50; // 50 * 200ms = 10 seconds
-
-        const interval = setInterval(() => {
-            const iframe = giscusContainer.querySelector('iframe.giscus-frame');
-            if (iframe) {
-                setGiscusTheme();
-                clearInterval(interval);
-            } else if (attempts >= maxAttempts) {
-                clearInterval(interval);
-            }
-            attempts++;
-        }, 200);
-    }
-
-    // Set theme on page load and when the theme toggle button is clicked.
-    document.addEventListener('astro:page-load', applyThemeWhenGiscusReady);
-    document.addEventListener('theme-changed', setGiscusTheme);
-</script> 
+</style> 
