@@ -1,0 +1,41 @@
+---
+---
+<section id="architecture" class="py-20 sm:py-32 bg-white dark:bg-slate-900">
+  <div class="max-w-7xl mx-auto px-4">
+    <div class="text-center">
+      <h2 class="text-3xl font-bold text-slate-900 dark:text-white sm:text-4xl">Architecture Deep Dive</h2>
+      <p class="mt-4 text-lg text-slate-600 dark:text-gray-400">A look under the hood at MatFormer, the novel architecture powering Gemma 3n's efficiency.</p>
+    </div>
+    <div class="mt-16 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+      <!-- Visual Representation -->
+      <div class="flex justify-center items-center p-8 bg-slate-100 dark:bg-gray-800 rounded-lg min-h-[300px]">
+        <div class="relative w-64 h-64 border-2 border-dashed border-blue-500/50 dark:border-blue-400/50 rounded-lg flex items-center justify-center">
+          <span class="absolute -top-6 text-blue-500 dark:text-blue-400 font-semibold">Outer Transformer</span>
+          <div class="relative w-40 h-40 bg-slate-200 dark:bg-gray-700 rounded-lg flex items-center justify-center">
+            <span class="text-slate-700 dark:text-gray-300 font-semibold">Inner Transformer</span>
+            <div class="absolute w-8 h-8 bg-green-500/80 rounded-sm animate-pulse top-4 left-4"></div>
+            <div class="absolute w-8 h-8 bg-green-500/80 rounded-sm animate-pulse bottom-4 right-4"></div>
+          </div>
+          <span class="absolute -bottom-6 text-green-500 font-semibold">Fixed-size Blocks</span>
+        </div>
+      </div>
+      <!-- Textual Explanation -->
+      <div>
+        <h3 class="text-2xl font-bold text-slate-900 dark:text-white">The MatFormer "Nested" Design</h3>
+        <p class="mt-4 text-slate-600 dark:text-gray-400">
+          Unlike traditional transformers that process data in fixed-size chunks, MatFormer uses a novel nested structure. An "inner" transformer processes smaller, fixed-size blocks of data, while an "outer" transformer manages the overall sequence and context.
+        </p>
+        <ul class="mt-6 space-y-4">
+          <li class="flex items-start">
+            <svg class="w-6 h-6 text-blue-500 dark:text-blue-400 mr-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            <span class="text-slate-600 dark:text-gray-400"><strong class="text-slate-800 dark:text-white">Efficiency:</strong> The inner transformer's fixed-size processing is highly optimized for hardware, leading to significant speedups.</span>
+          </li>
+          <li class="flex items-start">
+            <svg class="w-6 h-6 text-blue-500 dark:text-blue-400 mr-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            <span class="text-slate-600 dark:text-gray-400"><strong class="text-slate-800 dark:text-white">Flexibility:</strong> The outer transformer can handle variable-length sequences, making the model adaptable to different tasks and inputs.</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section> 
