@@ -5,6 +5,13 @@ import type { CollectionEntry } from 'astro:content';
 import Giscus from '../../components/Giscus.astro';
 import ShareButtons from '../../components/ShareButtons.astro';
 
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map(entry => ({
+    params: { slug: entry.slug },
+  }));
+}
+
 const { slug } = Astro.params;
 if (!slug) {
   return Astro.redirect('/404');
