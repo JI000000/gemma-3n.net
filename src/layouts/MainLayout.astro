@@ -11,6 +11,16 @@ const {
   title, 
   description = "The ultimate developer guide and tutorials for Google's Gemma 3n. Master on-device multimodal AI with in-depth analysis, benchmarks, and code examples." 
 } = Astro.props;
+
+// This is a key change: generate a unique slug for the page
+// If it's a blog page, the slug is the filename (e.g., 'how-to-run-gemma-3n-locally')
+// If it's another page (like the homepage), we give it a fixed name 'home'
+const slug = Astro.url.pathname.startsWith('/blog/') 
+  ? Astro.url.pathname.split('/').filter(Boolean).pop() 
+  : 'home';
+
+// Generate the full image URL pointing to our API
+const ogImageUrl = new URL(`/og/${slug}.png`, Astro.url.origin).toString();
 ---
 
 <!doctype html>
@@ -28,14 +38,14 @@ const {
     <meta property="og:url" content={Astro.url.href}>
     <meta property="og:title" content={`${title} | Gemma-3n.net`}>
     <meta property="og:description" content={description}>
-    <meta property="og:image" content={`https://via.placeholder.com/1200x630.png?text=${encodeURIComponent(title)}`}>
+    <meta property="og:image" content={ogImageUrl}>
     <meta property="og:site_name" content="Gemma-3n.net">
     
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content={Astro.url.href}>
     <meta property="twitter:title" content={`${title} | Gemma-3n.net`}>
     <meta property="twitter:description" content={description}>
-    <meta property="twitter:image" content={`https://via.placeholder.com/1200x630.png?text=${encodeURIComponent(title)}`}>
+    <meta property="twitter:image" content={ogImageUrl}>
 
     <!-- Google Analytics -->
     <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-LFF5X9VMHP"></script>

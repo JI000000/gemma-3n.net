@@ -1,23 +1,20 @@
 ---
-import { getCollection } from 'astro:content';
+import { getCollection, getEntry } from 'astro:content';
 import MainLayout from '../../layouts/MainLayout.astro';
 import type { CollectionEntry } from 'astro:content';
 import Giscus from '../../components/Giscus.astro';
 import ShareButtons from '../../components/ShareButtons.astro';
 
-export async function getStaticPaths() {
-  const blogEntries = await getCollection('blog');
-  return blogEntries.map(entry => ({
-    params: { slug: entry.slug },
-    props: { entry },
-  }));
+const { slug } = Astro.params;
+if (!slug) {
+  return Astro.redirect('/404');
+}
+const entry = await getEntry('blog', slug);
+
+if (!entry) {
+  return Astro.redirect('/404');
 }
 
-interface Props {
-  entry: CollectionEntry<'blog'>;
-}
-
-const { entry } = Astro.props;
 const { Content } = await entry.render();
 
 const schema = {
