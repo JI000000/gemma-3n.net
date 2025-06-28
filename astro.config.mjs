@@ -6,6 +6,6 @@ import vercel from "@astrojs/vercel/edge";
 // https://astro.build/config
 export default defineConfig({
   site: 'https://gemma-3n.net',
-  output: 'hybrid',
+  output: 'server',
   integrations: [tailwind(), sitemap(), vercel()]
 }); 
