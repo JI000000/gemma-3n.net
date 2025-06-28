@@ -1,0 +1,10 @@
+{
+  "functions": {
+    "src/pages/**/*.astro": {
+      "runtime": "nodejs20.x"
+    },
+    "src/pages/og/[...slug].png.ts": {
+      "runtime": "nodejs20.x"
+    }
+  }
+} 
