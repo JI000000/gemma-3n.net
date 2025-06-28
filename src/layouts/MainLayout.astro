@@ -20,7 +20,7 @@ const slug = Astro.url.pathname.startsWith('/blog/')
   : 'home';
 
 // Generate the full image URL pointing to our API
-const ogImageUrl = new URL(`/og/${slug}.png`, Astro.url.origin).toString();
+// const ogImageUrl = new URL(`/og/${slug}.png`, Astro.url.origin).toString();
 ---
 
 <!doctype html>
@@ -38,14 +38,14 @@ const ogImageUrl = new URL(`/og/${slug}.png`, Astro.url.origin).toString();
     <meta property="og:url" content={Astro.url.href}>
     <meta property="og:title" content={`${title} | Gemma-3n.net`}>
     <meta property="og:description" content={description}>
-    <meta property="og:image" content={ogImageUrl}>
+    <!-- <meta property="og:image" content={ogImageUrl}> -->
     <meta property="og:site_name" content="Gemma-3n.net">
     
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content={Astro.url.href}>
     <meta property="twitter:title" content={`${title} | Gemma-3n.net`}>
     <meta property="twitter:description" content={description}>
-    <meta property="twitter:image" content={ogImageUrl}>
+    <!-- <meta property="twitter:image" content={ogImageUrl}> -->
 
     <!-- Google Analytics -->
     <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-LFF5X9VMHP"></script>
