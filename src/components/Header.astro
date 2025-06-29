@@ -15,10 +15,13 @@ const navLinks = [
     <div class="flex items-center justify-between h-16">
       <a href="/" class="text-xl font-bold text-slate-900 dark:text-white">Gemma-3n.net</a>
       <div class="flex items-center space-x-8">
-        <nav class="hidden md:flex space-x-8">
-          {navLinks.map(link => (
-            <a href={link.href} class="text-slate-600 dark:text-gray-300 hover:text-slate-900 dark:hover:text-white transition-colors">{link.text}</a>
-          ))}
+        <nav class="hidden md:flex items-center gap-6">
+          <a href="/#about" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">About</a>
+          <a href="/#benchmarks" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Benchmarks</a>
+          <a href="/blog" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Blog</a>
+          <a href="/toolkit" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Toolkit</a>
+          <a href="/#resources" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Resources</a>
+          <a href="/#faq" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">FAQ</a>
         </nav>
         <ThemeToggleButton />
       </div>

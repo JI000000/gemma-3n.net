@@ -1,36 +1,82 @@
-<section id="resources" class="py-20 sm:py-32 bg-slate-100 dark:bg-gray-800">
-  <div class="max-w-4xl mx-auto px-4">
-    <div class="text-center">
-      <h2 class="text-3xl font-bold text-slate-900 dark:text-white sm:text-4xl">Community & Resources</h2>
-      <p class="mt-4 text-lg text-slate-600 dark:text-gray-400">
-        Dive deeper into the Gemma 3n ecosystem with these official links and community hubs.
+---
+const resources = [
+  {
+    category: "Download Models",
+    items: [
+      {
+        title: "Hugging Face",
+        description: "Access all Gemma 3n models, GGUF versions, and community-tuned variants.",
+        link: "https://huggingface.co/models?search=gemma%203n",
+        icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-8 h-8 text-blue-500"><path d="M15.5 8.5 14 10l-2-2-2 2-1.5-1.5L4 15l2 2 2-2 2 2 1.5-1.5L14 15l2-2Z"/><path d="m20 15-2-2-1.5 1.5L18 16l2 2-4 4-4-4-4 4-4-4 2-2 1.5-1.5L6 15l-2 2-2-4 4-4 4 4 4-4 4 4Z"/></svg>`
+      },
+      {
+        title: "Ollama",
+        description: "Pull and run Gemma 3n models with a single command on your local machine.",
+        link: "https://ollama.com/library/gemma3n",
+        icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-8 h-8 text-blue-500"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>`
+      },
+      {
+        title: "LM Studio",
+        description: "Discover and run Gemma 3n through a user-friendly desktop application.",
+        link: "https://lmstudio.ai/",
+        icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-8 h-8 text-blue-500"><rect width="18" height="18" x="3" y="3" rx="2"/><line x1="8" x2="16" y1="12" y2="12"/></svg>`
+      }
+    ]
+  },
+  {
+    category: "Official APIs & Guides",
+    items: [
+      {
+        title: "Google AI Studio",
+        description: "Experiment with Gemma 3n models directly in your browser with Google's free tool.",
+        link: "https://aistudio.google.com/app/prompts/new_chat?MODEL_NAME=gemma-3n-4b-it",
+        icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-8 h-8 text-blue-500"><path d="m12 14 4-4"/><path d="M3.34 19a10 10 0 1 1 17.32 0"/><path d="m12 20 4-4"/></svg>`
+      },
+      {
+        title: "Keras",
+        description: "Utilize Gemma 3n with Keras, Google's high-level API for building and training models.",
+        link: "https://ai.google.dev/gemma/docs/get_started",
+        icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-8 h-8 text-blue-500"><path d="M10.42 12.61a2.1 2.1 0 1 1 2.97 2.97L7.95 21 4 22l.99-3.95 5.43-5.44Z"/><path d="M14 4c-4.5 0-7 3-7 7s2.5 7 7 7 7-3 7-7-2.5-7-7-7Z"/><path d="M13.5 5.5c1.1.5 2 1.5 2.5 2.5"/></svg>`
+      },
+      {
+        title: "Technical Report",
+        description: "Read the official paper from Google for a deep dive into Gemma 3n's architecture.",
+        link: "https://arxiv.org/abs/2503.19786",
+        icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-8 h-8 text-blue-500"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/><line x1="12" x2="12" y1="2" y2="12"/><line x1="18" x2="18" y1="2" y2="12"/><line x1="6" x2="6" y1="14" y2="14"/></svg>`
+      }
+    ]
+  }
+];
+---
+
+<section id="resources" class="py-20 bg-slate-50 dark:bg-slate-900/50">
+  <div class="max-w-6xl mx-auto px-4">
+    <div class="text-center mb-12">
+      <h2 class="text-4xl font-bold text-slate-900 dark:text-white">Resources</h2>
+      <p class="mt-2 text-lg text-slate-600 dark:text-gray-400">
+        Essential links to get you started and building with Gemma 3n.
       </p>
     </div>
-    <div class="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-      <a href="https://ai.google.dev/gemma/docs/gemma-3n" target="_blank" rel="noopener noreferrer" class="block p-6 bg-white dark:bg-gray-900 rounded-lg hover:bg-slate-100 dark:hover:bg-gray-700 transition-colors">
-        <h3 class="font-bold text-slate-900 dark:text-white">Official Google Docs</h3>
-        <p class="mt-2 text-sm text-slate-600 dark:text-gray-400">The primary source for technical documentation and model cards.</p>
-      </a>
-      <a href="https://huggingface.co/collections/google/gemma-3-667b1477759458326a51b250" target="_blank" rel="noopener noreferrer" class="block p-6 bg-white dark:bg-gray-900 rounded-lg hover:bg-slate-100 dark:hover:bg-gray-700 transition-colors">
-        <h3 class="font-bold text-slate-900 dark:text-white">Hugging Face Models</h3>
-        <p class="mt-2 text-sm text-slate-600 dark:text-gray-400">Download the model weights and explore different variants.</p>
-      </a>
-      <a href="https://www.kaggle.com/models/google/gemma-3" target="_blank" rel="noopener noreferrer" class="block p-6 bg-white dark:bg-gray-900 rounded-lg hover:bg-slate-100 dark:hover:bg-gray-700 transition-colors">
-        <h3 class="font-bold text-slate-900 dark:text-white">Kaggle Hub</h3>
-        <p class="mt-2 text-sm text-slate-600 dark:text-gray-400">Access the models and try them out in Kaggle notebooks.</p>
-      </a>
-      <a href="https://developers.googleblog.com/en/introducing-gemma-3n-developer-guide/" target="_blank" rel="noopener noreferrer" class="block p-6 bg-white dark:bg-gray-900 rounded-lg hover:bg-slate-100 dark:hover:bg-gray-700 transition-colors">
-        <h3 class="font-bold text-slate-900 dark:text-white">Developer Blog Post</h3>
-        <p class="mt-2 text-sm text-slate-600 dark:text-gray-400">Read the official announcement and developer guide.</p>
-      </a>
-      <a href="https://www.reddit.com/r/LocalLLaMA/" target="_blank" rel="noopener noreferrer" class="block p-6 bg-white dark:bg-gray-900 rounded-lg hover:bg-slate-100 dark:hover:bg-gray-700 transition-colors">
-        <h3 class="font-bold text-slate-900 dark:text-white">Reddit Community</h3>
-        <p class="mt-2 text-sm text-slate-600 dark:text-gray-400">Join the discussion on r/LocalLLaMA for community insights.</p>
-      </a>
-      <a href="#" target="_blank" rel="noopener noreferrer" class="block p-6 bg-white dark:bg-gray-900 rounded-lg hover:bg-slate-100 dark:hover:bg-gray-700 transition-colors opacity-50 cursor-not-allowed">
-        <h3 class="font-bold text-slate-900 dark:text-white">Community Discord</h3>
-        <p class="mt-2 text-sm text-slate-600 dark:text-gray-400">Coming soon: A dedicated space for live chat and support.</p>
-      </a>
+
+    <div class="space-y-12">
+      {resources.map(resourceGroup => (
+        <div>
+          <h3 class="text-2xl font-semibold text-slate-800 dark:text-slate-200 mb-6">{resourceGroup.category}</h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {resourceGroup.items.map(item => (
+              <a href={item.link} target="_blank" rel="noopener noreferrer" class="block bg-white dark:bg-slate-800 p-6 rounded-lg shadow-md hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+                <div class="flex items-start gap-4">
+                  <Fragment set:html={item.icon} />
+                  <div>
+                    <h4 class="font-bold text-lg text-slate-900 dark:text-white">{item.title}</h4>
+                    <p class="text-slate-500 dark:text-gray-400 mt-1">{item.description}</p>
+                  </div>
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
+      ))}
     </div>
   </div>
 </section> 

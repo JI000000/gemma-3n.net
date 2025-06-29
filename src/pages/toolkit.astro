@@ -1,0 +1,66 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import ToolkitCard from '../components/ToolkitCard.astro';
+
+const tools = [
+  {
+    title: "Ollama",
+    description: "An easy-to-use tool for running LLMs like Gemma 3n on your local machine. Great for getting started quickly from the command line.",
+    logoSrc: "https://ollama.com/public/ollama.png",
+    officialLink: "https://ollama.com/",
+    tutorialLink: "/blog/how-to-run-gemma-3n-with-ollama"
+  },
+  {
+    title: "LM Studio",
+    description: "A beautiful and powerful desktop UI for discovering, managing, and running local LLMs. No command line required.",
+    logoSrc: "https://avatars.githubusercontent.com/u/141323380?s=200&v=4",
+    officialLink: "https://lmstudio.ai/",
+    tutorialLink: "/blog/getting-started-with-gemma-3n-and-lm-studio"
+  },
+  {
+    title: "Unsloth",
+    description: "A library for extremely fast, memory-efficient fine-tuning of LLMs. Essential for training models on consumer hardware.",
+    logoSrc: "https://avatars.githubusercontent.com/u/150191653?s=200&v=4",
+    officialLink: "https://github.com/unslothai/unsloth",
+    tutorialLink: "/blog/fine-tuning-gemma-3n-with-unsloth"
+  },
+  {
+    title: "MLX",
+    description: "Apple's framework for machine learning on Apple silicon. Perfect for high-performance, on-device multimodal applications.",
+    logoSrc: "https://avatars.githubusercontent.com/u/151674099?s=200&v=4",
+    officialLink: "https://github.com/ml-explore/mlx",
+    tutorialLink: "/blog/image-analysis-with-gemma-3n"
+  },
+  {
+    title: "Hugging Face",
+    description: "The leading platform for the AI community. Find models, datasets, and tools to build with Gemma 3n.",
+    logoSrc: "https://huggingface.co/front/assets/huggingface_logo-noborder.svg",
+    officialLink: "https://huggingface.co/models?search=gemma+3n",
+  },
+  {
+    title: "Kaggle",
+    description: "The world's largest data science community. Access datasets, free notebook environments (GPUs), and competitions.",
+    logoSrc: "https://www.kaggle.com/static/images/site-logo.svg",
+    officialLink: "https://www.kaggle.com/",
+  }
+];
+---
+
+<MainLayout title="Gemma 3n Toolkit & Ecosystem">
+  <main class="py-16 px-4">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-12">
+        <h1 class="text-5xl font-bold md:text-6xl text-slate-900 dark:text-white">Gemma 3n Toolkit</h1>
+        <p class="mt-4 text-xl text-slate-600 dark:text-gray-400">
+          A curated list of essential tools and platforms to help you build with Gemma 3n.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {tools.map(tool => (
+          <ToolkitCard {...tool} />
+        ))}
+      </div>
+    </div>
+  </main>
+</MainLayout> 
