@@ -1,0 +1,92 @@
+---
+// Get current language from URL or default to 'en'
+const currentLang = Astro.url.pathname.startsWith('/zh') ? 'zh' : 'en';
+const currentPath = Astro.url.pathname;
+
+// 只对有对应页面的路由做中英文切换
+const pageMap = [
+  '/about',
+  '/toolkit',
+  '/demo',
+  '/blog',
+  '/'
+];
+let enPath = currentPath.replace(/^\/zh/, '') || '/';
+let zhPath = currentPath.startsWith('/zh') ? currentPath : '/zh' + (currentPath === '/' ? '' : currentPath);
+if (!pageMap.includes(enPath)) enPath = '/';
+if (!pageMap.includes(zhPath.replace(/^\/zh/, '') || '/')) zhPath = '/zh';
+---
+
+<div class="language-toggle">
+  <button 
+    id="lang-toggle-btn"
+    class="flex items-center gap-2 px-3 py-2 text-sm font-medium rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+    title="切换语言 / Switch Language"
+  >
+    <span class="text-lg">{currentLang === 'zh' ? '🇨🇳' : '🇺🇸'}</span>
+    <span class="hidden sm:inline">
+      {currentLang === 'zh' ? '中文' : 'EN'}
+    </span>
+    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+    </svg>
+  </button>
+  
+  <!-- Dropdown menu -->
+  <div 
+    id="lang-dropdown" 
+    class="absolute top-full right-0 mt-2 w-40 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg hidden z-50"
+  >
+    <a 
+      href={enPath}
+      class="flex items-center gap-3 px-4 py-3 text-sm hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors first:rounded-t-lg last:rounded-b-lg"
+    >
+      <span class="text-lg">🇺🇸</span>
+      <span>English</span>
+      {currentLang === 'en' && <span class="ml-auto text-blue-500">✓</span>}
+    </a>
+    <a 
+      href={zhPath}
+      class="flex items-center gap-3 px-4 py-3 text-sm hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors first:rounded-t-lg last:rounded-b-lg"
+    >
+      <span class="text-lg">🇨🇳</span>
+      <span>中文</span>
+      {currentLang === 'zh' && <span class="ml-auto text-blue-500">✓</span>}
+    </a>
+  </div>
+</div>
+
+<script>
+  // Add dropdown toggle functionality
+  document.addEventListener('DOMContentLoaded', () => {
+    const toggleBtn = document.getElementById('lang-toggle-btn');
+    const dropdown = document.getElementById('lang-dropdown');
+    
+    if (toggleBtn && dropdown) {
+      toggleBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        dropdown.classList.toggle('hidden');
+      });
+      
+      // Close dropdown when clicking outside
+      document.addEventListener('click', (e) => {
+        if (!toggleBtn.contains(e.target) && !dropdown.contains(e.target)) {
+          dropdown.classList.add('hidden');
+        }
+      });
+    }
+  });
+</script>
+
+<style>
+  .language-toggle {
+    position: relative;
+  }
+  
+  @media (max-width: 640px) {
+    .language-toggle button {
+      padding: 8px 12px;
+      min-height: 44px; /* Touch-friendly */
+    }
+  }
+</style> 

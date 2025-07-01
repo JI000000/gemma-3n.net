@@ -1,0 +1,48 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import WhatIsGemma from '../components/WhatIsGemma.astro';
+import Architecture from '../components/Architecture.astro';
+import UseCases from '../components/UseCases.astro';
+---
+
+<MainLayout 
+  title="About Gemma 3n"
+  description="Learn about Gemma 3n, Google's next-generation on-device AI model. Explore its architecture, capabilities, and what makes it unique."
+>
+  <main class="pt-24 sm:pt-32">
+    <div class="max-w-4xl mx-auto px-4">
+      <header class="text-center mb-16">
+        <h1 class="text-4xl font-bold text-slate-900 dark:text-white sm:text-5xl !leading-tight">
+          About Gemma 3n
+        </h1>
+        <p class="mt-4 text-xl text-slate-600 dark:text-gray-400">
+          The ultimate guide to Google's most efficient open model for on-device AI.
+        </p>
+      </header>
+
+      <div class="space-y-20">
+        <WhatIsGemma />
+        <Architecture />
+        <UseCases />
+      </div>
+
+      <!-- Call to Action -->
+      <section class="mt-20 py-16 text-center bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-xl">
+        <div class="max-w-2xl mx-auto px-4">
+          <h2 class="text-3xl font-bold text-slate-900 dark:text-white mb-4">Ready to Dive Deeper?</h2>
+          <p class="text-slate-600 dark:text-gray-400 mb-8">
+            Explore our tutorials, check out the developer toolkit, or start building with the interactive demo.
+          </p>
+          <div class="flex flex-wrap justify-center gap-4">
+            <a href="/blog" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors">
+              Browse Tutorials
+            </a>
+            <a href="/demo" class="border-2 border-blue-600 text-blue-600 dark:border-blue-400 dark:text-blue-400 hover:bg-blue-600 hover:text-white dark:hover:bg-blue-400 dark:hover:text-slate-900 px-6 py-3 rounded-lg font-medium transition-colors">
+              Try the Demo
+            </a>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+</MainLayout> 

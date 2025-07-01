@@ -1,0 +1,213 @@
+---
+// PWA安装提示组件
+---
+
+<!-- PWA安装提示横幅 -->
+<div 
+  id="pwa-install-banner" 
+  class="fixed bottom-4 left-4 right-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white p-4 rounded-lg shadow-lg transform translate-y-full transition-transform duration-300 z-50 md:left-auto md:right-4 md:w-80"
+  style="display: none;"
+>
+  <div class="flex items-start gap-3">
+    <div class="flex-shrink-0 w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center">
+      📱
+    </div>
+    <div class="flex-1 min-w-0">
+      <h3 class="font-semibold text-sm">安装Gemma 3n应用</h3>
+      <p class="text-xs opacity-90 mt-1">添加到主屏幕，享受原生应用体验</p>
+      <div class="flex gap-2 mt-3">
+        <button 
+          id="pwa-install-btn"
+          class="bg-white text-blue-600 px-3 py-1 rounded text-xs font-medium hover:bg-gray-100 transition-colors"
+        >
+          安装
+        </button>
+        <button 
+          id="pwa-dismiss-btn"
+          class="text-white/80 px-3 py-1 rounded text-xs hover:text-white transition-colors"
+        >
+          稍后
+        </button>
+      </div>
+    </div>
+    <button 
+      id="pwa-close-btn"
+      class="flex-shrink-0 text-white/60 hover:text-white"
+    >
+      ✕
+    </button>
+  </div>
+</div>
+
+<!-- PWA状态指示器 -->
+<div 
+  id="pwa-status" 
+  class="fixed top-20 right-4 bg-green-500 text-white px-3 py-2 rounded-lg text-xs font-medium shadow-lg transition-all duration-300 opacity-0 translate-x-full z-50"
+>
+  <div class="flex items-center gap-2">
+    <span class="w-2 h-2 bg-white rounded-full animate-pulse"></span>
+    <span id="pwa-status-text">PWA已就绪</span>
+  </div>
+</div>
+
+<script>
+  let deferredPrompt;
+  let installBannerShown = false;
+  
+  // PWA安装相关逻辑
+  document.addEventListener('DOMContentLoaded', () => {
+    const installBanner = document.getElementById('pwa-install-banner');
+    const installBtn = document.getElementById('pwa-install-btn');
+    const dismissBtn = document.getElementById('pwa-dismiss-btn');
+    const closeBtn = document.getElementById('pwa-close-btn');
+    const statusIndicator = document.getElementById('pwa-status');
+    const statusText = document.getElementById('pwa-status-text');
+    
+    // 检查是否已经安装
+    function checkIfInstalled() {
+      if (window.matchMedia('(display-mode: standalone)').matches) {
+        showStatus('已安装为PWA应用', 'green');
+        return true;
+      }
+      return false;
+    }
+    
+    // 显示状态
+    function showStatus(text, color = 'green') {
+      if (statusText && statusIndicator) {
+        statusText.textContent = text;
+        statusIndicator.className = statusIndicator.className.replace(/bg-\w+-500/, `bg-${color}-500`);
+        statusIndicator.classList.remove('opacity-0', 'translate-x-full');
+        
+        setTimeout(() => {
+          statusIndicator.classList.add('opacity-0', 'translate-x-full');
+        }, 3000);
+      }
+    }
+    
+    // 显示安装横幅
+    function showInstallBanner() {
+      if (!installBannerShown && installBanner && !checkIfInstalled()) {
+        installBanner.style.display = 'block';
+        setTimeout(() => {
+          installBanner.classList.remove('translate-y-full');
+        }, 100);
+        installBannerShown = true;
+      }
+    }
+    
+    // 隐藏安装横幅
+    function hideInstallBanner() {
+      if (installBanner) {
+        installBanner.classList.add('translate-y-full');
+        setTimeout(() => {
+          installBanner.style.display = 'none';
+        }, 300);
+      }
+    }
+    
+    // 监听beforeinstallprompt事件
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      showStatus('可以安装PWA应用', 'blue');
+      
+      // 延迟3秒显示安装提示
+      setTimeout(() => {
+        showInstallBanner();
+      }, 3000);
+    });
+    
+    // 安装按钮点击
+    if (installBtn) {
+      installBtn.addEventListener('click', async () => {
+        if (!deferredPrompt) {
+          showStatus('请使用浏览器菜单安装', 'orange');
+          return;
+        }
+        
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        
+        if (outcome === 'accepted') {
+          showStatus('安装成功！', 'green');
+        } else {
+          showStatus('安装已取消', 'gray');
+        }
+        
+        deferredPrompt = null;
+        hideInstallBanner();
+      });
+    }
+    
+    // 稍后按钮
+    if (dismissBtn) {
+      dismissBtn.addEventListener('click', () => {
+        hideInstallBanner();
+        // 24小时后再显示
+        localStorage.setItem('pwa-dismiss-time', Date.now().toString());
+      });
+    }
+    
+    // 关闭按钮
+    if (closeBtn) {
+      closeBtn.addEventListener('click', () => {
+        hideInstallBanner();
+        localStorage.setItem('pwa-dismiss-time', Date.now().toString());
+      });
+    }
+    
+    // 检查是否应该显示安装提示
+    function shouldShowPrompt() {
+      const dismissTime = localStorage.getItem('pwa-dismiss-time');
+      if (!dismissTime) return true;
+      
+      const daysSinceDismiss = (Date.now() - parseInt(dismissTime)) / (1000 * 60 * 60 * 24);
+      return daysSinceDismiss > 1; // 1天后再显示
+    }
+    
+    // 监听应用安装
+    window.addEventListener('appinstalled', () => {
+      showStatus('PWA安装成功！', 'green');
+      hideInstallBanner();
+    });
+    
+    // 初始检查
+    if (checkIfInstalled()) {
+      return; // 已安装，不显示提示
+    }
+    
+    // Service Worker状态检查
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.ready.then(() => {
+        showStatus('离线功能已就绪', 'green');
+      });
+    }
+    
+    // 如果支持PWA但没有触发beforeinstallprompt（比如iOS Safari）
+    setTimeout(() => {
+      if (!deferredPrompt && !checkIfInstalled() && shouldShowPrompt()) {
+        // 显示iOS安装说明
+        if (/iPhone|iPad|iPod/.test(navigator.userAgent)) {
+          showInstallBanner();
+          if (installBtn) {
+            installBtn.textContent = '查看安装指南';
+            installBtn.addEventListener('click', () => {
+              alert('iOS用户：点击分享按钮 📤，然后选择"添加到主屏幕"');
+            });
+          }
+        }
+      }
+    }, 5000);
+  });
+</script>
+
+<style>
+  @media (max-width: 640px) {
+    #pwa-install-banner {
+      left: 8px;
+      right: 8px;
+      bottom: 8px;
+    }
+  }
+</style> 

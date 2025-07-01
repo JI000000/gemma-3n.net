@@ -1,0 +1,57 @@
+{
+  "name": "Gemma-3n.net: The Ultimate Developer Guide",
+  "short_name": "Gemma3n",
+  "description": "Complete guide for Gemma 3n AI model development",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#3b82f6",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "en",
+  "categories": ["developer-tools", "education", "ai", "machine-learning"],
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/screenshots/home-mobile.png",
+      "sizes": "390x844",
+      "type": "image/png",
+      "form_factor": "narrow"
+    },
+    {
+      "src": "/screenshots/demo-mobile.png",
+      "sizes": "390x844",
+      "type": "image/png",
+      "form_factor": "narrow"
+    },
+    {
+      "src": "/screenshots/home-desktop.png",
+      "sizes": "1920x1080",
+      "type": "image/png",
+      "form_factor": "wide"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "AI Demo",
+      "short_name": "Demo",
+      "description": "Try Gemma 3n AI Demo",
+      "url": "/demo",
+      "icons": [{ "src": "/icons/demo-icon.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "Tutorials",
+      "short_name": "Learn",
+      "description": "Browse tutorials",
+      "url": "/blog",
+      "icons": [{ "src": "/icons/learn-icon.png", "sizes": "96x96" }]
+    }
+  ]
+} 

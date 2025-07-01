@@ -11,5 +11,17 @@ export default defineConfig({
   // Reverting to 'static' output, the most stable mode for Astro.
   output: 'static', 
   // We remove the vercel() integration for now.
-  integrations: [tailwind(), sitemap()]
+  integrations: [tailwind(), sitemap()],
+  
+  // 国际化配置
+  i18n: {
+    defaultLocale: "en",
+    locales: ["en", "zh"],
+    routing: {
+      prefixDefaultLocale: false,
+      fallback: {
+        zh: "en"
+      }
+    }
+  }
 }); 

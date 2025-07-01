@@ -1,0 +1,458 @@
+---
+import { getLangFromUrl, useTranslations } from '../i18n/index.ts';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<div class="interactive-demo">
+  <!-- Demo Header -->
+  <div class="bg-gradient-to-r from-blue-600 to-indigo-600 text-white p-6 rounded-t-xl">
+    <h3 class="text-2xl font-bold mb-2">{t('demo.title')}</h3>
+    <p class="text-blue-100">{t('demo.subtitle')}</p>
+  </div>
+
+  <!-- Model Loading Status -->
+  <div id="model-status" class="bg-gray-50 dark:bg-gray-800 border-l-4 border-blue-500 p-4">
+    <div class="flex items-center">
+      <div class="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-500 mr-3" id="loading-spinner"></div>
+      <span id="status-text" class="text-sm font-medium">{t('demo.loading.initializing')}</span>
+    </div>
+    <div class="mt-2 bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+      <div id="progress-bar" class="bg-blue-500 h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
+    </div>
+  </div>
+
+  <!-- Demo Controls -->
+  <div class="p-6 bg-white dark:bg-gray-800">
+    <!-- Scenario Selection -->
+    <div class="mb-6">
+      <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+        {t('demo.scenarios.label')}
+      </label>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+        <button 
+          class="demo-scenario active bg-blue-50 dark:bg-blue-900/20 border-2 border-blue-500 p-4 rounded-lg text-left hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors"
+          data-scenario="code"
+        >
+          <div class="text-2xl mb-2">💻</div>
+          <div class="font-medium text-gray-900 dark:text-white">{t('demo.scenarios.code.title')}</div>
+          <div class="text-sm text-gray-600 dark:text-gray-400">{t('demo.scenarios.code.description')}</div>
+        </button>
+        <button 
+          class="demo-scenario bg-gray-50 dark:bg-gray-700 border-2 border-gray-300 dark:border-gray-600 p-4 rounded-lg text-left hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors"
+          data-scenario="translate"
+        >
+          <div class="text-2xl mb-2">🌍</div>
+          <div class="font-medium text-gray-900 dark:text-white">{t('demo.scenarios.translate.title')}</div>
+          <div class="text-sm text-gray-600 dark:text-gray-400">{t('demo.scenarios.translate.description')}</div>
+        </button>
+        <button 
+          class="demo-scenario bg-gray-50 dark:bg-gray-700 border-2 border-gray-300 dark:border-gray-600 p-4 rounded-lg text-left hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors"
+          data-scenario="chat"
+        >
+          <div class="text-2xl mb-2">💬</div>
+          <div class="font-medium text-gray-900 dark:text-white">{t('demo.scenarios.chat.title')}</div>
+          <div class="text-sm text-gray-600 dark:text-gray-400">{t('demo.scenarios.chat.description')}</div>
+        </button>
+      </div>
+    </div>
+
+    <!-- Input Area -->
+    <div class="mb-4">
+      <label for="demo-input" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+        {t('demo.input.label')}
+      </label>
+      <textarea
+        id="demo-input"
+        rows="4"
+        class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white resize-none"
+        placeholder={t('demo.input.placeholder')}
+      ></textarea>
+    </div>
+
+    <!-- Parameters -->
+    <div class="mb-6">
+      <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+        {t('demo.parameters.label')}
+      </label>
+      <div class="flex items-center space-x-4">
+        <span class="text-sm text-gray-500">{t('demo.parameters.conservative')}</span>
+        <input 
+          type="range" 
+          id="temperature-slider" 
+          min="0.1" 
+          max="1.0" 
+          step="0.1" 
+          value="0.7" 
+          class="flex-1 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
+        />
+        <span class="text-sm text-gray-500">{t('demo.parameters.creative')}</span>
+        <span id="temperature-value" class="text-sm font-medium text-gray-900 dark:text-white">0.7</span>
+      </div>
+    </div>
+
+    <!-- Generate Button -->
+    <button
+      id="generate-btn"
+      disabled
+      class="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-medium py-3 px-6 rounded-lg transition-colors flex items-center justify-center"
+    >
+      <span id="btn-text">{t('demo.button.loading')}</span>
+      <div id="btn-spinner" class="hidden animate-spin rounded-full h-4 w-4 border-b-2 border-white ml-2"></div>
+    </button>
+
+    <!-- Output Area -->
+    <div class="mt-6">
+      <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+        {t('demo.output.label')}
+      </label>
+      <div 
+        id="demo-output" 
+        class="min-h-[120px] p-4 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg"
+      >
+        <div class="text-gray-500 dark:text-gray-400 italic">
+          {t('demo.output.placeholder')}
+        </div>
+      </div>
+    </div>
+
+    <!-- Performance Metrics -->
+    <div class="mt-6 grid grid-cols-2 md:grid-cols-4 gap-4 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+      <div class="text-center">
+        <div class="text-2xl font-bold text-blue-600 dark:text-blue-400" id="tokens-per-sec">--</div>
+        <div class="text-xs text-gray-600 dark:text-gray-400">{t('demo.metrics.tokensPerSecond')}</div>
+      </div>
+      <div class="text-center">
+        <div class="text-2xl font-bold text-green-600 dark:text-green-400" id="inference-time">--</div>
+        <div class="text-xs text-gray-600 dark:text-gray-400">{t('demo.metrics.inferenceTime')}</div>
+      </div>
+      <div class="text-center">
+        <div class="text-2xl font-bold text-purple-600 dark:text-purple-400" id="memory-usage">--</div>
+        <div class="text-xs text-gray-600 dark:text-gray-400">{t('demo.metrics.memoryUsage')}</div>
+      </div>
+      <div class="text-center">
+        <div class="text-2xl font-bold text-orange-600 dark:text-orange-400" id="model-size">2.1GB</div>
+        <div class="text-xs text-gray-600 dark:text-gray-400">{t('demo.metrics.modelSize')}</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script define:vars={{
+  t_loading_engine: t('demo.loading.engine'),
+  t_loading_wasm: t('demo.loading.wasm'),
+  t_loading_vocab: t('demo.loading.vocab'),
+  t_loading_weights: t('demo.loading.weights'),
+  t_loading_ready: t('demo.loading.ready'),
+  t_button_generate: t('demo.button.generate'),
+  t_button_generating: t('demo.button.generating'),
+  t_status_ready: t('demo.status.ready'),
+  t_alert_no_input: t('demo.alert.no_input'),
+  t_thinking: t('demo.output.thinking'),
+  t_error: t('demo.output.error'),
+  t_placeholders_code: t('demo.placeholders.code'),
+  t_placeholders_translate: t('demo.placeholders.translate'),
+  t_placeholders_chat: t('demo.placeholders.chat'),
+  t_sim_code_response: t('demo.simulations.code_response'),
+  t_sim_translation_response: t('demo.simulations.translation_response'),
+  t_sim_chat_response_1: t('demo.simulations.chat_response_1'),
+  t_sim_chat_response_2: t('demo.simulations.chat_response_2'),
+  t_sim_chat_response_3: t('demo.simulations.chat_response_3'),
+}}>
+  // Demo 脚本逻辑
+  class GemmaDemo {
+    constructor() {
+      this.isModelLoaded = false;
+      this.currentScenario = 'code';
+      this.isGenerating = false;
+      
+      this.initEventListeners();
+      this.initModel();
+    }
+
+    initEventListeners() {
+      // 场景切换
+      document.querySelectorAll('.demo-scenario').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          this.switchScenario(e.target.closest('.demo-scenario').dataset.scenario);
+        });
+      });
+
+      // 温度滑块
+      const tempSlider = document.getElementById('temperature-slider');
+      const tempValue = document.getElementById('temperature-value');
+      tempSlider.addEventListener('input', (e) => {
+        tempValue.textContent = e.target.value;
+      });
+
+      // 生成按钮
+      document.getElementById('generate-btn').addEventListener('click', () => {
+        this.generateResponse();
+      });
+
+      // 输入框变化
+      document.getElementById('demo-input').addEventListener('input', (e) => {
+        this.updateInputPlaceholder();
+      });
+    }
+
+    switchScenario(scenario) {
+      this.currentScenario = scenario;
+      
+      // 更新UI
+      document.querySelectorAll('.demo-scenario').forEach(btn => {
+        btn.classList.remove('active', 'bg-blue-50', 'dark:bg-blue-900/20', 'border-blue-500');
+        btn.classList.add('bg-gray-50', 'dark:bg-gray-700', 'border-gray-300', 'dark:border-gray-600');
+      });
+      
+      const activeBtn = document.querySelector(`[data-scenario="${scenario}"]`);
+      activeBtn.classList.remove('bg-gray-50', 'dark:bg-gray-700', 'border-gray-300', 'dark:border-gray-600');
+      activeBtn.classList.add('active', 'bg-blue-50', 'dark:bg-blue-900/20', 'border-blue-500');
+      
+      this.updateInputPlaceholder();
+    }
+
+    updateInputPlaceholder() {
+      const input = document.getElementById('demo-input');
+      const placeholders = {
+        code: t_placeholders_code,
+        translate: t_placeholders_translate,
+        chat: t_placeholders_chat
+      };
+      
+      if (!input.value.trim()) {
+        input.placeholder = placeholders[this.currentScenario];
+      }
+    }
+
+    async initModel() {
+      // 模拟模型加载过程
+      const statusText = document.getElementById('status-text');
+      const progressBar = document.getElementById('progress-bar');
+      const generateBtn = document.getElementById('generate-btn');
+      const btnText = document.getElementById('btn-text');
+      
+      const steps = [
+        { text: t_loading_engine, progress: 20, delay: 800 },
+        { text: t_loading_wasm, progress: 40, delay: 600 },
+        { text: t_loading_vocab, progress: 60, delay: 700 },
+        { text: t_loading_weights, progress: 80, delay: 500 },
+        { text: t_loading_ready, progress: 100, delay: 300 }
+      ];
+
+      for (const step of steps) {
+        statusText.textContent = step.text;
+        progressBar.style.width = `${step.progress}%`;
+        await new Promise(resolve => setTimeout(resolve, step.delay));
+      }
+
+      // 模型加载完成
+      this.isModelLoaded = true;
+      generateBtn.disabled = false;
+      btnText.textContent = t_button_generate;
+      
+      document.getElementById('loading-spinner').style.display = 'none';
+      statusText.textContent = t_status_ready;
+      
+      this.updateInputPlaceholder();
+    }
+
+    async generateResponse() {
+      if (!this.isModelLoaded || this.isGenerating) return;
+      
+      const input = document.getElementById('demo-input').value.trim();
+      if (!input) {
+        alert(t_alert_no_input);
+        return;
+      }
+
+      this.isGenerating = true;
+      const generateBtn = document.getElementById('generate-btn');
+      const btnText = document.getElementById('btn-text');
+      const btnSpinner = document.getElementById('btn-spinner');
+      const output = document.getElementById('demo-output');
+      
+      // 更新UI状态
+      generateBtn.disabled = true;
+      btnText.textContent = t_button_generating;
+      btnSpinner.classList.remove('hidden');
+      
+      // 清空输出区域
+      output.innerHTML = `<div class="text-gray-500 dark:text-gray-400 italic">${t_thinking}</div>`;
+      
+      const startTime = performance.now();
+      
+      try {
+        // 模拟AI推理过程
+        await this.simulateInference(input);
+        
+        const endTime = performance.now();
+        const inferenceTime = Math.round(endTime - startTime);
+        
+        // 更新性能指标
+        this.updateMetrics(inferenceTime);
+        
+      } catch (error) {
+        output.innerHTML = `<div class="text-red-500">${t_error} ${error.message}</div>`;
+      } finally {
+        // 恢复UI状态
+        this.isGenerating = false;
+        generateBtn.disabled = false;
+        btnText.textContent = t_button_generate;
+        btnSpinner.classList.add('hidden');
+      }
+    }
+
+    async simulateInference(input) {
+      const output = document.getElementById('demo-output');
+      const temperature = parseFloat(document.getElementById('temperature-slider').value);
+      
+      // 根据场景生成不同类型的回复
+      let response = '';
+      switch (this.currentScenario) {
+        case 'code':
+          response = await this.generateCodeCompletion(input);
+          break;
+        case 'translate':
+          response = await this.generateTranslation(input);
+          break;
+        case 'chat':
+          response = await this.generateChatResponse(input);
+          break;
+      }
+      
+      // 流式显示效果
+      await this.typewriterEffect(output, response);
+    }
+
+    async generateCodeCompletion(input) {
+      const completions = [
+        t_sim_code_response,
+        ' process.env.PORT || 3000;\n\napp.listen(port, () => {\n  console.log(`Server running on port ${port}`);\n});',
+        ' useState(0);\n\n  const increment = () => {\n    setCount(count + 1);\n  };\n\n  return (\n    <div>\n      <p>Count: {count}</p>\n      <button onClick={increment}>+</button>\n    </div>\n  );'
+      ];
+      
+      await new Promise(resolve => setTimeout(resolve, 1200));
+      return completions[Math.floor(Math.random() * completions.length)];
+    }
+
+    async generateTranslation(input) {
+      await new Promise(resolve => setTimeout(resolve, 900));
+      return t_sim_translation_response;
+    }
+
+    async generateChatResponse(input) {
+      const responses = [
+        t_sim_chat_response_1,
+        t_sim_chat_response_2,
+        t_sim_chat_response_3,
+      ];
+      
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      return responses[Math.floor(Math.random() * responses.length)];
+    }
+
+    async typewriterEffect(element, text) {
+      element.innerHTML = '';
+      const chars = text.split('');
+      
+      for (let i = 0; i < chars.length; i++) {
+        element.innerHTML += chars[i];
+        
+        // 滚动到底部
+        element.scrollTop = element.scrollHeight;
+        
+        // 变速打字效果
+        const delay = chars[i] === '\n' ? 50 : Math.random() * 30 + 10;
+        await new Promise(resolve => setTimeout(resolve, delay));
+      }
+    }
+
+    updateMetrics(inferenceTime) {
+      const tokensPerSec = document.getElementById('tokens-per-sec');
+      const inferenceTimeEl = document.getElementById('inference-time');
+      const memoryUsage = document.getElementById('memory-usage');
+      
+      // 模拟性能指标
+      const estimatedTokens = Math.floor(Math.random() * 50 + 30);
+      const tokensPerSecValue = Math.round((estimatedTokens / inferenceTime) * 1000);
+      const memoryValue = Math.round(Math.random() * 200 + 300);
+      
+      tokensPerSec.textContent = tokensPerSecValue;
+      inferenceTimeEl.textContent = inferenceTime;
+      memoryUsage.textContent = memoryValue;
+    }
+  }
+
+  // 初始化Demo
+  document.addEventListener('DOMContentLoaded', () => {
+    new GemmaDemo();
+  });
+</script>
+
+<style>
+  .interactive-demo {
+    max-width: 800px;
+    margin: 0 auto;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .demo-scenario {
+    transition: all 0.2s ease;
+  }
+
+  .demo-scenario:hover {
+    transform: translateY(-2px);
+  }
+
+  #demo-output {
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    line-height: 1.6;
+    max-height: 300px;
+    overflow-y: auto;
+  }
+
+  /* 滑块样式 */
+  input[type="range"]::-webkit-slider-thumb {
+    appearance: none;
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    background: #3b82f6;
+    cursor: pointer;
+    box-shadow: 0 0 2px 0 #555;
+    transition: background .15s ease-in-out;
+  }
+
+  input[type="range"]::-webkit-slider-thumb:hover {
+    background: #1d4ed8;
+  }
+
+  input[type="range"]::-moz-range-thumb {
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    background: #3b82f6;
+    cursor: pointer;
+    border: none;
+  }
+
+  @media (max-width: 640px) {
+    .interactive-demo {
+      margin: 0 16px;
+    }
+    
+    .grid-cols-1.md\\:grid-cols-3 {
+      grid-template-columns: 1fr;
+      gap: 8px;
+    }
+    
+    .grid-cols-2.md\\:grid-cols-4 {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+</style> 

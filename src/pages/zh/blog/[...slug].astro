@@ -1,13 +1,13 @@
 ---
 import { getCollection, getEntry } from 'astro:content';
-import MainLayout from '../../layouts/MainLayout.astro';
+import MainLayout from '../../../layouts/MainLayout.astro';
 import type { CollectionEntry } from 'astro:content';
-import Giscus from '../../components/Giscus.astro';
-import ShareButtons from '../../components/ShareButtons.astro';
-import CodeSnippet from '../../components/CodeSnippet.astro';
-import { getLangFromUrl, useTranslations } from '../../i18n/index.ts';
+import Giscus from '../../../components/Giscus.astro';
+import ShareButtons from '../../../components/ShareButtons.astro';
+import CodeSnippet from '../../../components/CodeSnippet.astro';
+import { useTranslations } from '../../../i18n/index.ts';
 
-const lang = getLangFromUrl(Astro.url);
+const lang = 'zh';
 const t = useTranslations(lang);
 
 export async function getStaticPaths() {
@@ -32,8 +32,8 @@ const { Content, headings } = await entry.render();
 const schema = {
   "@context": "https://schema.org",
   "@type": "TechArticle",
-  "headline": lang === 'zh' ? entry.data.title_zh || entry.data.title : entry.data.title,
-  "description": lang === 'zh' ? entry.data.description_zh || entry.data.description : entry.data.description,
+  "headline": entry.data.title_zh || entry.data.title,
+  "description": entry.data.description_zh || entry.data.description,
   "datePublished": entry.data.pubDate.toISOString(),
   "author": {
     "@type": "Organization",
@@ -51,10 +51,10 @@ const schema = {
 ---
 <script type="application/ld+json" set:html={JSON.stringify(schema)} />
 
-<MainLayout title={lang === 'zh' ? entry.data.title_zh || entry.data.title : entry.data.title} description={lang === 'zh' ? entry.data.description_zh || entry.data.description : entry.data.description}>
+<MainLayout title={entry.data.title_zh || entry.data.title} description={entry.data.description_zh || entry.data.description}>
   <div class="max-w-4xl mx-auto px-4">
     <header class="py-12 sm:py-20 text-center">
-      <h1 class="text-3xl sm:text-5xl font-bold mb-4 text-slate-900 dark:text-white !leading-tight">{lang === 'zh' ? entry.data.title_zh || entry.data.title : entry.data.title}</h1>
+      <h1 class="text-3xl sm:text-5xl font-bold mb-4 text-slate-900 dark:text-white !leading-tight">{entry.data.title_zh || entry.data.title}</h1>
       <div class="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-slate-600 dark:text-gray-400">
         <div class="flex items-center gap-2">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
@@ -62,13 +62,13 @@ const schema = {
         </div>
         <div class="flex items-center gap-2">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><rect width="8" height="8" x="2" y="2" rx="2" /><path d="M14 2h6a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2h-6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z" /><path d="M6 18H4a2 2 0 0 1-2-2v-2" /><path d="M18 6V4a2 2 0 0 0-2-2h-2" /><path d="M10 14h4" /><path d="M12 12v4" /><path d="M6 6h.01" /></svg>
-          <span>{new Date(entry.data.pubDate).toLocaleDateString(lang === 'zh' ? 'zh-CN' : 'en-US', lang === 'zh' ? { year: 'numeric', month: 'long', day: 'numeric' } : { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+          <span>{new Date(entry.data.pubDate).toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
         </div>
       </div>
       {entry.data.tags && entry.data.tags.length > 0 && (
         <div class="mt-4 flex flex-wrap items-center justify-center gap-2">
           {entry.data.tags.map(tag => (
-            <a href={lang === 'zh' ? `/zh/blog/tags/${tag}` : `/blog/tags/${tag}`} class="inline-flex items-center rounded-full bg-blue-100 dark:bg-blue-900/50 px-3 py-1 text-xs font-medium text-blue-800 dark:text-blue-300 hover:bg-blue-200 dark:hover:bg-blue-900 transition-colors">
+            <a href={`/zh/blog/tags/${tag}`} class="inline-flex items-center rounded-full bg-blue-100 dark:bg-blue-900/50 px-3 py-1 text-xs font-medium text-blue-800 dark:text-blue-300 hover:bg-blue-200 dark:hover:bg-blue-900 transition-colors">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3 h-3 mr-1.5"><path d="M12.586 2.586a2 2 0 0 0-2.828 0L2.172 10.172a2 2 0 0 0 0 2.828l7.414 7.414a2 2 0 0 0 2.828 0l7.414-7.414a2 2 0 0 0 0-2.828L12.586 2.586z"></path><circle cx="8.5" cy="8.5" r="1.5"></circle></svg>
               {tag}
             </a>
@@ -79,8 +79,7 @@ const schema = {
     <article class="prose prose-slate dark:prose-invert max-w-none mt-8">
       <Content components={{ pre: CodeSnippet }} />
     </article>
-    
-    <ShareButtons title={lang === 'zh' ? entry.data.title_zh || entry.data.title : entry.data.title} url={Astro.url} />
+    <ShareButtons title={entry.data.title_zh || entry.data.title} url={Astro.url} />
     <Giscus />
   </div>
 </MainLayout>

@@ -1,6 +1,8 @@
 ---
 title: "Fine-Tuning Gemma 3n with LoRA for Custom Tasks"
+title_zh: "如何使用 LoRA 为 Gemma 3n 进行自定义任务的微调"
 description: "A step-by-step guide to adapting the powerful Gemma 3n model for your specific needs using Low-Rank Adaptation (LoRA), one of the most efficient fine-tuning techniques."
+description_zh: "一步一步的指南，使用低秩适应（LoRA），一种最有效的微调技术，将强大的 Gemma 3n 模型适应于您的特定需求。"
 pubDate: 2025-06-25
 heroImage: "/blog-placeholder-2.jpg"
 ---

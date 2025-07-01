@@ -1,0 +1,45 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+import InteractiveDemo from '../../components/InteractiveDemo.astro';
+---
+
+<MainLayout 
+  title="AI 演示 | 交互式体验" 
+  description="体验Gemma 3n的强大功能 - 在浏览器中直接运行AI模型，无需安装任何软件。"
+>
+  <main class="pt-24 sm:pt-32">
+    <!-- Hero -->
+    <section class="bg-gradient-to-br from-blue-900 via-indigo-900 to-purple-900 text-white py-20">
+      <div class="max-w-4xl mx-auto px-4 text-center">
+        <h1 class="text-4xl sm:text-6xl font-bold mb-6 bg-gradient-to-r from-white to-blue-200 bg-clip-text text-transparent">
+          🚀 Gemma 3n 实时演示
+        </h1>
+        <p class="text-xl sm:text-2xl mb-8 text-gray-300 max-w-3xl mx-auto leading-relaxed">
+          在浏览器中直接体验AI的强大功能<br/>
+          代码补全 • 语言翻译 • 智能问答
+        </p>
+        <a 
+          href="#demo" 
+          class="inline-flex items-center bg-white text-blue-900 px-8 py-4 rounded-lg font-medium text-lg hover:bg-gray-100 transition-all duration-200 hover:transform hover:scale-105"
+        >
+          立即体验 →
+        </a>
+      </div>
+    </section>
+
+    <!-- Interactive Demo -->
+    <section id="demo" class="py-20 bg-gray-50 dark:bg-slate-900">
+      <div class="max-w-6xl mx-auto px-4">
+        <div class="text-center mb-12">
+          <h2 class="text-3xl font-bold text-slate-900 dark:text-white mb-4">
+            🎮 交互式AI Demo
+          </h2>
+          <p class="text-xl text-slate-600 dark:text-gray-400 max-w-3xl mx-auto">
+            这是一个模拟版本，展示了Gemma 3n在真实场景中的应用效果。
+          </p>
+        </div>
+        <InteractiveDemo />
+      </div>
+    </section>
+  </main>
+</MainLayout> 

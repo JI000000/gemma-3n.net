@@ -1,21 +1,20 @@
 ---
+import { getLangFromUrl, useTranslations } from '../i18n/index.ts';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
 const faqs = [
-  {
-    question: "Is Gemma 3n free to use?",
-    answer: "Yes, Gemma 3n models are released under a license that permits free access for commercial and research use. Always check the official license terms for details.",
-  },
-  {
-    question: "What does 'multimodal' actually mean for Gemma 3n?",
-    answer: "It means the model can natively understand and process more than just text. It can analyze images and listen to audio, making it suitable for a wider range of applications like describing photos or transcribing speech.",
-  },
-  {
-    question: "How is Gemma 3n different from the regular Gemma 2 or Gemma family?",
-    answer: "Gemma 3n is specifically optimized for on-device performance. It uses the novel MatFormer architecture to be more efficient in terms of memory and computation, making it ideal for running on phones and laptops.",
-  },
-  {
-    question: "Can I fine-tune Gemma 3n on my own data?",
-    answer: "Absolutely. The models are designed to be fine-tuned. Google provides recipes and support through frameworks like Keras, PyTorch, and JAX to facilitate this process.",
-  },
+  { question: 'faq.q1', answer: 'faq.a1' },
+  { question: 'faq.q2', answer: 'faq.a2' },
+  { question: 'faq.q3', answer: 'faq.a3' },
+  { question: 'faq.q4', answer: 'faq.a4' },
+  { question: 'faq.q5', answer: 'faq.a5' },
+  { question: 'faq.q6', answer: 'faq.a6' },
+  { question: 'faq.q7', answer: 'faq.a7' },
+  { question: 'faq.q8', answer: 'faq.a8' },
+  { question: 'faq.q9', answer: 'faq.a9' },
+  { question: 'faq.q10', answer: 'faq.a10' },
 ];
 
 const schema = {
@@ -37,22 +36,22 @@ const schema = {
 <section id="faq" class="py-20 sm:py-32 bg-white dark:bg-slate-900">
   <div class="max-w-4xl mx-auto px-4">
     <div class="text-center">
-      <h2 class="text-3xl font-bold text-slate-900 dark:text-white sm:text-4xl">Frequently Asked Questions</h2>
+      <h2 class="text-3xl font-bold text-slate-900 dark:text-white sm:text-4xl">{t('faq.heading')}</h2>
       <p class="mt-4 text-lg text-slate-600 dark:text-gray-400">
-        Got questions? We've got answers. Here are some of the most common things developers ask about Gemma 3n.
+        {t('faq.subtitle')}
       </p>
     </div>
     <div class="mt-12 space-y-4">
       {faqs.map((faq, index) => (
         <div class="bg-slate-50 dark:bg-gray-800 rounded-lg" data-faq-item>
           <button class="flex items-center justify-between w-full p-6 text-left" data-faq-button>
-            <span class="text-lg font-medium text-slate-900 dark:text-white" itemprop="name">{faq.question}</span>
+            <span class="text-lg font-medium text-slate-900 dark:text-white" itemprop="name">{t(faq.question)}</span>
             <svg class="w-6 h-6 text-gray-400 dark:text-gray-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
             </svg>
           </button>
           <div class="hidden px-6 pb-6" data-faq-answer itemprop="acceptedAnswer" itemscope itemtype="https://schema.org/Answer">
-            <p class="text-slate-600 dark:text-gray-400" itemprop="text">{faq.answer}</p>
+            <p class="text-slate-600 dark:text-gray-400" itemprop="text">{t(faq.answer)}</p>
           </div>
         </div>
       ))}

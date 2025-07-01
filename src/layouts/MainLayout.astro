@@ -1,6 +1,8 @@
 ---
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import PWAInstallPrompt from '../components/PWAInstallPrompt.astro';
+import { getLangFromUrl, useTranslations, getAlternateLanguagePaths, langConfig } from '../i18n';
 
 interface Props {
 	title: string;
@@ -12,6 +14,13 @@ const {
   description = "The ultimate developer guide and tutorials for Google's Gemma 3n. Master on-device multimodal AI with in-depth analysis, benchmarks, and code examples." 
 } = Astro.props;
 
+// 获取当前语言
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+// 获取替代语言路径
+const alternatePaths = getAlternateLanguagePaths(Astro.url.pathname, lang);
+
 // This is a key change: generate a unique slug for the page
 // If it's a blog page, the slug is the filename (e.g., 'how-to-run-gemma-3n-locally')
 // If it's another page (like the homepage), we give it a fixed name 'home'
@@ -21,31 +30,102 @@ const slug = Astro.url.pathname.startsWith('/blog/')
 
 // Generate the full image URL pointing to our API
 // const ogImageUrl = new URL(`/og/${slug}.png`, Astro.url.origin).toString();
+
+// 根据语言设置描述
+const localizedDescription = lang === 'zh' 
+  ? "Google Gemma 3n 的终极开发者指南和教程。通过深入分析、基准测试和代码示例掌握设备端多模态AI。"
+  : description;
+
+// 根据语言设置标题
+const localizedTitle = lang === 'zh' && title === 'Home'
+  ? 'Gemma-3n.net: 终极开发者指南'
+  : title;
 ---
 
 <!doctype html>
-<html lang="en" class="scroll-smooth">
+<html lang={langConfig[lang].locale} dir={langConfig[lang].dir} class="scroll-smooth">
 	<head>
 		<meta charset="UTF-8" />
-		<meta name="description" content={description} />
-		<meta name="viewport" content="width=device-width" />
+		<meta name="description" content={localizedDescription} />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
-		<title>{`${title} | Gemma-3n.net`}</title>
+		<title>{lang === 'zh' ? `${localizedTitle} | Gemma-3n.net` : `${title} | Gemma-3n.net`}</title>
+
+    <!-- PWA Configuration -->
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#3b82f6" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="Gemma3n" />
+    
+    <!-- PWA Icons -->
+    <link rel="apple-touch-icon" sizes="any" href="/favicon.svg" />
+    
+    <!-- Microsoft Tiles -->
+    <meta name="msapplication-TileColor" content="#3b82f6" />
+    <meta name="msapplication-TileImage" content="/icons/icon-144.png" />
 
     <!-- SEO & Social Sharing -->
     <meta property="og:type" content="website">
     <meta property="og:url" content={Astro.url.href}>
-    <meta property="og:title" content={`${title} | Gemma-3n.net`}>
-    <meta property="og:description" content={description}>
+    <meta property="og:title" content={lang === 'zh' ? `${localizedTitle} | Gemma-3n.net` : `${title} | Gemma-3n.net`}>
+    <meta property="og:description" content={localizedDescription}>
     <!-- <meta property="og:image" content={ogImageUrl}> -->
     <meta property="og:site_name" content="Gemma-3n.net">
+    <meta property="og:locale" content={langConfig[lang].locale}>
     
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content={Astro.url.href}>
-    <meta property="twitter:title" content={`${title} | Gemma-3n.net`}>
-    <meta property="twitter:description" content={description}>
+    <meta property="twitter:title" content={lang === 'zh' ? `${localizedTitle} | Gemma-3n.net` : `${title} | Gemma-3n.net`}>
+    <meta property="twitter:description" content={localizedDescription}>
     <!-- <meta property="twitter:image" content={ogImageUrl}> -->
+
+    <!-- Language/Regional targeting -->
+    <link rel="alternate" hreflang="en" href={alternatePaths.en} />
+    <link rel="alternate" hreflang="zh-CN" href={alternatePaths.zh} />
+    <link rel="alternate" hreflang="x-default" href={alternatePaths.en} />
+
+    <!-- Additional SEO Meta Tags -->
+    <meta name="keywords" content={lang === 'zh' 
+      ? "Gemma 3n, Google AI, 设备端AI, 多模态AI, 大语言模型, 人工智能, Ollama, Hugging Face, iOS AI, 移动AI, 微调, LoRA, Unsloth, MatFormer"
+      : "Gemma 3n, Google AI, on-device AI, multimodal AI, LLM, language model, Ollama, Hugging Face, iOS AI, mobile AI, fine-tuning, LoRA, Unsloth, MatFormer"
+    }>
+    <meta name="author" content="Gemma-3n.net Team">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    
+    <!-- Structured Data for Website -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Gemma-3n.net",
+      "url": "https://gemma-3n.net",
+      "description": "The ultimate developer guide and tutorials for Google's Gemma 3n. Master on-device multimodal AI with in-depth analysis, benchmarks, and code examples.",
+      "inLanguage": [
+        {
+          "@type": "Language",
+          "name": "English",
+          "alternateName": "en"
+        },
+        {
+          "@type": "Language", 
+          "name": "Chinese",
+          "alternateName": "zh-CN"
+        }
+      ],
+      "publisher": {
+        "@type": "Organization",
+        "name": "Gemma-3n.net",
+        "url": "https://gemma-3n.net"
+      },
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://gemma-3n.net/search?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
 
     <!-- Google Analytics -->
     <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-LFF5X9VMHP"></script>
@@ -61,12 +141,122 @@ const slug = Astro.url.pathname.startsWith('/blog/')
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9751155071098091"
      crossorigin="anonymous"></script>
 
+    <!-- 百度统计 (仅中文页面) -->
+    {lang === 'zh' && (
+      <script is:inline>
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?YOUR_BAIDU_ANALYTICS_ID";
+          var s = document.getElementsByTagName("script")[0]; 
+          s.parentNode.insertBefore(hm, s);
+        })();
+      </script>
+    )}
+
+    <!-- Theme and PWA Script -->
     <script is:inline>
-      // This script is inlined in the head to prevent FOUC.
+      // Dark mode script
       if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
         document.documentElement.classList.add('dark');
       } else {
         document.documentElement.classList.remove('dark');
+      }
+
+      // PWA Service Worker Registration
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', async () => {
+          try {
+            const registration = await navigator.serviceWorker.register('/sw.js', {
+              scope: '/'
+            });
+            
+            console.log('[PWA] Service Worker registered successfully:', registration.scope);
+            
+            // 检查更新
+            registration.addEventListener('updatefound', () => {
+              const newWorker = registration.installing;
+              newWorker.addEventListener('statechange', () => {
+                if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                  // 显示更新通知
+                  console.log('[PWA] New content available, refresh to update');
+                  showUpdateNotification();
+                }
+              });
+            });
+            
+          } catch (error) {
+            console.error('[PWA] Service Worker registration failed:', error);
+          }
+        });
+      }
+
+      // PWA Install prompt
+      let deferredPrompt;
+      window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        showInstallButton();
+      });
+
+      function showInstallButton() {
+        // 显示安装按钮的逻辑
+        const installButton = document.createElement('button');
+        installButton.textContent = 'Install App';
+        installButton.className = 'fixed bottom-4 right-4 bg-blue-500 text-white px-4 py-2 rounded-lg shadow-lg z-50';
+        installButton.addEventListener('click', installPWA);
+        document.body.appendChild(installButton);
+      }
+
+      async function installPWA() {
+        if (deferredPrompt) {
+          deferredPrompt.prompt();
+          const { outcome } = await deferredPrompt.userChoice;
+          console.log(`[PWA] User ${outcome} the install prompt`);
+          deferredPrompt = null;
+        }
+      }
+
+      function showUpdateNotification() {
+        const notification = document.createElement('div');
+        notification.innerHTML = `
+          <div class="fixed top-4 right-4 bg-blue-500 text-white p-4 rounded-lg shadow-lg z-50">
+            <p>New version available!</p>
+            <button onclick="window.location.reload()" class="mt-2 bg-white text-blue-500 px-3 py-1 rounded">
+              Update
+            </button>
+          </div>
+        `;
+        document.body.appendChild(notification);
+      }
+
+      // 网络状态监控
+      window.addEventListener('online', () => {
+        console.log('[PWA] Back online');
+        hideOfflineNotification();
+      });
+
+      window.addEventListener('offline', () => {
+        console.log('[PWA] Gone offline');
+        showOfflineNotification();
+      });
+
+      function showOfflineNotification() {
+        const notification = document.createElement('div');
+        notification.id = 'offline-notification';
+        notification.innerHTML = `
+          <div class="fixed top-4 left-4 bg-yellow-500 text-white p-3 rounded-lg shadow-lg z-50">
+            📡 You're offline - Some features may be limited
+          </div>
+        `;
+        document.body.appendChild(notification);
+      }
+
+      function hideOfflineNotification() {
+        const notification = document.getElementById('offline-notification');
+        if (notification) {
+          notification.remove();
+        }
       }
     </script>
 	</head>
@@ -74,10 +264,45 @@ const slug = Astro.url.pathname.startsWith('/blog/')
     <Header />
 		<slot />
     <Footer />
+    <PWAInstallPrompt />
 	</body>
 </html>
 <style is:global>
+  /* 导入移动端优化样式 */
+  @import '../styles/mobile.css';
+  
 	@tailwind base;
 	@tailwind components;
 	@tailwind utilities;
+
+  /* 中文字体优化 */
+  .zh-font {
+    font-family: 
+      "PingFang SC", 
+      "Hiragino Sans GB", 
+      "Microsoft YaHei", 
+      "WenQuanYi Micro Hei", 
+      -apple-system,
+      BlinkMacSystemFont,
+      "Segoe UI",
+      sans-serif;
+  }
+  
+  /* 中英文混排优化 */
+  html[lang^="zh"] {
+    @apply zh-font;
+    line-height: 1.7;
+  }
+  
+  /* PWA相关样式 */
+  .pwa-install-button {
+    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+  }
+  
+  .pwa-install-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(59, 130, 246, 0.3);
+  }
 </style> 

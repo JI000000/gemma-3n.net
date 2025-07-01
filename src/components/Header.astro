@@ -1,31 +1,113 @@
 ---
+import LanguageToggle from './LanguageToggle.astro';
 import ThemeToggleButton from './ThemeToggleButton.astro';
+import { getLangFromUrl, useTranslations, getLocalizedPath } from '../i18n/index.ts';
+
+const lang = getLangFromUrl(Astro.url);
+const currentPage = Astro.url.pathname;
+const t = useTranslations(lang);
 
 const navLinks = [
-  { href: "/#what-is-gemma", text: "About" },
-  { href: "/#benchmarks", text: "Benchmarks" },
-  { href: "/blog", text: "Blog" },
-  { href: "/#resources", text: "Resources" },
-  { href: "/#faq", text: "FAQ" },
+  { path: "/about", key: 'nav.about' },
+  { path: "/demo", key: 'nav.demo' },
+  { path: "/blog", key: 'nav.blog' },
+  { path: "/toolkit", key: 'nav.toolkit' }
 ];
 ---
-
-<header class="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm">
-  <div class="max-w-7xl mx-auto px-4">
+<header id="main-header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex items-center justify-between h-16">
-      <a href="/" class="text-xl font-bold text-slate-900 dark:text-white">Gemma-3n.net</a>
-      <div class="flex items-center space-x-8">
-        <nav class="hidden md:flex items-center gap-6">
-          <a href="/#about" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">About</a>
-          <a href="/#benchmarks" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Benchmarks</a>
-          <a href="/blog" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Blog</a>
-          <a href="/toolkit" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Toolkit</a>
-          <a href="/#resources" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Resources</a>
-          <a href="/#faq" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">FAQ</a>
-        </nav>
-        <ThemeToggleButton />
+      
+      <!-- Site branding -->
+      <div class="flex-shrink-0">
+        <a href="/" class="flex items-center space-x-2 text-xl font-bold text-gray-900 dark:text-white">
+          <img class="h-8 w-auto" src="/favicon.svg" alt="Gemma 3n Logo">
+          <span>Gemma-3n.net</span>
+        </a>
       </div>
-      <!-- Mobile menu button can be added later -->
+
+      <!-- Desktop Navigation -->
+      <nav class="hidden md:flex md:space-x-8">
+        {navLinks.map(link => {
+          const href = link.isAnchor ? link.path : getLocalizedPath(link.path, lang);
+          return (
+            <a
+              href={href}
+              class={`text-base font-medium transition-colors ${
+                currentPage === href
+                  ? 'text-blue-600 dark:text-blue-400'
+                  : 'text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white'
+              }`}
+            >
+              {t(link.key)}
+            </a>
+          );
+        })}
+      </nav>
+
+      <!-- Right side controls -->
+      <div class="flex items-center space-x-4">
+        <LanguageToggle />
+        <ThemeToggleButton />
+        <!-- Mobile menu button -->
+        <div class="md:hidden">
+          <button id="mobile-menu-button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
+            <span class="sr-only">Open main menu</span>
+            <svg id="menu-open-icon" class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+            </svg>
+            <svg id="menu-close-icon" class="hidden h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+
     </div>
   </div>
-</header> 
+
+  <!-- Mobile menu, show/hide based on menu state. -->
+  <div id="mobile-menu" class="hidden md:hidden bg-white dark:bg-gray-900/95 backdrop-blur-sm border-t border-gray-200 dark:border-gray-800">
+    <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+      {navLinks.map(link => {
+        const href = link.isAnchor ? link.path : getLocalizedPath(link.path, lang);
+        return (
+          <a
+            href={href}
+            class={`block px-3 py-2 rounded-md text-base font-medium transition-colors ${
+              currentPage === href
+                ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400'
+                : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50 dark:text-gray-300 dark:hover:text-white dark:hover:bg-gray-700'
+            }`}
+          >
+            {t(link.key)}
+          </a>
+        );
+      })}
+    </div>
+  </div>
+</header>
+
+<script>
+  // Mobile menu toggle
+  const mobileMenuButton = document.getElementById('mobile-menu-button');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const openIcon = document.getElementById('menu-open-icon');
+  const closeIcon = document.getElementById('menu-close-icon');
+
+  mobileMenuButton.addEventListener('click', () => {
+    mobileMenu.classList.toggle('hidden');
+    openIcon.classList.toggle('hidden');
+    closeIcon.classList.toggle('hidden');
+  });
+
+  // Header background on scroll
+  const header = document.getElementById('main-header');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 10) {
+      header.classList.add('bg-white/80', 'dark:bg-gray-900/80', 'backdrop-blur-sm', 'shadow-md');
+    } else {
+      header.classList.remove('bg-white/80', 'dark:bg-gray-900/80', 'backdrop-blur-sm', 'shadow-md');
+    }
+  });
+</script> 

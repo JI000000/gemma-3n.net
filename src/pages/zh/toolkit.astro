@@ -1,0 +1,57 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+import ToolkitCard from '../../components/ToolkitCard.astro';
+---
+
+<MainLayout 
+  title="开发者工具箱" 
+  description="开始使用Gemma 3n所需的一切：模型、平台集成、硬件要求等。"
+>
+	<main class="pt-24 sm:pt-32">
+    <!-- Hero Section -->
+		<section class="text-center pb-20">
+			<div class="max-w-4xl mx-auto px-4">
+				<h1 class="text-4xl font-bold text-slate-900 dark:text-white sm:text-5xl">开发者工具箱</h1>
+				<p class="mt-4 text-xl text-slate-600 dark:text-gray-400">
+					您开始使用Gemma 3n所需的所有基本工具和资源。
+				</p>
+			</div>
+		</section>
+
+		<!-- Tools Grid -->
+		<section class="pb-20">
+			<div class="max-w-6xl mx-auto px-4">
+				<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+					<ToolkitCard 
+						title="模型下载"
+						description="从Hugging Face、Ollama和LM Studio获取官方和社区微调的Gemma 3n模型。"
+						icon="📦"
+						links={[
+							{ text: 'Hugging Face', href: 'https://huggingface.co/models?search=gemma+3n' },
+							{ text: 'Ollama', href: 'https://ollama.com/library/gemma-3n' },
+							{ text: 'LM Studio', href: 'https://lmstudio.ai/' }
+						]}
+					/>
+					<ToolkitCard 
+						title="平台集成"
+						description="将Gemma 3n与iOS、Python和您喜欢的框架集成。"
+						icon="📱"
+						links={[
+							{ text: 'iOS部署指南', href: '/zh/blog/gemma-3n-ios-complete-deployment-guide' },
+							{ text: 'Python与MLX', href: '/zh/blog/transcribing-speech-with-gemma-3n' }
+						]}
+					/>
+					<ToolkitCard 
+						title="微调工具"
+						description="使用LoRA和Unsloth等技术为您的特定用例定制Gemma 3n。"
+						icon="🔧"
+						links={[
+							{ text: 'Unsloth指南', href: '/zh/blog/fine-tuning-gemma-3n-with-unsloth' },
+							{ text: 'LoRA教程', href: '/zh/blog/fine-tuning-gemma-3n-with-lora' }
+						]}
+					/>
+				</div>
+			</div>
+		</section>
+	</main>
+</MainLayout> 

@@ -1,0 +1,275 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+import HeroSection from '../../components/HeroSection.astro';
+import WhatIsGemma from '../../components/WhatIsGemma.astro';
+import Benchmarks from '../../components/Benchmarks.astro';
+import Architecture from '../../components/Architecture.astro';
+import UseCases from '../../components/UseCases.astro';
+import FeaturedPosts from '../../components/FeaturedPosts.astro';
+import Resources from '../../components/Resources.astro';
+import FAQ from '../../components/FAQ.astro';
+import NewsletterSignup from '../../components/NewsletterSignup.astro';
+
+// 中文页面专用内容
+const heroProps = {
+  title: "掌握 Gemma 3n",
+  subtitle: "设备端多模态AI的终极指南。利用Google最高效开源模型的音频、视觉和文本能力。",
+  ctaText: "立即开始",
+  ctaLink: "#what-is-gemma"
+};
+---
+
+<MainLayout 
+  title="首页" 
+  description="Google Gemma 3n 的终极开发者指南和教程。通过深入分析、基准测试和代码示例掌握设备端多模态AI。"
+>
+  <main>
+    <!-- 英雄区块 - 中文版 -->
+    <section class="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900 text-white relative overflow-hidden">
+      <div class="absolute inset-0 bg-[url('/grid.svg')] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]"></div>
+      <div class="max-w-4xl mx-auto px-4 text-center relative z-10">
+        <h1 class="text-5xl sm:text-7xl font-bold mb-6 bg-gradient-to-r from-white to-blue-200 bg-clip-text text-transparent">
+          掌握 Gemma 3n
+        </h1>
+        <p class="text-xl sm:text-2xl mb-8 text-gray-300 max-w-3xl mx-auto leading-relaxed">
+          设备端多模态AI的终极指南。利用Google最高效开源模型的<br/>音频、视觉和文本能力。
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a href="#what-is-gemma" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-lg font-medium text-lg transition-all duration-200 hover:transform hover:scale-105">
+            立即开始 →
+          </a>
+          <a href="/zh/blog" class="border-2 border-blue-400 text-blue-400 hover:bg-blue-400 hover:text-white px-8 py-4 rounded-lg font-medium text-lg transition-all duration-200">
+            浏览教程
+          </a>
+        </div>
+        
+        <!-- 特色指标 -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16 pt-16 border-t border-gray-700">
+          <div class="text-center">
+            <div class="text-3xl font-bold text-blue-400 mb-2">79.8%</div>
+            <div class="text-gray-400">MMLU 准确率</div>
+          </div>
+          <div class="text-center">
+            <div class="text-3xl font-bold text-green-400 mb-2">4GB</div>
+            <div class="text-gray-400">E4B 内存需求</div>
+          </div>
+          <div class="text-center">
+            <div class="text-3xl font-bold text-purple-400 mb-2">13x</div>
+            <div class="text-gray-400">视觉处理加速</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 什么是Gemma 3n -->
+    <section id="what-is-gemma" class="py-20 bg-white dark:bg-slate-900">
+      <div class="max-w-6xl mx-auto px-4">
+        <div class="text-center mb-16">
+          <h2 class="text-4xl font-bold text-slate-900 dark:text-white mb-4">什么是 Gemma 3n？</h2>
+          <p class="text-xl text-slate-600 dark:text-gray-400 max-w-4xl mx-auto">
+            Gemma 3n 是Google推出的最新一代生成式AI模型系列，专为在手机、笔记本电脑和平板电脑等日常设备上实现峰值性能和效率而设计。它不仅仅处理文本，更是一个真正的多模态平台。
+          </p>
+        </div>
+        
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          <div class="bg-slate-50 dark:bg-gray-800 p-8 rounded-xl">
+            <div class="w-12 h-12 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-lg flex items-center justify-center text-white text-2xl mb-6">
+              🎯
+            </div>
+            <h3 class="text-2xl font-bold text-slate-900 dark:text-white mb-4">设计即多模态</h3>
+            <p class="text-slate-600 dark:text-gray-400">
+              原生处理音频、视觉和文本输入，以全面的方式理解和分析世界。
+            </p>
+          </div>
+          
+          <div class="bg-slate-50 dark:bg-gray-800 p-8 rounded-xl">
+            <div class="w-12 h-12 bg-gradient-to-r from-green-500 to-emerald-500 rounded-lg flex items-center justify-center text-white text-2xl mb-6">
+              📱
+            </div>
+            <h3 class="text-2xl font-bold text-slate-900 dark:text-white mb-4">设备端优化</h3>
+            <p class="text-slate-600 dark:text-gray-400">
+              提供高效的E2B和E4B版本，运行时内存占用与小得多的模型相当。
+            </p>
+          </div>
+          
+          <div class="bg-slate-50 dark:bg-gray-800 p-8 rounded-xl">
+            <div class="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center text-white text-2xl mb-6">
+              ⚡
+            </div>
+            <h3 class="text-2xl font-bold text-slate-900 dark:text-white mb-4">MatFormer 架构</h3>
+            <p class="text-slate-600 dark:text-gray-400">
+              新颖的"嵌套"Transformer架构，允许灵活的计算和内存使用，适应手头的任务。
+            </p>
+          </div>
+          
+          <div class="bg-slate-50 dark:bg-gray-800 p-8 rounded-xl">
+            <div class="w-12 h-12 bg-gradient-to-r from-orange-500 to-red-500 rounded-lg flex items-center justify-center text-white text-2xl mb-6">
+              🛠️
+            </div>
+            <h3 class="text-2xl font-bold text-slate-900 dark:text-white mb-4">开发者友好</h3>
+            <p class="text-slate-600 dark:text-gray-400">
+              支持您已经喜爱的广泛工具，包括Hugging Face、Keras、PyTorch和Ollama。
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 性能基准 -->
+    <section id="benchmarks" class="py-20 bg-slate-50 dark:bg-slate-900/50">
+      <div class="max-w-6xl mx-auto px-4">
+        <Benchmarks />
+      </div>
+    </section>
+
+    <!-- 使用案例 -->
+    <section id="use-cases" class="py-20 bg-white dark:bg-slate-900">
+      <div class="max-w-6xl mx-auto px-4">
+        <div class="text-center mb-16">
+          <h2 class="text-4xl font-bold text-slate-900 dark:text-white mb-4">应用场景与灵感</h2>
+          <p class="text-xl text-slate-600 dark:text-gray-400">
+            您可以用 Gemma 3n 构建什么？可能性无穷无尽。
+          </p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div class="text-center p-6 bg-slate-50 dark:bg-gray-800 rounded-xl hover:shadow-lg transition-shadow">
+            <div class="w-16 h-16 bg-blue-500 rounded-xl flex items-center justify-center text-white text-2xl mx-auto mb-4">
+              🎤
+            </div>
+            <h3 class="text-lg font-semibold text-slate-900 dark:text-white mb-2">设备端个人助手</h3>
+            <p class="text-sm text-slate-600 dark:text-gray-400">
+              构建隐私优先的语音助手，可以理解语音、文本和图像。
+            </p>
+          </div>
+          
+          <div class="text-center p-6 bg-slate-50 dark:bg-gray-800 rounded-xl hover:shadow-lg transition-shadow">
+            <div class="w-16 h-16 bg-green-500 rounded-xl flex items-center justify-center text-white text-2xl mx-auto mb-4">
+              📸
+            </div>
+            <h3 class="text-lg font-semibold text-slate-900 dark:text-white mb-2">智能照片管理</h3>
+            <p class="text-sm text-slate-600 dark:text-gray-400">
+              自动标记、描述和搜索照片，为您的图像创建智能元数据。
+            </p>
+          </div>
+          
+          <div class="text-center p-6 bg-slate-50 dark:bg-gray-800 rounded-xl hover:shadow-lg transition-shadow">
+            <div class="w-16 h-16 bg-purple-500 rounded-xl flex items-center justify-center text-white text-2xl mx-auto mb-4">
+              🎵
+            </div>
+            <h3 class="text-lg font-semibold text-slate-900 dark:text-white mb-2">实时音频转录</h3>
+            <p class="text-sm text-slate-600 dark:text-gray-400">
+              创建可以转录会议、讲座和对话的应用程序，无需互联网连接。
+            </p>
+          </div>
+          
+          <div class="text-center p-6 bg-slate-50 dark:bg-gray-800 rounded-xl hover:shadow-lg transition-shadow">
+            <div class="w-16 h-16 bg-indigo-500 rounded-xl flex items-center justify-center text-white text-2xl mx-auto mb-4">
+              📚
+            </div>
+            <h3 class="text-lg font-semibold text-slate-900 dark:text-white mb-2">互动教育工具</h3>
+            <p class="text-sm text-slate-600 dark:text-gray-400">
+              开发引人入胜的学习应用，学生可以"看到"和评论用户的绘图或图表。
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 博客精选 -->
+    <section class="py-20 bg-slate-50 dark:bg-slate-900/50">
+      <div class="max-w-6xl mx-auto px-4">
+        <div class="text-center mb-16">
+          <h2 class="text-4xl font-bold text-slate-900 dark:text-white mb-4">精选教程</h2>
+          <p class="text-xl text-slate-600 dark:text-gray-400">
+            我们最新的文章、教程和深度分析。
+          </p>
+        </div>
+        <!-- 中文版博客文章预览 -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <a href="/zh/blog/gemma-3n-ios-complete-deployment-guide" class="group">
+            <article class="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
+              <div class="p-6">
+                <h3 class="text-xl font-bold text-slate-900 dark:text-white group-hover:text-blue-500 dark:group-hover:text-blue-400 transition-colors mb-3">
+                  Gemma 3n iOS部署：移动AI开发完整指南
+                </h3>
+                <p class="text-slate-600 dark:text-gray-400 mb-4">
+                  在iOS设备上部署Gemma 3n模型的详细指南。学习CoreML转换、优化技术和设备端AI的最佳实践。
+                </p>
+                <div class="text-sm text-slate-500 dark:text-gray-500">
+                  发布于 2025年7月1日
+                </div>
+              </div>
+            </article>
+          </a>
+          
+          <a href="/zh/blog/fine-tuning-gemma-3n-with-unsloth" class="group">
+            <article class="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
+              <div class="p-6">
+                <h3 class="text-xl font-bold text-slate-900 dark:text-white group-hover:text-blue-500 dark:group-hover:text-blue-400 transition-colors mb-3">
+                  使用Unsloth微调Gemma 3n：深度教程
+                </h3>
+                <p class="text-slate-600 dark:text-gray-400 mb-4">
+                  使用Unsloth库微调Gemma 3n模型以获得最大性能和内存效率的高级教程。
+                </p>
+                <div class="text-sm text-slate-500 dark:text-gray-500">
+                  发布于 2025年6月29日
+                </div>
+              </div>
+            </article>
+          </a>
+          
+          <a href="/zh/blog/how-to-run-gemma-3n-locally" class="group">
+            <article class="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
+              <div class="p-6">
+                <h3 class="text-xl font-bold text-slate-900 dark:text-white group-hover:text-blue-500 dark:group-hover:text-blue-400 transition-colors mb-3">
+                  如何在本地运行Gemma 3n：初学者指南
+                </h3>
+                <p class="text-slate-600 dark:text-gray-400 mb-4">
+                  开始使用Google最新的开源模型Gemma 3n。这个循序渐进的教程将指导您在本地计算机上设置它。
+                </p>
+                <div class="text-sm text-slate-500 dark:text-gray-500">
+                  发布于 2025年6月25日
+                </div>
+              </div>
+            </article>
+          </a>
+        </div>
+        
+        <div class="text-center mt-12">
+          <a href="/zh/blog" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-medium transition-colors">
+            查看所有教程 →
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- 资源链接 -->
+    <section id="resources" class="py-20 bg-white dark:bg-slate-900">
+      <div class="max-w-6xl mx-auto px-4">
+        <div class="text-center mb-16">
+          <h2 class="text-4xl font-bold text-slate-900 dark:text-white mb-4">资源</h2>
+          <p class="text-xl text-slate-600 dark:text-gray-400">
+            帮助您开始使用Gemma 3n的基本链接。
+          </p>
+        </div>
+        
+        <Resources />
+      </div>
+    </section>
+
+    <!-- 常见问题 -->
+    <section id="faq" class="py-20 bg-slate-50 dark:bg-slate-900/50">
+      <div class="max-w-4xl mx-auto px-4">
+        <div class="text-center mb-16">
+          <h2 class="text-4xl font-bold text-slate-900 dark:text-white mb-4">常见问题</h2>
+          <p class="text-xl text-slate-600 dark:text-gray-400">
+            有问题？我们有答案。以下是开发者关于Gemma 3n最常问的问题。
+          </p>
+        </div>
+        
+        <FAQ />
+      </div>
+    </section>
+  </main>
+</MainLayout> 

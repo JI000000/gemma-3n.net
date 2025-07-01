@@ -1,6 +1,10 @@
 ---
 import { getCollection } from 'astro:content';
 import MainLayout from '../../layouts/MainLayout.astro';
+import { getLangFromUrl, useTranslations } from '../../i18n/index.ts';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
 
 const allPosts = await getCollection('blog', ({ data }) => {
   return import.meta.env.PROD ? !data.draft : true;
@@ -9,28 +13,28 @@ const allPosts = await getCollection('blog', ({ data }) => {
 const sortedPosts = allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 ---
 <MainLayout 
-  title="Blog | Gemma-3n.net"
-  description="In-depth articles, tutorials, and analysis on Gemma 3n and the world of on-device AI."
+  title={t('blog.title') + ' | Gemma-3n.net'}
+  description={t('blog.description')}
 >
   <div class="pt-24 sm:pt-32 max-w-4xl mx-auto px-4">
     <header class="text-center">
-      <h1 class="text-4xl font-bold text-slate-900 dark:text-white sm:text-5xl">Blog & Tutorials</h1>
+      <h1 class="text-4xl font-bold text-slate-900 dark:text-white sm:text-5xl">{t('blog.heading')}</h1>
       <p class="mt-4 text-xl text-slate-600 dark:text-gray-400">
-        In-depth articles, guides, and analysis to help you master on-device AI.
+        {t('blog.subtitle')}
       </p>
     </header>
     <div class="mt-16 space-y-12">
       {sortedPosts.map(post => (
-        <a href={`/blog/${post.slug}/`} class="block group">
+        <a href={lang === 'zh' ? `/zh/blog/${post.slug}/` : `/blog/${post.slug}/`} class="block group">
           <article>
             <h2 class="text-2xl font-bold text-slate-900 dark:text-white group-hover:text-blue-500 dark:group-hover:text-blue-400 transition-colors">
-              {post.data.title}
+              {lang === 'zh' ? post.data.title_zh || post.data.title : post.data.title}
             </h2>
             <p class="mt-4 text-slate-600 dark:text-gray-400">
-              {post.data.description}
+              {lang === 'zh' ? post.data.description_zh || post.data.description : post.data.description}
             </p>
             <div class="mt-4 text-sm text-slate-500 dark:text-gray-500">
-              Posted on {new Date(post.data.pubDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+              {t('blog.posted_on')} {new Date(post.data.pubDate).toLocaleDateString(lang === 'zh' ? 'zh-CN' : 'en-US', lang === 'zh' ? { year: 'numeric', month: 'long', day: 'numeric' } : { year: 'numeric', month: 'long', day: 'numeric' })}
             </div>
           </article>
         </a>
