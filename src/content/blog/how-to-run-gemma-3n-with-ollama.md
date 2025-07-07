@@ -2,6 +2,7 @@
 title: "How to Run Gemma 3n with Ollama on macOS, Windows, and Linux"
 description: "A step-by-step guide to setting up and running Google's Gemma 3n models locally using Ollama. Cover installation, model pulling, and basic interactions on all major operating systems."
 pubDate: 2025-06-29
+lastUpdated: 2025-07-01
 author: "The Gemma-3n.net Team"
 tags: ["Gemma 3n", "Ollama", "Local LLM", "Tutorial", "macOS", "Windows", "Linux"]
 ---

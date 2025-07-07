@@ -2,6 +2,7 @@
 title: "Fine-tuning Gemma 3n: A Deep Dive with Unsloth"
 description: "An advanced tutorial on fine-tuning Gemma 3n models using the Unsloth library for maximum performance and memory efficiency. Learn how to adapt Gemma 3n to specific tasks on consumer hardware."
 pubDate: 2025-06-29
+lastUpdated: 2025-07-01
 author: "The Gemma-3n.net Team"
 tags: ["Gemma 3n", "Fine-tuning", "Unsloth", "LoRA", "Advanced", "Tutorial"]
 ---

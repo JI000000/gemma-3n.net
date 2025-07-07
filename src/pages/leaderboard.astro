@@ -1,0 +1,142 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import { getLangFromUrl, useTranslations } from '../i18n';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const models = [
+  { rank: 1, name: 'Llama 3.1 8B', developer: 'Meta', params: 8, mmlu: 79.5, gsm8k: 92.0, humaneval: 85.1, memory: 16, tags: ['Reasoning Power'] },
+  { rank: 2, name: 'Gemma 3n E4B', developer: 'Google', params: 4, mmlu: 74.5, gsm8k: 86.5, humaneval: 72.0, memory: 8, tags: ['Efficiency King', 'Multimodal'] },
+  { rank: 3, name: 'Phi-3 Medium', developer: 'Microsoft', params: 14, mmlu: 78.0, gsm8k: 87.3, humaneval: 80.2, memory: 28, tags: [] },
+  { rank: 4, name: 'Qwen 2 7B', developer: 'Alibaba', params: 7, mmlu: 72.3, gsm8k: 85.1, humaneval: 75.8, memory: 14, tags: ['Strong Coder'] },
+  { rank: 5, name: 'Llama 3.2 3B', developer: 'Meta', params: 3, mmlu: 66.7, gsm8k: 79.0, humaneval: 68.0, memory: 6, tags: [] },
+  { rank: 6, name: 'Gemma 3n E2B', developer: 'Google', params: 2, mmlu: 64.3, gsm8k: 78.2, humaneval: 62.5, memory: 4, tags: ['On-Device', 'Fast'] },
+];
+---
+
+<MainLayout
+  title="AI Model Leaderboard: The Best Open Source Models"
+  description="A data-driven, sortable leaderboard comparing the top open-source AI models like Gemma 3n, Llama 3, Phi-3, and Qwen 2. Filter by benchmarks like MMLU, GSM8K, and HumanEval."
+>
+  <div class="pt-20">
+    <!-- Hero Section -->
+    <section class="text-center pt-20 pb-16 bg-gradient-to-b from-slate-50 to-white dark:from-slate-900/50 dark:to-gray-900">
+      <div class="max-w-4xl mx-auto px-4">
+        <span class="inline-block px-4 py-1.5 bg-blue-100 dark:bg-blue-900/50 text-blue-800 dark:text-blue-300 rounded-full text-sm font-semibold mb-4">Community Benchmark</span>
+        <h1 class="text-4xl md:text-6xl font-bold text-slate-900 dark:text-white mb-6">
+          Open Model Leaderboard
+        </h1>
+        <p class="text-xl text-slate-600 dark:text-gray-400 max-w-2xl mx-auto">
+          The definitive, data-driven ranking of today's top open-source AI models. Sort, compare, and find the best model for your needs.
+        p>
+      </div>
+    </section>
+
+    <!-- Leaderboard Table -->
+    <section class="pb-20 bg-white dark:bg-gray-900">
+      <div class="max-w-7xl mx-auto px-4">
+        <div class="overflow-x-auto rounded-lg shadow-2xl border border-gray-200/60 dark:border-gray-700/60">
+          <table id="leaderboard-table" class="w-full text-left">
+            <thead class="bg-gray-50 dark:bg-gray-800">
+              <tr>
+                <th class="p-4 md:p-6 font-semibold cursor-pointer" data-sort="rank">Rank</th>
+                <th class="p-4 md:p-6 font-semibold cursor-pointer" data-sort="name">Model</th>
+                <th class="hidden md:table-cell p-4 md:p-6 font-semibold cursor-pointer" data-sort="params">Params (B)</th>
+                <th class="p-4 md:p-6 font-semibold cursor-pointer" data-sort="mmlu">MMLU</th>
+                <th class="hidden md:table-cell p-4 md:p-6 font-semibold cursor-pointer" data-sort="gsm8k">GSM8K</th>
+                <th class="hidden lg:table-cell p-4 md:p-6 font-semibold cursor-pointer" data-sort="humaneval">HumanEval</th>
+                <th class="p-4 md:p-6 font-semibold">Tags</th>
+              </tr>
+            </thead>
+            <tbody id="leaderboard-body" class="divide-y divide-gray-200 dark:divide-gray-700">
+              {models.map(model => (
+                <tr data-rank={model.rank} data-name={model.name} data-params={model.params} data-mmlu={model.mmlu} data-gsm8k={model.gsm8k} data-humaneval={model.humaneval} class="hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors">
+                  <td class="p-4 md:p-6 font-bold text-xl text-slate-700 dark:text-gray-300">{model.rank}</td>
+                  <td class="p-4 md:p-6">
+                    <div class="font-bold text-slate-900 dark:text-white">{model.name}</div>
+                    <div class="text-sm text-slate-500 dark:text-gray-400">{model.developer}</div>
+                  </td>
+                  <td class="hidden md:table-cell p-4 md:p-6 text-slate-600 dark:text-gray-300">{model.params.toFixed(1)}</td>
+                  <td class="p-4 md:p-6 font-medium text-slate-800 dark:text-gray-200">{model.mmlu.toFixed(1)}</td>
+                  <td class="hidden md:table-cell p-4 md:p-6 text-slate-600 dark:text-gray-300">{model.gsm8k.toFixed(1)}</td>
+                  <td class="hidden lg:table-cell p-4 md:p-6 text-slate-600 dark:text-gray-300">{model.humaneval.toFixed(1)}</td>
+                  <td class="p-4 md:p-6">
+                    <div class="flex flex-wrap gap-2">
+                      {model.tags.map(tag => (
+                        <span class="px-2.5 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300">
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <p class="text-center text-sm text-slate-500 dark:text-gray-500 mt-6">* MMLU: Massive Multitask Language Understanding. GSM8K: Grade School Math. HumanEval: Code Generation.</p>
+        <p class="text-center text-sm text-slate-500 dark:text-gray-500 mt-2">* Performance data is based on publicly available information and may vary based on quantization and implementation.</p>
+      </div>
+    </section>
+  </div>
+</MainLayout>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const table = document.getElementById('leaderboard-table');
+    const headers = table.querySelectorAll('th[data-sort]');
+    const tbody = table.querySelector('tbody');
+    const rows = Array.from(tbody.querySelectorAll('tr'));
+
+    headers.forEach(header => {
+      header.addEventListener('click', () => {
+        const sortKey = header.dataset.sort;
+        const sortDirection = header.dataset.sortDirection === 'asc' ? 'desc' : 'asc';
+        
+        // Reset other headers
+        headers.forEach(h => {
+          h.removeAttribute('data-sort-direction');
+          h.querySelector('.sort-arrow')?.remove();
+        });
+
+        header.dataset.sortDirection = sortDirection;
+        
+        // Add arrow
+        const arrow = document.createElement('span');
+        arrow.className = 'sort-arrow ml-2';
+        arrow.innerHTML = sortDirection === 'asc' ? '▲' : '▼';
+        header.appendChild(arrow);
+
+        rows.sort((a, b) => {
+          const aVal = a.dataset[sortKey];
+          const bVal = b.dataset[sortKey];
+
+          const aNum = parseFloat(aVal);
+          const bNum = parseFloat(bVal);
+
+          let result = 0;
+          if (!isNaN(aNum) && !isNaN(bNum)) {
+            // Sort numerically, but higher is better for all except rank and params
+            if (sortKey === 'rank' || sortKey === 'params') {
+                result = aNum - bNum;
+            } else {
+                result = bNum - aNum;
+            }
+          } else {
+            // Sort alphabetically
+            result = aVal.localeCompare(bVal);
+          }
+          
+          return sortDirection === 'asc' ? result : -result;
+        });
+
+        tbody.innerHTML = '';
+        rows.forEach(row => tbody.appendChild(row));
+      });
+    });
+
+    // Default sort by rank
+    document.querySelector('th[data-sort="rank"]').click();
+  });
+</script> 

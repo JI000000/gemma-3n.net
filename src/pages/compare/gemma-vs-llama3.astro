@@ -1,0 +1,230 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+import { getLangFromUrl, useTranslations } from '../../i18n';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const benchmarks = {
+  mmlu: { gemma: 74.5, llama: 79.5 },
+  gsm8k: { gemma: 86.5, llama: 92.0 },
+  humaneval: { gemma: 72.0, llama: 85.1 },
+  coding: { gemma: 80, llama: 92 },
+  reasoning: { gemma: 85, llama: 94 },
+};
+
+const maxScores = {
+    mmlu: 100,
+    gsm8k: 100,
+    humaneval: 100,
+    coding: 100,
+    reasoning: 100,
+}
+---
+<MainLayout 
+  title="Gemma 3n vs. Llama 3: The Ultimate Showdown"
+  description="An in-depth, data-driven comparison of Google's Gemma 3n and Meta's Llama 3. We analyze benchmarks, hardware needs, and use cases to help you choose the right model for your project."
+>
+  <div class="pt-20">
+    <!-- Hero Section -->
+    <section class="text-center py-20 bg-gradient-to-br from-slate-50 to-indigo-100 dark:from-slate-900/50 dark:to-indigo-900/20">
+      <div class="max-w-4xl mx-auto px-4">
+        <span class="inline-block px-4 py-1.5 bg-blue-100 dark:bg-blue-900/50 text-blue-800 dark:text-blue-300 rounded-full text-sm font-semibold mb-4">Model Showdown</span>
+        <h1 class="text-4xl md:text-6xl font-bold text-slate-900 dark:text-white mb-6">
+          Gemma 3n <span class="text-blue-600">vs.</span> Llama 3
+        </h1>
+        <p class="text-xl text-slate-600 dark:text-gray-400 max-w-2xl mx-auto">
+          Efficiency meets power. We break down the two leading open models to help you decide which one reigns supreme for your specific needs.
+        </p>
+      </div>
+    </section>
+
+    <!-- At a Glance Table -->
+    <section class="py-20 bg-white dark:bg-slate-900">
+        <div class="max-w-5xl mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center text-slate-900 dark:text-white mb-12">At a Glance: Key Differences</h2>
+            <div class="overflow-x-auto rounded-lg shadow-lg border border-gray-200 dark:border-gray-700">
+                <table class="w-full text-left">
+                    <thead class="bg-gray-50 dark:bg-gray-800">
+                        <tr>
+                            <th class="p-6 font-semibold">Feature</th>
+                            <th class="p-6 font-semibold bg-blue-50 dark:bg-blue-900/30">Gemma 3n (E4B)</th>
+                            <th class="p-6 font-semibold bg-green-50 dark:bg-green-900/30">Llama 3 (8B)</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                        <tr class="dark:bg-gray-800/50">
+                            <td class="p-6 font-medium text-slate-800 dark:text-gray-200">Architecture</td>
+                            <td class="p-6 text-slate-600 dark:text-gray-300">MatFormer (Dynamic Scaling)</td>
+                            <td class="p-6 text-slate-600 dark:text-gray-300">Standard Transformer</td>
+                        </tr>
+                        <tr>
+                            <td class="p-6 font-medium text-slate-800 dark:text-gray-200">Effective Parameters</td>
+                            <td class="p-6 text-slate-600 dark:text-gray-300">~4 Billion</td>
+                            <td class="p-6 text-slate-600 dark:text-gray-300">8 Billion</td>
+                        </tr>
+                        <tr class="dark:bg-gray-800/50">
+                            <td class="p-6 font-medium text-slate-800 dark:text-gray-200">Core Strength</td>
+                            <td class="p-6 text-slate-600 dark:text-gray-300">On-device performance, efficiency</td>
+                            <td class="p-6 text-slate-600 dark:text-gray-300">Raw reasoning & coding power</td>
+                        </tr>
+                        <tr>
+                            <td class="p-6 font-medium text-slate-800 dark:text-gray-200">Hardware Needs</td>
+                            <td class="p-6 text-slate-600 dark:text-gray-300"><span class="font-semibold text-green-600 dark:text-green-400">Low</span> (Modern Laptops)</td>
+                            <td class="p-6 text-slate-600 dark:text-gray-300"><span class="font-semibold text-orange-500">Moderate</span> (Requires good GPU)</td>
+                        </tr>
+                        <tr class="dark:bg-gray-800/50">
+                            <td class="p-6 font-medium text-slate-800 dark:text-gray-200">Multimodality</td>
+                            <td class="p-6 text-slate-600 dark:text-gray-300">Native Text, Audio, Image</td>
+                            <td class="p-6 text-slate-600 dark:text-gray-300">Text only</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Performance Benchmarks -->
+    <section class="py-20 bg-slate-50 dark:bg-gray-800/50">
+      <div class="max-w-5xl mx-auto px-4">
+        <h2 class="text-3xl font-bold text-center text-slate-900 dark:text-white mb-12">Performance Benchmarks</h2>
+        <div class="space-y-8">
+            {Object.entries(benchmarks).map(([key, scores]) => (
+                <div>
+                    <h3 class="text-lg font-semibold text-slate-800 dark:text-gray-200 mb-4 capitalize">{key.replace(/([A-Z])/g, ' $1').replace('humaneval', 'HumanEval')}</h3>
+                    <div class="space-y-3">
+                        <!-- Gemma -->
+                        <div class="flex items-center">
+                            <span class="w-24 font-medium text-slate-700 dark:text-gray-300">Gemma 3n</span>
+                            <div class="flex-1 bg-gray-200 dark:bg-gray-700 rounded-full h-6 mr-4">
+                                <div class="bg-blue-500 h-6 rounded-full text-right pr-2 text-white font-bold text-sm flex items-center justify-end" style={`width: ${(scores.gemma / maxScores[key]) * 100}%`}>
+                                    <span>{scores.gemma.toFixed(1)}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Llama -->
+                        <div class="flex items-center">
+                            <span class="w-24 font-medium text-slate-700 dark:text-gray-300">Llama 3</span>
+                            <div class="flex-1 bg-gray-200 dark:bg-gray-700 rounded-full h-6 mr-4">
+                                <div class="bg-green-500 h-6 rounded-full text-right pr-2 text-white font-bold text-sm flex items-center justify-end" style={`width: ${(scores.llama / maxScores[key]) * 100}%`}>
+                                    <span>{scores.llama.toFixed(1)}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            ))}
+        </div>
+        <p class="text-center text-sm text-slate-500 dark:text-gray-500 mt-8">*Benchmark scores are illustrative representations based on aggregated public data.</p>
+      </div>
+    </section>
+
+    <!-- Deep Dive Analysis -->
+    <section class="py-20 bg-white dark:bg-slate-900">
+        <div class="max-w-5xl mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center text-slate-900 dark:text-white mb-12">Deep Dive Analysis</h2>
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Winner: Gemma -->
+                <div class="p-8 bg-slate-50 dark:bg-gray-800 rounded-lg border-2 border-blue-500 shadow-lg">
+                    <h3 class="text-2xl font-bold text-slate-900 dark:text-white mb-4">🏆 Where Gemma 3n Wins</h3>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <span class="text-blue-500 font-bold text-xl mr-3 mt-1">✓</span>
+                            <div>
+                                <h4 class="font-semibold text-slate-800 dark:text-gray-200">Efficiency & Accessibility</h4>
+                                <p class="text-slate-600 dark:text-gray-400">Runs smoothly on consumer hardware (laptops, phones) with significantly less RAM, making it perfect for on-device applications.</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-blue-500 font-bold text-xl mr-3 mt-1">✓</span>
+                            <div>
+                                <h4 class="font-semibold text-slate-800 dark:text-gray-200">Native Multimodality</h4>
+                                <p class="text-slate-600 dark:text-gray-400">Built from the ground up to understand text, audio, and images in a single model, unlocking a new class of applications that Llama cannot handle alone.</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-blue-500 font-bold text-xl mr-3 mt-1">✓</span>
+                            <div>
+                                <h4 class="font-semibold text-slate-800 dark:text-gray-200">Dynamic Architecture</h4>
+                                <p class="text-slate-600 dark:text-gray-400">MatFormer architecture allows it to dynamically adjust compute, providing balanced performance without needing massive static parameters.</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Winner: Llama -->
+                <div class="p-8 bg-slate-50 dark:bg-gray-800 rounded-lg border-2 border-green-500 shadow-lg">
+                    <h3 class="text-2xl font-bold text-slate-900 dark:text-white mb-4">🏆 Where Llama 3 Wins</h3>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <span class="text-green-500 font-bold text-xl mr-3 mt-1">✓</span>
+                            <div>
+                                <h4 class="font-semibold text-slate-800 dark:text-gray-200">Raw Reasoning & Coding Power</h4>
+                                <p class="text-slate-600 dark:text-gray-400">With more parameters dedicated to its tasks, Llama 3 excels at complex logical reasoning, math problems, and code generation, often outperforming Gemma on pure text benchmarks.</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-green-500 font-bold text-xl mr-3 mt-1">✓</span>
+                            <div>
+                                <h4 class="font-semibold text-slate-800 dark:text-gray-200">Mature Fine-Tuning Ecosystem</h4>
+                                <p class="text-slate-600 dark:text-gray-400">As a more established architecture, the community has produced a vast number of fine-tuned versions of Llama 3 for highly specific tasks.</p>
+                            </div>
+                        </li>
+                         <li class="flex items-start">
+                            <span class="text-green-500 font-bold text-xl mr-3 mt-1">✓</span>
+                            <div>
+                                <h4 class="font-semibold text-slate-800 dark:text-gray-200">Predictable Performance</h4>
+                                <p class="text-slate-600 dark:text-gray-400">Its standard Transformer architecture means performance is very predictable and scales well with more powerful hardware.</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final Verdict -->
+    <section class="py-20 bg-slate-50 dark:bg-gray-800/50">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <h2 class="text-3xl font-bold text-slate-900 dark:text-white mb-4">Final Verdict: Which One Is For You?</h2>
+            <p class="text-lg text-slate-600 dark:text-gray-400 mb-8">Your choice depends entirely on your project's primary goal.</p>
+            <div class="flex flex-col md:flex-row gap-8 text-left">
+                <div class="flex-1 p-6 bg-white dark:bg-gray-800 rounded-lg shadow-xl">
+                    <h4 class="text-xl font-bold text-blue-600 dark:text-blue-400 mb-3">Choose Gemma 3n If...</h4>
+                    <ul class="list-disc list-inside space-y-2 text-slate-600 dark:text-gray-300">
+                        <li>You are building for **mobile or edge devices**.</li>
+                        <li>Your app requires **multimodal capabilities** (audio/vision).</li>
+                        <li>**Resource efficiency** and low RAM usage are critical.</li>
+                        <li>You need a balanced, all-around model for general tasks.</li>
+                    </ul>
+                </div>
+                <div class="flex-1 p-6 bg-white dark:bg-gray-800 rounded-lg shadow-xl">
+                    <h4 class="text-xl font-bold text-green-600 dark:text-green-400 mb-3">Choose Llama 3 If...</h4>
+                    <ul class="list-disc list-inside space-y-2 text-slate-600 dark:text-gray-300">
+                        <li>Your primary use case is **complex coding or reasoning**.</li>
+                        <li>You have access to a **powerful GPU**.</li>
+                        <li>You need the absolute best performance on **text-only tasks**.</li>
+                        <li>You want to leverage a massive library of community fine-tunes.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="py-20 bg-gradient-to-r from-blue-600 to-indigo-600 text-white">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+          <h2 class="text-3xl font-bold mb-4">Ready to Dive Deeper?</h2>
+          <p class="text-xl mb-8 opacity-90">Explore our hands-on tutorials to master both models.</p>
+          <div class="flex flex-wrap justify-center gap-4">
+            <a href={lang === 'zh' ? '/zh/blog' : '/blog'} class="px-8 py-3 bg-white text-blue-600 rounded-lg font-medium hover:bg-gray-100 transition-colors">
+              Browse All Tutorials
+            </a>
+            <a href={lang === 'zh' ? '/zh/toolkit' : '/toolkit'} class="px-8 py-3 border-2 border-white text-white rounded-lg font-medium hover:bg-white hover:text-blue-600 transition-colors">
+              Get The Toolkit
+            </a>
+          </div>
+        </div>
+      </section>
+  </div>
+</MainLayout> 

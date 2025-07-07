@@ -2,6 +2,7 @@
 title: "Gemma 3n vs. Llama 3: Which is Best for Your Local AI Setup?"
 description: "A deep-dive comparison between Google's Gemma 3n and Meta's Llama 3 for local development. We analyze benchmarks, hardware needs, and use cases to help you choose."
 pubDate: 2025-06-28
+lastUpdated: 2025-07-01
 heroImage: "/blog/gemma-vs-llama.jpg"
 author: "The Gemma-3n.net Team"
 tags: ["comparison", "gemma-3n", "llama-3", "benchmarks"]

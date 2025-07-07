@@ -2,6 +2,7 @@
 title: "Fun with SVGs: Generating and Modifying Images with Gemma 3n"
 description: "A creative tutorial on how to use Gemma 3n's code generation capabilities to create and manipulate Scalable Vector Graphics (SVGs) directly from text prompts."
 pubDate: 2025-06-29
+lastUpdated: 2025-07-01
 author: "The Gemma-3n.net Team"
 tags: ["Gemma 3n", "SVG", "Image Generation", "Code Generation", "Creative AI", "Tutorial"]
 ---

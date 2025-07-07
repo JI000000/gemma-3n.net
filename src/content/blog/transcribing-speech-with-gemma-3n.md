@@ -2,6 +2,7 @@
 title: "From Audio to Text: Transcribing Speech with Gemma 3n"
 description: "Learn how to use Gemma 3n's native multimodal capabilities to transcribe audio files into text. This tutorial covers the setup and provides a Python code example using the `mlx-vlm` library."
 pubDate: 2025-06-29
+lastUpdated: 2025-07-01
 author: "The Gemma-3n.net Team"
 tags: ["Gemma 3n", "Multimodal", "Audio Transcription", "Python", "MLX", "Tutorial"]
 ---

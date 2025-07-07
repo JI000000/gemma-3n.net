@@ -2,6 +2,7 @@
 title: "Gemma 3n E2B vs. E4B: Which Model Should You Choose?"
 description: "A practical guide to understanding the differences between Gemma 3n's E2B and E4B models. Learn which version offers the best balance of performance and efficiency for your hardware."
 pubDate: 2025-06-28
+lastUpdated: 2025-07-01
 heroImage: "/blog/e2b-vs-e4b.jpg"
 author: "The Gemma-3n.net Team"
 tags: ["gemma-3n", "e2b", "e4b", "guide", "benchmarks"]

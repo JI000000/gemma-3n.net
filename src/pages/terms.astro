@@ -1,0 +1,33 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import { getLangFromUrl, useTranslations } from '../i18n';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+<MainLayout title={t('terms.title')} description={t('terms.p1')}>
+  <div class="pt-20">
+    <main class="max-w-4xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+      <div class="prose prose-lg dark:prose-invert mx-auto">
+        <h1>{t('terms.h1')}</h1>
+        <p class="lead"><em>{t('terms.effective_date')}</em></p>
+        <p>{t('terms.p1')}</p>
+
+        <h2>{t('terms.h2_use')}</h2>
+        <p>{t('terms.p2')}</p>
+
+        <h2>{t('terms.h2_disclaimer')}</h2>
+        <p>{t('terms.p3')}</p>
+
+        <h2>{t('terms.h2_liability')}</h2>
+        <p set:html={t('terms.p4')}></p>
+
+        <h2>{t('terms.h2_governing')}</h2>
+        <p>{t('terms.p5')}</p>
+
+        <h2>{t('terms.h2_contact')}</h2>
+        <p>{t('terms.p6')}</p>
+      </div>
+    </main>
+  </div>
+</MainLayout>

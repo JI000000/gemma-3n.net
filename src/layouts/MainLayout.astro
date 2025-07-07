@@ -81,6 +81,9 @@ const localizedTitle = lang === 'zh' && title === 'Home'
     <meta property="twitter:description" content={localizedDescription}>
     <!-- <meta property="twitter:image" content={ogImageUrl}> -->
 
+    <!-- Canonical URL -->
+    <link rel="canonical" href={Astro.url.href} />
+
     <!-- Language/Regional targeting -->
     <link rel="alternate" hreflang="en" href={alternatePaths.en} />
     <link rel="alternate" hreflang="zh-CN" href={alternatePaths.zh} />

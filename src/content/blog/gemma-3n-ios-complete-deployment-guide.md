@@ -2,6 +2,7 @@
 title: "Gemma 3n iOS Deployment: Complete Guide for Mobile AI Development"
 description: "Step-by-step guide to deploy Gemma 3n models on iOS devices. Learn CoreML conversion, optimization techniques, and best practices for on-device AI."
 pubDate: 2025-07-01
+lastUpdated: 2025-07-01
 author: "The Gemma-3n.net Team"
 tags: ["Gemma 3n", "iOS", "CoreML", "Mobile AI", "On-device", "Tutorial"]
 ---

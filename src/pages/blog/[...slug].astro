@@ -62,8 +62,14 @@ const schema = {
         </div>
         <div class="flex items-center gap-2">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><rect width="8" height="8" x="2" y="2" rx="2" /><path d="M14 2h6a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2h-6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z" /><path d="M6 18H4a2 2 0 0 1-2-2v-2" /><path d="M18 6V4a2 2 0 0 0-2-2h-2" /><path d="M10 14h4" /><path d="M12 12v4" /><path d="M6 6h.01" /></svg>
-          <span>{new Date(entry.data.pubDate).toLocaleDateString(lang === 'zh' ? 'zh-CN' : 'en-US', lang === 'zh' ? { year: 'numeric', month: 'long', day: 'numeric' } : { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+          <span>{lang === 'zh' ? '发布于 ' : 'Published '}{new Date(entry.data.pubDate).toLocaleDateString(lang === 'zh' ? 'zh-CN' : 'en-US', lang === 'zh' ? { year: 'numeric', month: 'long', day: 'numeric' } : { year: 'numeric', month: 'long', day: 'numeric' })}</span>
         </div>
+        {entry.data.lastUpdated && (
+          <div class="flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M21 12a9 9 0 1 1-6.219-8.56"/><path d="M13 12l3-3"/></svg>
+            <span class="font-medium text-blue-600 dark:text-blue-400">{lang === 'zh' ? '最后更新 ' : 'Last updated '}{new Date(entry.data.lastUpdated).toLocaleDateString(lang === 'zh' ? 'zh-CN' : 'en-US', lang === 'zh' ? { year: 'numeric', month: 'long', day: 'numeric' } : { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+          </div>
+        )}
       </div>
       {entry.data.tags && entry.data.tags.length > 0 && (
         <div class="mt-4 flex flex-wrap items-center justify-center gap-2">
@@ -76,6 +82,39 @@ const schema = {
         </div>
       )}
     </header>
+
+    {/* Generate Table of Contents if there are headings */}
+    {headings.length > 0 && (
+      <div class="bg-slate-50 dark:bg-gray-800 rounded-lg p-6 mb-8">
+        <h2 class="text-lg font-semibold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5">
+            <path d="M3 6h18"/>
+            <path d="M3 12h18"/>
+            <path d="M3 18h18"/>
+          </svg>
+          {lang === 'zh' ? '目录' : 'Table of Contents'}
+        </h2>
+        <nav class="toc">
+          <ul class="space-y-2">
+            {headings.map((heading) => (
+              <li class={`toc-level-${heading.depth}`}>
+                <a 
+                  href={`#${heading.slug}`}
+                  class={`block text-slate-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors ${
+                    heading.depth === 2 ? 'font-medium' : 
+                    heading.depth === 3 ? 'ml-4 text-sm' : 
+                    'ml-8 text-sm opacity-75'
+                  }`}
+                >
+                  {heading.text}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      </div>
+    )}
+
     <article class="prose prose-slate dark:prose-invert max-w-none mt-8">
       <Content components={{ pre: CodeSnippet }} />
     </article>
@@ -86,5 +125,68 @@ const schema = {
 </MainLayout>
 
 <style>
-  /* Add your styles here */
-</style> 
+  /* Table of Contents styling */
+  .toc a.active {
+    @apply text-blue-600 dark:text-blue-400 font-medium;
+  }
+  
+  /* Smooth scrolling for all anchor links */
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  /* Offset for fixed header when jumping to sections */
+  .prose h2[id],
+  .prose h3[id],
+  .prose h4[id] {
+    scroll-margin-top: 2rem;
+  }
+</style>
+
+<script>
+  // Table of Contents active section highlighting
+  document.addEventListener('DOMContentLoaded', function() {
+    const tocLinks = document.querySelectorAll('.toc a[href^="#"]');
+    const headings = document.querySelectorAll('.prose h2[id], .prose h3[id], .prose h4[id]');
+    
+    if (tocLinks.length === 0 || headings.length === 0) return;
+    
+    // Function to update active TOC link
+    function updateActiveTocLink() {
+      let currentActiveId = '';
+      const scrollPosition = window.scrollY + 100; // Offset for better UX
+      
+      // Find the current section
+      for (let i = headings.length - 1; i >= 0; i--) {
+        const heading = headings[i];
+        if (heading.offsetTop <= scrollPosition) {
+          currentActiveId = heading.id;
+          break;
+        }
+      }
+      
+      // Update TOC links
+      tocLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === `#${currentActiveId}`) {
+          link.classList.add('active');
+        }
+      });
+    }
+    
+    // Update on scroll
+    let ticking = false;
+    window.addEventListener('scroll', function() {
+      if (!ticking) {
+        requestAnimationFrame(function() {
+          updateActiveTocLink();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    });
+    
+    // Update on page load
+    updateActiveTocLink();
+  });
+</script> 

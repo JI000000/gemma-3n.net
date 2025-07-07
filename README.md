@@ -1,9 +1,71 @@
-# Gemma-3n.net 项目文档
+# Gemma-3n.net - The Ultimate Developer Guide
 
-本文档详细记录了 `gemma-3n.net` 网站从概念提出到开发实现的全过程，旨在为项目维护、功能迭代和未来交接提供清晰的指引。
+This repository contains the source code for [gemma-3n.net](https://gemma-3n.net), an independent, community-driven guide and resource hub for developers working with Google's Gemma 3n AI model.
 
-**负责人**: [用户] (Project Owner)
-**主要工程师**: Gemini 2.5 Pro (AI Assistant)
+Our mission is to provide the most accurate, up-to-date, and practical information, including tutorials, benchmarks, tools, and in-depth comparisons, to help developers master Gemma 3n.
+
+## ✨ Core Features
+
+- **🚀 Blazing Fast Performance**: Built with [Astro](httpss://astro.build), ensuring a snappy user experience with minimal JavaScript.
+- **🌐 Fully Internationalized (i18n)**: Complete English and Chinese (中文) language support.
+- **📱 Responsive & Mobile-First**: Optimized for a seamless experience on all devices, from desktop to mobile.
+- **💡 Rich Content**:
+  - In-depth tutorials and guides.
+  - Head-to-head model comparisons (e.g., Gemma 3n vs. Llama 3).
+  - Live AI model performance leaderboards.
+  - A curated toolkit with official resources, downloads, and community links.
+- **💬 Community-Driven**: Integrated [Giscus](https://giscus.app) comment system for community discussions on every blog post.
+- **⚖️ Legally Compliant**: Includes dedicated pages for Privacy Policy and Terms of Service.
+- **PWA Ready**: Progressive Web App features for offline access.
+
+## 🛠️ Tech Stack
+
+- **Framework**: [Astro](httpss://astro.build)
+- **Styling**: [Tailwind CSS](https://tailwindcss.com/)
+- **UI Components**: Astro Components
+- **i18n**: Custom routing and translation management
+- **Comments**: Giscus
+
+## 本地开发
+
+### 1. 克隆仓库
+
+```bash
+git clone https://github.com/your-username/gemma3n.git
+cd gemma3n
+```
+
+### 2. 安装依赖
+
+我们使用 `npm` 作为包管理器。
+
+```bash
+npm install
+```
+
+### 3. 运行开发服务器
+
+```bash
+npm run dev
+```
+
+这将启动一个本地开发服务器，地址为 `http://localhost:4321`。
+
+### 4. 构建生产版本
+
+```bash
+npm run build
+```
+
+构建后的静态站点文件将位于 `dist/` 目录下。
+
+## 🤝 Contributing
+
+We welcome contributions from the community! Please feel free to open an issue or submit a pull request.
+
+## License
+
+This project is open-source and available under the [MIT License](LICENSE).
 
 ## 1. 项目概述
 
