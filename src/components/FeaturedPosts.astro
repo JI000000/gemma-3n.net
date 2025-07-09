@@ -1,24 +1,36 @@
 ---
 import { getCollection } from 'astro:content';
+import { getLangFromUrl, useTranslations } from '../i18n';
 
-const posts = await getCollection('blog');
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+// 根据语言获取对应的博客集合
+const collectionName = lang === 'zh' ? 'blog-zh' : 'blog-en';
+const posts = await getCollection(collectionName, ({ data }) => {
+  return data.draft !== true;
+});
 const featuredPosts = posts.slice(0, 3); // Show latest 3 posts
 ---
 
 <section class="py-20 sm:py-32 bg-white dark:bg-slate-900">
   <div class="max-w-7xl mx-auto px-4">
     <div class="text-center">
-      <h2 class="text-3xl font-bold text-slate-900 dark:text-white sm:text-4xl">From the Blog</h2>
+      <h2 class="text-3xl font-bold text-slate-900 dark:text-white sm:text-4xl">
+        {lang === 'zh' ? '博客精选' : 'From the Blog'}
+      </h2>
       <p class="mt-4 text-lg text-slate-600 dark:text-gray-400">
-        Our latest articles, tutorials, and deep dives.
+        {lang === 'zh' ? '我们最新的文章、教程和深度分析。' : 'Our latest articles, tutorials, and deep dives.'}
       </p>
     </div>
     <div class="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
       {featuredPosts.map(post => (
-        <a href={`/blog/${post.slug}/`} class="block p-8 bg-slate-50 dark:bg-gray-800 rounded-lg hover:bg-slate-100 dark:hover:bg-gray-700 transition-transform hover:-translate-y-1">
+        <a href={lang === 'zh' ? `/zh/blog/${post.slug}/` : `/blog/${post.slug}/`} class="block p-8 bg-slate-50 dark:bg-gray-800 rounded-lg hover:bg-slate-100 dark:hover:bg-gray-700 transition-transform hover:-translate-y-1">
           <h3 class="text-xl font-bold text-slate-900 dark:text-white">{post.data.title}</h3>
           <p class="mt-4 text-slate-600 dark:text-gray-400">{post.data.description}</p>
-          <div class="mt-6 font-semibold text-blue-500 dark:text-blue-400">Read more →</div>
+          <div class="mt-6 font-semibold text-blue-500 dark:text-blue-400">
+            {lang === 'zh' ? '阅读更多 →' : 'Read more →'}
+          </div>
         </a>
       ))}
     </div>

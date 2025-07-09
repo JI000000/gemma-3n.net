@@ -5,6 +5,8 @@ pubDate: 2025-06-29
 lastUpdated: 2025-07-01
 author: "The Gemma-3n.net Team"
 tags: ["Gemma 3n", "Fine-tuning", "Unsloth", "LoRA", "Advanced", "Tutorial"]
+draft: false
+lang: "en"
 ---
 
 While running pre-trained Gemma 3n models is powerful, the real magic happens when you adapt them to your specific domain or task. This process, known as fine-tuning, can dramatically improve performance on specialized datasets. However, fine-tuning large models has traditionally been resource-intensive.

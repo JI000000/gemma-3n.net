@@ -1,0 +1,17 @@
+export const blog = {
+  'blog.title': 'Gemma 3n Developer Blog',
+  'blog.description': 'News, tutorials, and in-depth articles on the Gemma 3n AI model.',
+  'blog.heading': 'Gemma 3n Developer Blog',
+  'blog.subtitle': 'News, tutorials, and in-depth articles on the Gemma 3n AI model.',
+  'blog.posted_on': 'Posted on',
+  'blog.read_more': 'Read More',
+  'blog.giscus.comments': 'Comments',
+  'blog.table_of_contents': 'Table of Contents',
+  'blog.last_updated': 'Last Updated',
+  'blog.share': 'Share This Post',
+  'blog.share.twitter': 'Share on Twitter',
+  'blog.share.linkedin': 'Share on LinkedIn',
+  'blog.share.facebook': 'Share on Facebook',
+  'blog.share.copy': 'Copy Link',
+  'blog.share.copied': 'Copied!',
+} as const; 

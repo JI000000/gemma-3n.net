@@ -5,6 +5,8 @@ pubDate: 2025-07-01
 lastUpdated: 2025-07-01
 author: "The Gemma-3n.net Team"
 tags: ["Gemma 3n", "iOS", "CoreML", "Mobile AI", "On-device", "Tutorial"]
+draft: false
+lang: "en"
 ---
 
 With Gemma 3n's revolutionary MatFormer architecture, deploying powerful AI models on iOS devices has never been easier. This comprehensive guide will walk you through everything you need to know to get Gemma 3n running efficiently on iPhones and iPads.

@@ -1,8 +1,17 @@
+---
+import { useTranslations, getLangFromUrl } from '../i18n';
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
 <section id="what-is-gemma" class="py-20 sm:py-32 bg-slate-100 dark:bg-gray-800">
   <div class="max-w-4xl mx-auto px-4">
-    <h2 class="text-3xl font-bold text-center text-slate-900 dark:text-white sm:text-4xl">What is Gemma 3n?</h2>
+    <h2 class="text-3xl font-bold text-center text-slate-900 dark:text-white sm:text-4xl">{t('about.whatis.title')}</h2>
     <p class="mt-4 text-lg text-center text-slate-600 dark:text-gray-400">
-      Gemma 3n is a family of state-of-the-art generative AI models from Google, specifically engineered for peak performance and efficiency on everyday devices like phones, laptops, and tablets. It's not just about text; it's a truly multimodal platform.
+      {t('about.whatis.p1')}
+    </p>
+    <p class="mt-4 text-lg text-center text-slate-600 dark:text-gray-400">
+      {t('about.whatis.p2')}
     </p>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-12">
       <div class="p-6 bg-white dark:bg-gray-900 rounded-lg">

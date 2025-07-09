@@ -1,0 +1,26 @@
+export default {
+  'about.whatis.title': '什么是 Gemma 3n？',
+  'about.whatis.p1': 'Gemma 3n 是由 Google AI 开发的一款尖端的开源大型语言模型。它的设计轻巧、高效且功能强大，使先进的人工智能技术能够广泛应用于从研究开发到个人设备部署的各种场景。',
+  'about.whatis.p2': 'Gemma 3n 基于神经网络和 Transformer 架构的最新研究成果构建，在文本生成、摘要和理解任务中提供顶级的性能。其优化的设计确保了比同类模型更小的内存占用和更快的推理时间。',
+
+  'about.architecture.title': '架构深度解析',
+  'about.architecture.p1': 'Gemma 3n 的架构是现代 AI 工程的典范。它采用了一种改良的 Transformer 模型，并配备了分组查询注意力机制（GQA），以提升性能和效率。其关键架构特性包括：',
+  'about.architecture.feature1.title': '优化的 Transformer 核心',
+  'about.architecture.feature1.desc': '精简的 Transformer 设计，最大限度地提高性能，同时最小化计算成本。',
+  'about.architecture.feature2.title': '分组查询注意力 (GQA)',
+  'about.architecture.feature2.desc': '在不牺牲模型准确性的前提下，提升推理速度并减少内存使用，这对于设备端应用至关重要。',
+  'about.architecture.feature3.title': '高效的分词器',
+  'about.architecture.feature3.desc': '一个高度优化的分词器，能有效压缩文本，从而实现更快的处理和生成速度。',
+  'about.architecture.p2': '这种架构不仅使 Gemma 3n 功能强大，而且用途广泛，能够运行在从高端 GPU 到移动 CPU 的各种硬件上。',
+
+  'about.usecases.title': '应用场景与灵感',
+  'about.usecases.p1': 'Gemma 3n 的多功能性开启了一个充满可能性的世界。以下是开发者和创作者利用其强大功能的一些方式：',
+  'about.usecases.case1.title': '设备端 AI 助手',
+  'about.usecases.case1.desc': '构建直接在智能手机和笔记本电脑上运行的智能、响应迅速且注重隐私的 AI 助手。',
+  'about.usecases.case2.title': '内容创作与摘要',
+  'about.usecases.case2.desc': '自动化生成文章、摘要和创意文本，提高作家和营销人员的生产力。',
+  'about.usecases.case3.title': '开发者工具与编程助手',
+  'about.usecases.case3.desc': '创建智能编码助手，帮助完成代码补全、调试和文档编写。',
+  'about.usecases.case4.title': '教育技术',
+  'about.usecases.case4.desc': '开发互动式学习工具和个性化导师，以适应学生的需求。',
+}; 

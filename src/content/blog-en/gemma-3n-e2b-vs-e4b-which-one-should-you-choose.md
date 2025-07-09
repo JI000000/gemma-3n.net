@@ -1,11 +1,15 @@
 ---
 title: "Gemma 3n E2B vs. E4B: Which Model Should You Choose?"
+title_zh: "Gemma 3n E2B与E4B对比：你应该选择哪一个？"
 description: "A practical guide to understanding the differences between Gemma 3n's E2B and E4B models. Learn which version offers the best balance of performance and efficiency for your hardware."
+description_zh: "了解Gemma 3n的E2B和E4B模型差异的实用指南。学习哪个版本为你的硬件提供最佳的性能和效率平衡。"
 pubDate: 2025-06-28
 lastUpdated: 2025-07-01
+author: "Gemma-3n.net Team"
+tags: ["gemma-3n", "comparison", "model-selection", "e2b", "e4b"]
+draft: false
+lang: "en"
 heroImage: "/blog/e2b-vs-e4b.jpg"
-author: "The Gemma-3n.net Team"
-tags: ["gemma-3n", "e2b", "e4b", "guide", "benchmarks"]
 ---
 
 When diving into Google's Gemma 3n, one of the first choices you'll encounter is which specific variant to use: **E2B** or **E4B**. These aren't just arbitrary names; they represent two different points on the performance-vs-efficiency spectrum, each tailored for different hardware and use cases.

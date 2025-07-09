@@ -6,7 +6,7 @@ import { getLangFromUrl, useTranslations } from '../../i18n/index.ts';
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 
-const allPosts = await getCollection('blog', ({ data }) => {
+const allPosts = await getCollection('blog-en', ({ data }) => {
   return import.meta.env.PROD ? !data.draft : true;
 });
 

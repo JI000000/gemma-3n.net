@@ -3,6 +3,8 @@ title: "Image Analysis with Gemma 3n: Describing and Understanding Visuals"
 description: "Explore Gemma 3n's powerful vision capabilities. Learn how to use Gemma 3n to describe images, answer questions about them (VQA), and perform basic OCR, complete with Python code examples."
 pubDate: 2025-06-29
 lastUpdated: 2025-07-01
+draft: false
+lang: "en"
 author: "The Gemma-3n.net Team"
 tags: ["Gemma 3n", "Multimodal", "Vision", "Image Analysis", "VQA", "Python", "Tutorial"]
 ---

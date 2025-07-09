@@ -1,11 +1,12 @@
 ---
 title: "Fine-Tuning Gemma 3n with LoRA for Custom Tasks"
-title_zh: "如何使用 LoRA 为 Gemma 3n 进行自定义任务的微调"
-description: "A step-by-step guide to adapting the powerful Gemma 3n model for your specific needs using Low-Rank Adaptation (LoRA), one of the most efficient fine-tuning techniques."
-description_zh: "一步一步的指南，使用低秩适应（LoRA），一种最有效的微调技术，将强大的 Gemma 3n 模型适应于您的特定需求。"
-pubDate: 2025-06-25
+description: "Unlock the full potential of Gemma 3n by fine-tuning it with Low-Rank Adaptation (LoRA). This guide provides a step-by-step tutorial on how to adapt the model for a specific task, such as generating SQL queries, using the `mlx-vlm` library."
+pubDate: 2025-07-01
 lastUpdated: 2025-07-01
-heroImage: "/blog-placeholder-2.jpg"
+author: "The Gemma-3n.net Team"
+tags: ["Fine-tuning", "LoRA", "Custom Tasks", "Tutorial"]
+draft: false
+lang: "en"
 ---
 
 Gemma 3n's base models are incredibly powerful, but its true potential is unlocked when you fine-tune it for your specific domain or task. Whether you want to create a chatbot that understands your company's jargon or a code assistant that knows your proprietary libraries, fine-tuning is the key.
@@ -88,48 +89,4 @@ Notice how few parameters are actually trainable! That's the power of PEFT.
 
 Now, we use the standard `Trainer` from the `transformers` library, but we pass it our `lora_model` instead of the original one.
 
-```python
-from transformers import TrainingArguments, Trainer
-
-training_args = TrainingArguments(
-    output_dir="./gemma3n-lora-movie-reviews",
-    per_device_train_batch_size=4,
-    num_train_epochs=3,
-    logging_steps=10,
-    save_steps=50,
-)
-
-trainer = Trainer(
-    model=lora_model,
-    args=training_args,
-    train_dataset=dataset['train'],
-    # You would also pass your tokenizer and a data collator here
-)
-
-# Start fine-tuning!
-trainer.train()
 ```
-
-### Step 5: Inference with Your Fine-Tuned Model
-
-After training, the base model is still untouched. The `trainer` saves the LoRA adapter weights in the output directory. To use your fine-tuned model, you load the base model and then apply the trained adapter.
-
-```python
-from peft import PeftModel
-
-# Load the base model again
-base_model = AutoModelForCausalLM.from_pretrained(model_name)
-
-# Load the LoRA adapter and merge it
-lora_model = PeftModel.from_pretrained(base_model, "./gemma3n-lora-movie-reviews")
-
-# Now you can generate text with your specialized model
-input_text = "The new sci-fi blockbuster was"
-input_ids = tokenizer(input_text, return_tensors="pt").input_ids
-
-outputs = lora_model.generate(input_ids)
-print(tokenizer.decode(outputs[0], skip_special_tokens=True))
-# Expected output: ... a visually stunning but narratively weak experience.
-```
-
-And that's it! You've successfully fine-tuned Gemma 3n on a custom task using LoRA, creating a specialized, efficient, and powerful new model. 

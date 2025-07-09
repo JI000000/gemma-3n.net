@@ -1,4 +1,6 @@
 ---
+import { useTranslations, getLangFromUrl } from '../i18n';
+
 interface Props {
   title: string;
   url: URL | string;
@@ -6,6 +8,9 @@ interface Props {
 
 const { title, url } = Astro.props;
 const postUrl = url.toString();
+
+const lang = getLangFromUrl(new URL(postUrl));
+const t = useTranslations(lang);
 
 const shareLinks = {
     twitter: `https://twitter.com/intent/tweet?url=${encodeURIComponent(postUrl)}&text=${encodeURIComponent(title)}`,
@@ -15,14 +20,14 @@ const shareLinks = {
 ---
 
 <div class="share-buttons mt-8 pt-6 border-t border-slate-200 dark:border-gray-700">
-    <h4 class="font-bold text-lg text-slate-800 dark:text-gray-200 mb-3">Share this article</h4>
+    <h4 class="font-bold text-lg text-slate-800 dark:text-gray-200 mb-3">{t('blog.share')}</h4>
     <div class="flex items-center gap-3">
         <!-- Twitter -->
-        <a href={shareLinks.twitter} target="_blank" rel="noopener noreferrer" aria-label="Share on Twitter" class="p-2 rounded-full bg-slate-200 dark:bg-gray-700 hover:bg-slate-300 dark:hover:bg-gray-600 transition-colors">
+        <a href={shareLinks.twitter} target="_blank" rel="noopener noreferrer" aria-label={t('blog.share.twitter')} class="p-2 rounded-full bg-slate-200 dark:bg-gray-700 hover:bg-slate-300 dark:hover:bg-gray-600 transition-colors">
             <svg class="w-5 h-5 text-slate-800 dark:text-gray-200" viewBox="0 0 24 24" fill="currentColor"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616v.064c0 2.298 1.634 4.215 3.792 4.654-.707.192-1.462.216-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.588-7.52 2.588-.49 0-.974-.028-1.455-.086 2.685 1.722 5.873 2.723 9.282 2.723 11.133 0 17.22-9.219 17.22-17.22 0-.262-.006-.523-.018-.783A12.307 12.307 0 0 0 24 4.557z"/></svg>
         </a>
         <!-- LinkedIn -->
-        <a href={shareLinks.linkedin} target="_blank" rel="noopener noreferrer" aria-label="Share on LinkedIn" class="p-2 rounded-full bg-slate-200 dark:bg-gray-700 hover:bg-slate-300 dark:hover:bg-gray-600 transition-colors">
+        <a href={shareLinks.linkedin} target="_blank" rel="noopener noreferrer" aria-label={t('blog.share.linkedin')} class="p-2 rounded-full bg-slate-200 dark:bg-gray-700 hover:bg-slate-300 dark:hover:bg-gray-600 transition-colors">
             <svg class="w-5 h-5 text-slate-800 dark:text-gray-200" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
         </a>
         <!-- Reddit -->
@@ -30,14 +35,17 @@ const shareLinks = {
             <svg class="w-5 h-5 text-slate-800 dark:text-gray-200" viewBox="0 0 24 24" fill="currentColor"><path d="M12.021,2.001 C9.255,2.001 7,4.256 7,7.022 C7,9.782 9.255,12.037 12.021,12.037 C14.787,12.037 17.042,9.782 17.042,7.022 C17.042,4.256 14.787,2.001 12.021,2.001 Z M12.021,10.026 C10.368,10.026 9.01,8.668 9.01,7.016 C9.01,5.364 10.368,4.006 12.021,4.006 C13.673,4.006 15.031,5.364 15.031,7.016 C15.031,8.668 13.673,10.026 12.021,10.026 Z M20.95,12.115 C20.444,11.583 19.82,11.161 19.141,10.875 C20.155,9.833 20.81,8.496 20.81,7.022 C20.81,3.148 16.784,0 12.021,0 C7.258,0 3.232,3.148 3.232,7.022 C3.232,8.496 3.887,9.833 4.9,10.875 C4.221,11.161 3.597,11.583 3.091,12.115 C1.171,14.155 0,16.946 0,20.001 L0,22 C0,23.103 0.897,24 2,24 L22.042,24 C23.145,24 24.042,23.103 24.042,22 L24.042,20.001 C24.042,16.946 22.871,14.155 20.95,12.115 Z M2.01,22.001 L2.01,20.015 C2.01,17.413 3.012,15.049 4.636,13.344 C5.402,13.736 6.262,14.003 7.185,14.003 L16.857,14.003 C17.78,14.003 18.64,13.736 19.406,13.344 C21.03,15.049 22.032,17.413 22.032,20.015 L22.032,22.001 L2.01,22.001 Z"/></svg>
         </a>
         <!-- Copy Link -->
-        <button id="copy-link-btn" aria-label="Copy link to clipboard" class="p-2 rounded-full bg-slate-200 dark:bg-gray-700 hover:bg-slate-300 dark:hover:bg-gray-600 transition-colors">
+        <button id="copy-link-btn" aria-label={t('blog.share.copy')} class="p-2 rounded-full bg-slate-200 dark:bg-gray-700 hover:bg-slate-300 dark:hover:bg-gray-600 transition-colors">
             <svg class="w-5 h-5 text-slate-800 dark:text-gray-200" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 8.25V6a2.25 2.25 0 00-2.25-2.25H6A2.25 2.25 0 003.75 6v8.25A2.25 2.25 0 006 16.5h2.25m8.25-8.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-7.5A2.25 2.25 0 018.25 18v-1.5m8.25-8.25h.008v.008h-.008V8.25z" /></svg>
         </button>
     </div>
     <p id="copy-feedback" class="text-sm text-green-600 dark:text-green-500 h-4 mt-2"></p>
 </div>
 
-<script is:inline>
+<script define:vars={{
+    copySuccessText: t('blog.share.copied'),
+    copyFailText: "Failed to copy" // 保持英文或添加新的翻译 key
+}}>
     const copyBtn = document.getElementById('copy-link-btn');
     const copyFeedback = document.getElementById('copy-feedback');
     const postUrl = window.location.href;
@@ -46,14 +54,14 @@ const shareLinks = {
         copyBtn.addEventListener('click', () => {
             navigator.clipboard.writeText(postUrl).then(() => {
                 if (copyFeedback) {
-                    copyFeedback.textContent = 'Link copied!';
+                    copyFeedback.textContent = copySuccessText;
                     setTimeout(() => {
                         copyFeedback.textContent = '';
                     }, 2000);
                 }
             }).catch(err => {
                 if (copyFeedback) {
-                    copyFeedback.textContent = 'Failed to copy';
+                    copyFeedback.textContent = copyFailText;
                 }
                 console.error('Failed to copy: ', err);
             });

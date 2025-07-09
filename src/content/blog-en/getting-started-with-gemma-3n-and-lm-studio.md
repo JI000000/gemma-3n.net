@@ -1,8 +1,10 @@
 ---
 title: "Getting Started with Gemma 3n and LM Studio: A Visual Guide"
 description: "A beginner-friendly visual guide to running Google's Gemma 3n models on your local computer using LM Studio. No command line needed!"
-pubDate: 2025-07-01
+pubDate: 2024-06-30
 lastUpdated: 2025-07-01
+draft: false
+lang: "en"
 author: "The Gemma-3n.net Team"
 tags: ["Gemma 3n", "LM Studio", "Local LLM", "Tutorial", "GUI"]
 ---

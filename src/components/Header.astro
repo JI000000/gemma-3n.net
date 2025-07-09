@@ -1,7 +1,7 @@
 ---
 import LanguageToggle from './LanguageToggle.astro';
 import ThemeToggleButton from './ThemeToggleButton.astro';
-import { getLangFromUrl, useTranslations, getLocalizedPath } from '../i18n/index.ts';
+import { getLangFromUrl, useTranslations, getLocalizedPath } from '../i18n';
 
 const lang = getLangFromUrl(Astro.url);
 const currentPage = Astro.url.pathname;

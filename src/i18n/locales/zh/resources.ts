@@ -1,0 +1,18 @@
+export const resources = {
+  'resources.heading': 'Resources',
+  'resources.subtitle': 'Essential links to get you started and building with Gemma 3n.',
+  'resources.category.download': 'Download Models',
+  'resources.category.api': 'Official APIs & Guides',
+  'resources.download.hf.title': 'Hugging Face',
+  'resources.download.hf.desc': 'Access all Gemma 3n models, GGUF versions, and community-tuned variants.',
+  'resources.download.ollama.title': 'Ollama',
+  'resources.download.ollama.desc': 'Pull and run Gemma 3n models with a single command on your local machine.',
+  'resources.download.lmstudio.title': 'LM Studio',
+  'resources.download.lmstudio.desc': 'Discover and run Gemma 3n through a user-friendly desktop application.',
+  'resources.api.studio.title': 'Google AI Studio',
+  'resources.api.studio.desc': 'Experiment with Gemma 3n models directly in your browser with Google\'s free tool.',
+  'resources.api.keras.title': 'Keras',
+  'resources.api.keras.desc': 'Utilize Gemma 3n with Keras, Google\'s high-level API for building and training models.',
+  'resources.api.paper.title': 'Technical Report',
+  'resources.api.paper.desc': 'Read the official paper from Google for a deep dive into Gemma 3n\'s architecture.',
+} as const; 

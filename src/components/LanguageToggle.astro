@@ -1,20 +1,13 @@
 ---
+import { getLanguageRoute } from '../i18n/route-mapping';
+
 // Get current language from URL or default to 'en'
 const currentLang = Astro.url.pathname.startsWith('/zh') ? 'zh' : 'en';
 const currentPath = Astro.url.pathname;
 
-// 只对有对应页面的路由做中英文切换
-const pageMap = [
-  '/about',
-  '/toolkit',
-  '/demo',
-  '/blog',
-  '/'
-];
-let enPath = currentPath.replace(/^\/zh/, '') || '/';
-let zhPath = currentPath.startsWith('/zh') ? currentPath : '/zh' + (currentPath === '/' ? '' : currentPath);
-if (!pageMap.includes(enPath)) enPath = '/';
-if (!pageMap.includes(zhPath.replace(/^\/zh/, '') || '/')) zhPath = '/zh';
+// Use the new route mapping system
+const enPath = getLanguageRoute(currentPath, 'en');
+const zhPath = getLanguageRoute(currentPath, 'zh');
 ---
 
 <div class="language-toggle">

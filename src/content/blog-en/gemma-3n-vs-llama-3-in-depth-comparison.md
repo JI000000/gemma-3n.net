@@ -1,11 +1,14 @@
 ---
-title: "Gemma 3n vs. Llama 3: Which is Best for Your Local AI Setup?"
-description: "A deep-dive comparison between Google's Gemma 3n and Meta's Llama 3 for local development. We analyze benchmarks, hardware needs, and use cases to help you choose."
-pubDate: 2025-06-28
+title: "Gemma 3n vs. Llama 3: In-Depth Comparison"
+title_zh: "Gemma 3n与Llama 3深度对比"
+description: "A comprehensive comparison between Google's Gemma 3n and Meta's Llama 3. We analyze performance, efficiency, and real-world applications to help you choose the right model."
+description_zh: "Google的Gemma 3n与Meta的Llama 3全面对比。我们分析性能、效率和实际应用，帮助你选择合适的模型。"
+pubDate: 2025-06-24
 lastUpdated: 2025-07-01
-heroImage: "/blog/gemma-vs-llama.jpg"
-author: "The Gemma-3n.net Team"
-tags: ["comparison", "gemma-3n", "llama-3", "benchmarks"]
+author: "Gemma-3n.net Team"
+tags: ["gemma-3n", "llama-3", "comparison", "performance", "benchmarks"]
+draft: false
+lang: "en"
 ---
 
 Choosing the right open-source Large Language Model (LLM) for local development is a critical decision. It's a balance between performance, hardware requirements, and the specific tasks you have in mind. As of mid-2025, two of the most talked-about model families are Google's Gemma and Meta's Llama.

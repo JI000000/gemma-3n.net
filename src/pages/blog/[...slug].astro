@@ -11,7 +11,7 @@ const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 
 export async function getStaticPaths() {
-  const posts = await getCollection('blog');
+  const posts = await getCollection('blog-en');
   return posts.map(entry => ({
     params: { slug: entry.slug },
   }));
@@ -21,7 +21,7 @@ const { slug } = Astro.params;
 if (!slug) {
   return Astro.redirect('/404');
 }
-const entry = await getEntry('blog', slug);
+const entry = await getEntry('blog-en', slug);
 
 if (!entry) {
   return Astro.redirect('/404');

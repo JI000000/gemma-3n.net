@@ -1,10 +1,12 @@
 ---
-title: "Fun with SVGs: Generating and Modifying Images with Gemma 3n"
-description: "A creative tutorial on how to use Gemma 3n's code generation capabilities to create and manipulate Scalable Vector Graphics (SVGs) directly from text prompts."
+title: "Generating SVGs with Gemma 3n"
+description: "Learn how to use Gemma 3n to generate scalable vector graphics (SVG) code. From simple shapes to complex illustrations, discover the power of AI-driven design."
 pubDate: 2025-06-29
 lastUpdated: 2025-07-01
-author: "The Gemma-3n.net Team"
+author: "Gemma-3n.net Team"
 tags: ["Gemma 3n", "SVG", "Image Generation", "Code Generation", "Creative AI", "Tutorial"]
+draft: false
+lang: "en"
 ---
 
 One of the most creative and fun applications of a powerful language model like Gemma 3n is generating not just text, but structured code that has a visual output. Scalable Vector Graphics (SVGs) are perfect for this, as they are just XML-based text files that describe an image.

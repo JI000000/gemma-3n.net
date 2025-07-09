@@ -3,6 +3,8 @@ title: "How to Run Gemma 3n Locally: A Beginner's Guide"
 description: "Get started with Google's latest open-source model, Gemma 3n. This step-by-step tutorial walks you through setting it up on your local machine."
 pubDate: 2025-06-20
 lastUpdated: 2025-07-01
+draft: false
+lang: "en"
 heroImage: "/blog-placeholder-1.jpg"
 author: "The Gemma-3n.net Team"
 tags: ["tutorial", "ollama", "local-ai"]

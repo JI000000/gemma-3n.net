@@ -1,49 +1,118 @@
 ---
 import MainLayout from '../../layouts/MainLayout.astro';
-import WhatIsGemma from '../../components/WhatIsGemma.astro';
-import Architecture from '../../components/Architecture.astro';
-import UseCases from '../../components/UseCases.astro';
+import PWAInstallPrompt from '../../components/PWAInstallPrompt.astro';
+import { getLangFromUrl, useTranslations } from '../../i18n';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
 ---
 
-<MainLayout 
-  title="关于 Gemma 3n"
-  description="了解Gemma 3n，谷歌的下一代设备端AI模型。探索其架构、功能以及独特之处。"
->
-  <main class="pt-24 sm:pt-32">
-    <div class="max-w-4xl mx-auto px-4">
-      <header class="text-center mb-16">
-        <h1 class="text-4xl font-bold text-slate-900 dark:text-white sm:text-5xl !leading-tight">
-          关于 Gemma 3n
-        </h1>
-        <p class="mt-4 text-xl text-slate-600 dark:text-gray-400">
-          谷歌最高效的设备端AI开源模型终极指南。
+<MainLayout title={t('nav.about')}>
+  <section class="max-w-6xl mx-auto px-4 py-16">
+    <!-- What is Gemma 3n -->
+    <div class="mb-16">
+      <h1 class="text-4xl font-bold text-slate-900 dark:text-white mb-8 text-center">
+        {t('about.whatis.title')}
+      </h1>
+      <div class="prose prose-lg dark:prose-invert max-w-none">
+        <p class="text-xl text-slate-600 dark:text-gray-400 leading-relaxed mb-6">
+          {t('about.whatis.p1')}
         </p>
-      </header>
-
-      <!-- All components here should already have i18n support -->
-      <div class="space-y-20">
-        <WhatIsGemma />
-        <Architecture />
-        <UseCases />
+        <p class="text-lg text-slate-600 dark:text-gray-400 leading-relaxed">
+          {t('about.whatis.p2')}
+        </p>
       </div>
-
-      <!-- Call to Action -->
-      <section class="mt-20 py-16 text-center bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-xl">
-        <div class="max-w-2xl mx-auto px-4">
-          <h2 class="text-3xl font-bold text-slate-900 dark:text-white mb-4">准备好深入探索了吗？</h2>
-          <p class="text-slate-600 dark:text-gray-400 mb-8">
-            浏览我们的教程，查看开发者工具箱，或通过交互式Demo开始构建。
-          </p>
-          <div class="flex flex-wrap justify-center gap-4">
-            <a href="/zh/blog" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors">
-              浏览教程
-            </a>
-            <a href="/zh/demo" class="border-2 border-blue-600 text-blue-600 dark:border-blue-400 dark:text-blue-400 hover:bg-blue-600 hover:text-white dark:hover:bg-blue-400 dark:hover:text-slate-900 px-6 py-3 rounded-lg font-medium transition-colors">
-              试用Demo
-            </a>
-          </div>
-        </div>
-      </section>
     </div>
-  </main>
+
+    <!-- Architecture Section -->
+    <div class="mb-16">
+      <h2 class="text-3xl font-bold text-slate-900 dark:text-white mb-8 text-center">
+        {t('about.architecture.title')}
+      </h2>
+      <p class="text-lg text-slate-600 dark:text-gray-400 leading-relaxed mb-8">
+        {t('about.architecture.p1')}
+      </p>
+      
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+        <div class="bg-slate-50 dark:bg-gray-800 p-6 rounded-lg">
+          <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3">
+            {t('about.architecture.feature1.title')}
+          </h3>
+          <p class="text-slate-600 dark:text-gray-400">
+            {t('about.architecture.feature1.desc')}
+          </p>
+        </div>
+        
+        <div class="bg-slate-50 dark:bg-gray-800 p-6 rounded-lg">
+          <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3">
+            {t('about.architecture.feature2.title')}
+          </h3>
+          <p class="text-slate-600 dark:text-gray-400">
+            {t('about.architecture.feature2.desc')}
+          </p>
+        </div>
+        
+        <div class="bg-slate-50 dark:bg-gray-800 p-6 rounded-lg">
+          <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3">
+            {t('about.architecture.feature3.title')}
+          </h3>
+          <p class="text-slate-600 dark:text-gray-400">
+            {t('about.architecture.feature3.desc')}
+          </p>
+        </div>
+      </div>
+      
+      <p class="text-lg text-slate-600 dark:text-gray-400 leading-relaxed">
+        {t('about.architecture.p2')}
+      </p>
+    </div>
+
+    <!-- Use Cases Section -->
+    <div class="mb-16">
+      <h2 class="text-3xl font-bold text-slate-900 dark:text-white mb-8 text-center">
+        {t('about.usecases.title')}
+      </h2>
+      <p class="text-lg text-slate-600 dark:text-gray-400 leading-relaxed mb-8">
+        {t('about.usecases.p1')}
+      </p>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div class="bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-blue-900/20 dark:to-indigo-900/20 p-6 rounded-lg">
+          <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3">
+            {t('about.usecases.case1.title')}
+          </h3>
+          <p class="text-slate-600 dark:text-gray-400">
+            {t('about.usecases.case1.desc')}
+          </p>
+        </div>
+        
+        <div class="bg-gradient-to-br from-green-50 to-emerald-100 dark:from-green-900/20 dark:to-emerald-900/20 p-6 rounded-lg">
+          <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3">
+            {t('about.usecases.case2.title')}
+          </h3>
+          <p class="text-slate-600 dark:text-gray-400">
+            {t('about.usecases.case2.desc')}
+          </p>
+        </div>
+        
+        <div class="bg-gradient-to-br from-purple-50 to-pink-100 dark:from-purple-900/20 dark:to-pink-900/20 p-6 rounded-lg">
+          <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3">
+            {t('about.usecases.case3.title')}
+          </h3>
+          <p class="text-slate-600 dark:text-gray-400">
+            {t('about.usecases.case3.desc')}
+          </p>
+        </div>
+        
+        <div class="bg-gradient-to-br from-orange-50 to-red-100 dark:from-orange-900/20 dark:to-red-900/20 p-6 rounded-lg">
+          <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3">
+            {t('about.usecases.case4.title')}
+          </h3>
+          <p class="text-slate-600 dark:text-gray-400">
+            {t('about.usecases.case4.desc')}
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
 </MainLayout> 
