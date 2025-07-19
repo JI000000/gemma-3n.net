@@ -9,4 +9,5 @@ export const nav = {
   'nav.demo': '演示',
   'nav.compare': '对比',
   'nav.leaderboard': '排行榜',
+  'nav.model-selector': '模型选择器',
 } as const; 

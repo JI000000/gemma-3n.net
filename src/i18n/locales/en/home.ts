@@ -6,12 +6,12 @@ export const home = {
   'hero.cta.secondary': 'View Demos',
   
   // Architecture section
-  'architecture.title': 'MatFormer Architecture',
-  'architecture.desc': 'Gemma 3n introduces the innovative MatFormer architecture for efficient multimodal processing.',
-  'architecture.matformer': 'MatFormer Design',
-  'architecture.matformer_desc': 'Novel nested Transformer architecture that adapts computation based on task complexity.',
-  'architecture.efficient': 'Efficient Processing',
-  'architecture.efficient_desc': 'Optimized for on-device inference with minimal memory footprint.',
+  'home.architecture.title': 'MatFormer Architecture',
+  'home.architecture.desc': 'Gemma 3n introduces the innovative MatFormer architecture for efficient multimodal processing.',
+  'home.architecture.matformer': 'MatFormer Design',
+  'home.architecture.matformer_desc': 'Novel nested Transformer architecture that adapts computation based on task complexity.',
+  'home.architecture.efficient': 'Efficient Processing',
+  'home.architecture.efficient_desc': 'Optimized for on-device inference with minimal memory footprint.',
   
   // SEO
   'seo.home.title': 'Gemma-3n.net: The Ultimate Developer Guide for Google\'s Gemma 3n',

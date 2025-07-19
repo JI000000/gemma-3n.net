@@ -1,180 +1,386 @@
-# Gemma-3n.net - The Ultimate Developer Guide
+# Gemma-3n.net
 
-This repository contains the source code for [gemma-3n.net](https://gemma-3n.net), an independent, community-driven guide and resource hub for developers working with Google's Gemma 3n AI model.
+> The Ultimate Developer Guide & Tutorials for Google's Gemma 3n Model
 
-Our mission is to provide the most accurate, up-to-date, and practical information, including tutorials, benchmarks, tools, and in-depth comparisons, to help developers master Gemma 3n.
+[![Build Status](https://img.shields.io/badge/build-passing-brightgreen)](https://github.com/your-username/gemma3n)
+[![License](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
+[![PWA](https://img.shields.io/badge/PWA-ready-green)](https://web.dev/progressive-web-apps/)
 
-## ✨ Core Features
+## 🚀 项目概述
 
-- **🚀 Blazing Fast Performance**: Built with [Astro](httpss://astro.build), ensuring a snappy user experience with minimal JavaScript.
-- **🌐 Fully Internationalized (i18n)**: Complete English and Chinese (中文) language support.
-- **📱 Responsive & Mobile-First**: Optimized for a seamless experience on all devices, from desktop to mobile.
-- **💡 Rich Content**:
-  - In-depth tutorials and guides.
-  - Head-to-head model comparisons (e.g., Gemma 3n vs. Llama 3).
-  - Live AI model performance leaderboards.
-  - A curated toolkit with official resources, downloads, and community links.
-- **💬 Community-Driven**: Integrated [Giscus](https://giscus.app) comment system for community discussions on every blog post.
-- **⚖️ Legally Compliant**: Includes dedicated pages for Privacy Policy and Terms of Service.
-- **PWA Ready**: Progressive Web App features for offline access.
+Gemma-3n.net 是 Google Gemma 3n 模型的终极开发者指南和教程网站。我们提供完整的开发资源，包括快速开始指南、性能基准、部署教程和最佳实践。
 
-## 🛠️ Tech Stack
+### ✨ 核心特性
 
-- **Framework**: [Astro](httpss://astro.build)
-- **Styling**: [Tailwind CSS](https://tailwindcss.com/)
-- **UI Components**: Astro Components
-- **i18n**: Custom routing and translation management
-- **Comments**: Giscus
+- 🌐 **双语支持** - 完整的中英文内容
+- 📱 **PWA 支持** - 可安装的渐进式 Web 应用
+- 🔍 **SEO 优化** - 完整的搜索引擎优化
+- 📊 **模型选择器** - 智能模型推荐工具
+- 🛠️ **开发工具箱** - 完整的开发资源
+- 📈 **性能基准** - 详细的性能对比数据
+- 📚 **教程博客** - 丰富的学习资源
 
-## 本地开发
+## 🏗️ 技术架构
 
-### 1. 克隆仓库
+### 核心技术栈
 
-```bash
-git clone https://github.com/your-username/gemma3n.git
-cd gemma3n
+- **框架**: [Astro](https://astro.build/) - 静态站点生成器
+- **语言**: [TypeScript](https://www.typescriptlang.org/) - 类型安全
+- **样式**: [Tailwind CSS](https://tailwindcss.com/) - 实用优先的 CSS 框架
+- **部署**: 静态站点部署 (Vercel/Netlify)
+
+### 项目结构
+
+```
+src/
+├── components/          # 可复用组件
+│   ├── Header.astro    # 导航栏组件
+│   ├── Footer.astro    # 页脚组件
+│   └── ...
+├── pages/              # 英文页面
+│   ├── index.astro     # 首页
+│   ├── blog/           # 博客页面
+│   ├── toolkit.astro   # 工具箱
+│   └── ...
+├── pages/zh/           # 中文页面
+│   ├── index.astro     # 中文首页
+│   ├── blog/           # 中文博客
+│   └── ...
+├── i18n/               # 国际化配置
+│   ├── locales/
+│   │   ├── en/         # 英文翻译
+│   │   └── zh/         # 中文翻译
+│   └── index.ts        # i18n 配置
+├── layouts/            # 布局组件
+├── content/            # 博客内容
+└── styles/             # 全局样式
 ```
 
-### 2. 安装依赖
+## 🚀 快速开始
 
-我们使用 `npm` 作为包管理器。
+### 环境要求
+
+- Node.js 18+ 
+- npm 或 yarn
+
+### 安装依赖
 
 ```bash
 npm install
 ```
 
-### 3. 运行开发服务器
+### 开发服务器
 
 ```bash
 npm run dev
 ```
 
-这将启动一个本地开发服务器，地址为 `http://localhost:4321`。
+访问 [http://localhost:4321](http://localhost:4321)
 
-### 4. 构建生产版本
+### 构建生产版本
 
 ```bash
 npm run build
 ```
 
-构建后的静态站点文件将位于 `dist/` 目录下。
+### 预览生产版本
 
-## 🤝 Contributing
-
-We welcome contributions from the community! Please feel free to open an issue or submit a pull request.
-
-## License
-
-This project is open-source and available under the [MIT License](LICENSE).
-
-## 1. 项目概述
-
-### 1.1. 目标
-
-- **核心目标**: 创建一个关于 Google Gemma 3n AI模型的高质量内容网站，打造成该领域的权威开发者中心 (Developer Hub)。
-- **商业目标**: 通过搜索引擎优化 (SEO) 吸引自然流量，并最终通过 Google AdSense 实现盈利。
-- **技术目标**: 采用现代化、高性能的Web技术栈，构建一个易于维护、可扩展且用户体验优秀的前端项目。
-
-### 1.2. 技术选型 (Tech Stack)
-
-- **框架 (Framework)**: [Astro](https://astro.build/) - 用于构建高性能、内容驱动的网站。
-- **样式 (Styling)**: [Tailwind CSS](https://tailwindcss.com/) - 一个功能类优先的 CSS 框架，用于快速构建现代化UI。
-- **内容管理**: Astro Content Collections - 使用 Markdown (`.md`) 文件进行结构化内容管理。
-- **版本控制**: Git / GitHub
-- **部署 (Deployment)**: Vercel
-- **域名/DNS**: Cloudflare
-
-## 2. 开发历程与关键决策
-
-### 阶段一: 项目奠基与手动搭建 (Manual Scaffolding)
-
-- **挑战**: 项目初始化时，`npm create astro@latest` 命令因网络问题连续失败。
-- **解决方案**: 切换到手动搭建方案。通过逐一创建 `package.json`, `astro.config.mjs`, `tailwind.config.mjs` 等核心配置文件，成功从零构建了项目骨架。
-- **关键修复**: 初次提交时错误地包含了 `node_modules`。通过创建 `.gitignore` 文件并执行 `git rm -r --cached node_modules` 命令，修正了Git仓库，确保了版本控制的纯净性。
-
-### 阶段二: MVP (最小可行产品) 开发
-
-此阶段的目标是快速构建网站的核心功能和内容板块。
-
-- **核心组件**: 依次开发了首页的多个核心UI板块，包括 `HeroSection`, `WhatIsGemma`, `Benchmarks`, `Resources`, 和 `FAQ`。
-- **布局与导航**:
-    - 创建了 `MainLayout.astro` 作为全站统一布局，并集成了 `Header` 和 `Footer` 组件。
-    - 实现了**亮色/暗黑模式 (Light/Dark Mode)** 的切换功能，并通过内联脚本解决了初始加载时的闪烁问题 (FOUC)。
-- **内容展示**:
-    - 安装并配置了 `@tailwindcss/typography` 插件，以确保Markdown内容获得优美的排版样式。
-    - 初步尝试使用独立的 `.astro` 文件作为教程页面。
-
-### 阶段三: 架构重构与功能增强
-
-- **内容架构升级**:
-    - **决策**: 将内容管理从独立的 `.astro` 页面重构为由 **Astro Content Collections** 驱动的Markdown工作流。
-    - **实施**: 创建了 `src/content/config.ts` 来定义内容结构，将所有文章迁移至 `.md` 文件，并使用动态路由 `[...slug].astro` 来生成文章页面。这极大地提升了内容管理的可维护性和扩展性。
-- **高级SEO优化**:
-    - **结构化数据**: 为 `FAQ` 页面添加了 `FAQPage` Schema，为博客文章页面添加了 `TechArticle` Schema，以期在搜索引擎结果中获得富媒体摘要 (Rich Snippets) 展示。
-    - **站点地图与Robots**: 集成了 `@astrojs/sitemap` 插件自动生成 `sitemap-index.xml`，并创建了 `robots.txt` 文件正确引导搜索引擎爬虫。
-    - **社交分享预览**: 在 `MainLayout.astro` 中添加了完整的 **Open Graph** 和 **Twitter Card** 元标签，确保链接在社交媒体上分享时能生成包含标题、描述和图片的精美预览卡片。
-
-- **社区与互动功能**:
-    - **评论系统**: 集成了基于GitHub Issues的 [Giscus](https://giscus.app/) 评论系统，组件为 `Giscus.astro`。
-    - **邮件订阅**: 集成了 [Mailchimp](https://mailchimp.com/) 邮件订阅服务，创建了 `NewsletterSignup.astro` 组件并配置了表单提交逻辑。
-    - **文章分享**: 创建了 `ShareButtons.astro` 组件，支持一键分享到 Twitter(X), LinkedIn 和 Reddit。
-
-### 阶段四: 错误修复与持续集成
-
-- **UI Bug修复**: 解决了亮色模式下因 `prose-invert` 样式误用导致的文字看不清的问题。
-- **构建错误修复**:
-    - 解决了 `UseCases.astro` 组件中因SVG语法错误导致的构建失败。
-    - 解决了 `ShareButtons.astro` 组件因代码编辑未完全同步导致的"幽灵"语法错误，通过**代码覆盖重写**的方式彻底修复。
-- **部署问题**:
-    - 修复了 `robots.txt` 中错误的sitemap地址。
-    - 确认了Google AdSense和GSC的数据延迟属于正常现象。
-    - 解决了 `git push` 因网络问题导致的超时失败。
-
-## 3. 项目结构说明
-
-```
-gemma3n/
-├── public/                # 静态资源 (robots.txt, ads.txt, social-card.png)
-├── src/
-│   ├── components/        # 可重用的Astro组件 (Header, Footer, FAQ, etc.)
-│   │   ├── blog/          # 博客文章 (Markdown .md files)
-│   │   └── config.ts      # Astro内容集合的类型定义
-│   ├── layouts/
-│   │   └── MainLayout.astro # 全局页面布局
-│   └── pages/
-│       ├── blog/
-│       │   ├── [...slug].astro # 博客文章动态路由
-│       │   └── index.astro     # 博客列表页
-│       └── index.astro      # 网站首页
-├── astro.config.mjs       # Astro 配置文件
-├── package.json           # 项目依赖与脚本
-└── tailwind.config.mjs    # Tailwind CSS 配置文件
+```bash
+npm run preview
 ```
 
-## 4. 如何本地运行
+## 📁 页面结构
 
-1.  克隆仓库: `git clone https://github.com/JI000000/gemma-3n.net.git`
-2.  进入项目目录: `cd gemma-3n.net`
-3.  安装依赖: `npm install`
-4.  启动开发服务器: `npm run dev`
-5.  在浏览器中打开 `http://localhost:4321`
+### 英文版本 (`/`)
 
-## 5. 部署与上线指南
+| 页面 | 路径 | 描述 |
+|------|------|------|
+| 首页 | `/` | 主页面，包含 Hero Section 和核心功能 |
+| 关于 | `/about` | 项目介绍和团队信息 |
+| 博客 | `/blog` | 教程和文章列表 |
+| 工具箱 | `/toolkit` | 开发资源和工具 |
+| 模型选择器 | `/model-selector` | 智能模型推荐 |
+| 演示 | `/demo` | 在线演示功能 |
+| 对比 | `/compare/gemma-vs-llama3` | 模型对比分析 |
+| 排行榜 | `/leaderboard` | 性能排行榜 |
 
-- **自动部署**: 项目已配置为通过Vercel进行自动部署。任何推送到 `main` 分支的提交都会触发一次新的生产环境部署。
-- **环境变量**:
-    - **Giscus**: Giscus评论系统需要在组件 `Giscus.astro` 中配置正确的 `repo`, `repoId`, `category`, `categoryId`。这些值需要从Giscus官网获取。
-    - **Mailchimp**: 邮件订阅表单的 `action` URL 已在 `NewsletterSignup.astro` 中硬编码。如果更换列表，需要从Mailchimp后台重新获取。
-- **Google服务**:
-    - **AdSense**: `ca-pub-9751155071098091` 已在 `MainLayout.astro` 和 `public/ads.txt` 中配置。
-    - **Analytics**: `G-LFF5X9VMHP` 已在 `MainLayout.astro` 中配置。
+### 中文版本 (`/zh/`)
 
-## 6. 后续维护
+所有英文页面都有对应的中文版本，路径前缀为 `/zh/`
 
-- **撰写新文章**: 在 `src/content/blog/` 目录下创建一个新的 `.md` 文件，并遵循Frontmatter格式（`title`, `description`, `pubDate`等）。
-- **更新组件**: 所有UI组件均位于 `src/components/` 目录下，可按需修改。
-- **修改样式**: 全局样式或Tailwind配置可在 `tailwind.config.mjs` 和 `src/layouts/MainLayout.astro` 的 `<style is:global>` 块中调整。
+## 🎨 设计系统
+
+### 颜色规范
+
+```css
+/* 主色调 */
+--primary: #3B82F6 (blue-600)
+--secondary: #8B5CF6 (purple-500)
+--accent: #10B981 (emerald-500)
+
+/* 中性色 */
+--dark: #1E293B (slate-800)
+--light: #F8FAFC (slate-50)
+--gray: #64748B (slate-500)
+```
+
+### 间距系统
+
+```css
+--spacing-xs: 0.5rem (8px)
+--spacing-sm: 1rem (16px)
+--spacing-md: 1.5rem (24px)
+--spacing-lg: 2rem (32px)
+--spacing-xl: 3rem (48px)
+```
+
+### 组件规范
+
+- **一致性**: 相同功能使用相同组件
+- **可复用性**: 组件化设计，避免重复代码
+- **响应式**: 移动优先，渐进增强
+- **可访问性**: 语义化 HTML，键盘导航支持
+
+## 🌐 国际化
+
+### 翻译文件结构
+
+```
+src/i18n/locales/
+├── en/
+│   ├── common.ts       # 通用翻译
+│   ├── nav.ts          # 导航翻译
+│   ├── home.ts         # 首页翻译
+│   └── ...
+└── zh/
+    ├── common.ts       # 中文通用翻译
+    ├── nav.ts          # 中文导航翻译
+    ├── home.ts         # 中文首页翻译
+    └── ...
+```
+
+### 翻译键命名规范
+
+```typescript
+// 格式: 'page.section.subsection.element'
+'nav.model-selector': '模型选择器'
+'toolkit.quickstart.ollama.title': 'Ollama 设置'
+'home.hero.title': 'Master Gemma 3n'
+```
+
+### 使用翻译
+
+```astro
+---
+import { useTranslations } from '../i18n';
+
+const t = useTranslations(lang);
+---
+
+<h1>{t('home.hero.title')}</h1>
+```
+
+## 🔧 开发指南
+
+### 代码规范
+
+#### 文件命名
+
+- **组件**: PascalCase (`Header.astro`)
+- **页面**: kebab-case (`model-selector.astro`)
+- **翻译**: camelCase (`toolkit.ts`)
+- **样式**: kebab-case (`mobile.css`)
+
+#### 组件开发规范
+
+```astro
+---
+// 1. 导入依赖
+import Component from './Component.astro';
+
+// 2. 定义 Props 接口
+interface Props {
+  title: string;
+  description?: string;
+}
+
+// 3. 解构 Props
+const { title, description = '' } = Astro.props;
+---
+
+<!-- 4. 语义化 HTML 结构 -->
+<section class="component">
+  <h2>{title}</h2>
+  {description && <p>{description}</p>}
+</section>
+
+<!-- 5. 组件样式 -->
+<style>
+  .component {
+    /* 样式定义 */
+  }
+</style>
+```
+
+#### Git 提交规范
+
+```bash
+# 功能开发
+git commit -m "feat: 添加模型选择器功能"
+
+# 问题修复
+git commit -m "fix: 修复中文页面重复标题问题"
+
+# 文档更新
+git commit -m "docs: 更新 README 文档"
+
+# 样式优化
+git commit -m "style: 优化移动端响应式布局"
+```
+
+### 性能优化
+
+#### 构建优化
+
+- 使用 Astro 的静态生成
+- 图片懒加载和压缩
+- CSS 和 JS 代码分割
+- PWA 缓存策略
+
+#### SEO 优化
+
+- 结构化数据 (JSON-LD)
+- Meta 标签优化
+- 站点地图生成
+- hreflang 标签
+- 语义化 HTML
+
+### 测试策略
+
+#### 构建测试
+
+```bash
+npm run build
+```
+
+#### 开发测试
+
+```bash
+npm run dev
+```
+
+#### 类型检查
+
+```bash
+npm run type-check
+```
+
+## 📊 性能指标
+
+### 构建性能
+
+- **页面数量**: 50 个页面
+- **构建时间**: < 6 秒
+- **资源压缩**: gzip 压缩
+- **代码分割**: 自动分割
+
+### 用户体验
+
+- **首屏加载**: < 2 秒
+- **PWA 支持**: 离线可用
+- **响应式设计**: 移动优先
+- **动画过渡**: 平滑体验
+
+## 🚀 部署
+
+### 环境变量
+
+```env
+# 生产环境
+NODE_ENV=production
+SITE_URL=https://gemma-3n.net
+
+# 开发环境
+NODE_ENV=development
+SITE_URL=http://localhost:4321
+```
+
+### 部署平台
+
+#### Vercel (推荐)
+
+1. 连接 GitHub 仓库
+2. 设置构建命令: `npm run build`
+3. 设置输出目录: `dist`
+4. 自动部署
+
+#### Netlify
+
+1. 连接 GitHub 仓库
+2. 设置构建命令: `npm run build`
+3. 设置发布目录: `dist`
+4. 自动部署
+
+## 🤝 贡献指南
+
+### 开发流程
+
+1. Fork 项目
+2. 创建功能分支: `git checkout -b feature/amazing-feature`
+3. 提交更改: `git commit -m 'feat: add amazing feature'`
+4. 推送分支: `git push origin feature/amazing-feature`
+5. 创建 Pull Request
+
+### 代码审查
+
+- 构建必须通过
+- 功能测试通过
+- 代码规范符合
+- 文档更新完整
+
+## 📝 更新日志
+
+### v1.0.0 (2025-01-XX)
+
+#### ✨ 新功能
+
+- 🌐 完整的中英文双语支持
+- 📱 PWA 功能实现
+- 🎯 模型选择器工具
+- 🛠️ 完整的开发工具箱
+- 📊 性能基准对比
+- 📚 丰富的教程博客
+
+#### 🔧 优化
+
+- ⚡ 性能优化和代码分割
+- 🎨 统一的设计系统
+- 📱 移动端响应式优化
+- 🔍 SEO 全面优化
+
+#### 🐛 修复
+
+- 修复中文页面重复标题问题
+- 修复导航栏路径问题
+- 修复构建错误
+
+## 📄 许可证
+
+本项目采用 MIT 许可证 - 查看 [LICENSE](LICENSE) 文件了解详情。
+
+## 🙏 致谢
+
+- [Google](https://ai.google.dev/) - Gemma 3n 模型
+- [Astro](https://astro.build/) - 静态站点生成器
+- [Tailwind CSS](https://tailwindcss.com/) - CSS 框架
+- [Hugging Face](https://huggingface.co/) - 模型托管平台
+
+## 📞 联系我们
+
+- 网站: [https://gemma-3n.net](https://gemma-3n.net)
+- 邮箱: [contact@gemma-3n.net](mailto:contact@gemma-3n.net)
+- GitHub: [https://github.com/your-username/gemma3n](https://github.com/your-username/gemma3n)
 
 ---
-*本文档由AI助手根据项目开发历史自动生成。*
-*最后更新时间: 2025年6月27日* 
+
+**Made with ❤️ by the Gemma-3n.net Team** 

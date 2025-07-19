@@ -9,4 +9,5 @@ export const nav = {
   'nav.demo': 'Demo',
   'nav.compare': 'Compare',
   'nav.leaderboard': 'Leaderboard',
+  'nav.model-selector': 'Model Selector',
 } as const; 

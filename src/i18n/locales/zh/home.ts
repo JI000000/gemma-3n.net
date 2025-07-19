@@ -6,12 +6,12 @@ export const home = {
   'hero.cta.secondary': '查看演示',
   
   // Architecture section
-  'architecture.title': 'MatFormer架构',
-  'architecture.desc': 'Gemma 3n引入了创新的MatFormer架构，实现高效的多模态处理。',
-  'architecture.matformer': 'MatFormer设计',
-  'architecture.matformer_desc': '创新的嵌套Transformer架构，根据任务复杂度自适应调整计算。',
-  'architecture.efficient': '高效处理',
-  'architecture.efficient_desc': '针对设备端推理优化，内存占用极小。',
+  'home.architecture.title': 'MatFormer架构',
+  'home.architecture.desc': 'Gemma 3n引入了创新的MatFormer架构，实现高效的多模态处理。',
+  'home.architecture.matformer': 'MatFormer设计',
+  'home.architecture.matformer_desc': '创新的嵌套Transformer架构，根据任务复杂度自适应调整计算。',
+  'home.architecture.efficient': '高效处理',
+  'home.architecture.efficient_desc': '针对设备端推理优化，内存占用极小。',
   
   // SEO
   'seo.home.title': 'Gemma-3n.net: The Ultimate Developer Guide for Google\'s Gemma 3n',

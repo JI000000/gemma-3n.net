@@ -11,6 +11,7 @@ export const routeMapping = {
     '/compare/gemma-vs-llama3': { en: '/compare/gemma-vs-llama3', zh: '/zh/compare/gemma-vs-llama3' },
     '/leaderboard': { en: '/leaderboard', zh: '/zh/leaderboard' },
     '/blog': { en: '/blog', zh: '/zh/blog' },
+    '/model-selector': { en: '/model-selector', zh: '/zh/model-selector' },
     '/privacy': { en: '/privacy', zh: '/zh/privacy' },
     '/terms': { en: '/terms', zh: '/zh/terms' },
   },

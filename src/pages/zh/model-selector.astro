@@ -1,0 +1,892 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+import { getLangFromUrl, useTranslations } from '../../i18n';
+import { ModelRecommender } from '../../utils/modelRecommender';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+// SEO data
+const seoData = {
+  title: t('seo.title'),
+  description: t('seo.description'),
+  keywords: t('seo.keywords')
+};
+---
+
+<MainLayout {seoData}>
+  <!-- Hero Section -->
+  <section class="hero-section bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 py-20">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h1 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">
+        {t('title')}
+      </h1>
+      <p class="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-3xl mx-auto">
+        {t('description')}
+      </p>
+    </div>
+  </section>
+
+  <!-- Model Selector Container -->
+  <section class="py-16 bg-white dark:bg-gray-900">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div id="model-selector" class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700 overflow-hidden">
+        
+        <!-- Step Navigation -->
+        <div class="bg-gray-50 dark:bg-gray-700 px-6 py-4">
+          <div class="flex items-center justify-between">
+            <div class="flex space-x-8">
+              <div class="step-item active" data-step="1">
+                <div class="step-number">1</div>
+                <div class="step-label">{t('step.hardware')}</div>
+              </div>
+              <div class="step-item" data-step="2">
+                <div class="step-number">2</div>
+                <div class="step-label">{t('step.usecase')}</div>
+              </div>
+              <div class="step-item" data-step="3">
+                <div class="step-number">3</div>
+                <div class="step-label">{t('step.preferences')}</div>
+              </div>
+              <div class="step-item" data-step="4">
+                <div class="step-number">4</div>
+                <div class="step-label">{t('step.results')}</div>
+              </div>
+            </div>
+            <button id="start-over" class="text-sm text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 hidden">
+              {t('action.start-over')}
+            </button>
+          </div>
+        </div>
+
+        <!-- Content Area -->
+        <div class="p-8">
+          <!-- Step 1: Hardware Configuration -->
+          <div id="step-1" class="step-content active">
+            <div class="max-w-2xl mx-auto">
+              <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+                {t('hardware.title')}
+              </h2>
+              <p class="text-gray-600 dark:text-gray-300 mb-8">
+                {t('hardware.description')}
+              </p>
+
+              <form id="hardware-form" class="space-y-6">
+                <div>
+                  <label for="ram" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    {t('hardware.ram.label')}
+                  </label>
+                  <input
+                    type="number"
+                    id="ram"
+                    name="ram"
+                    min="1"
+                    max="128"
+                    class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                    placeholder={t('hardware.ram.placeholder')}
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label for="gpu" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    {t('hardware.gpu.label')}
+                  </label>
+                  <input
+                    type="text"
+                    id="gpu"
+                    name="gpu"
+                    class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                    placeholder={t('hardware.gpu.placeholder')}
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label for="cpu" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    {t('hardware.cpu.label')}
+                  </label>
+                  <input
+                    type="text"
+                    id="cpu"
+                    name="cpu"
+                    class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                    placeholder={t('hardware.cpu.placeholder')}
+                    required
+                  />
+                </div>
+
+                <div class="flex items-center justify-between pt-4">
+                  <button
+                    type="button"
+                    id="auto-detect"
+                    class="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 text-sm font-medium"
+                  >
+                    {t('hardware.auto-detect')}
+                  </button>
+                  <button
+                    type="button"
+                    id="next-step-1"
+                    class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors"
+                  >
+                    {t('action.next')}
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <!-- Step 2: Use Case Selection -->
+          <div id="step-2" class="step-content hidden">
+            <div class="max-w-3xl mx-auto">
+              <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+                {t('usecase.title')}
+              </h2>
+              <p class="text-gray-600 dark:text-gray-300 mb-8">
+                {t('usecase.description')}
+              </p>
+
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                <div class="use-case-card" data-usecase="chat">
+                  <div class="p-6 border-2 border-gray-200 dark:border-gray-600 rounded-xl hover:border-blue-500 dark:hover:border-blue-400 cursor-pointer transition-colors">
+                    <div class="flex items-center mb-4">
+                      <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center">
+                        <svg class="w-6 h-6 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                        </svg>
+                      </div>
+                      <h3 class="ml-4 text-lg font-semibold text-gray-900 dark:text-white">
+                        {t('usecase.chat.name')}
+                      </h3>
+                    </div>
+                    <p class="text-gray-600 dark:text-gray-300">
+                      {t('usecase.chat.description')}
+                    </p>
+                  </div>
+                </div>
+
+                <div class="use-case-card" data-usecase="coding">
+                  <div class="p-6 border-2 border-gray-200 dark:border-gray-600 rounded-xl hover:border-blue-500 dark:hover:border-blue-400 cursor-pointer transition-colors">
+                    <div class="flex items-center mb-4">
+                      <div class="w-12 h-12 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center">
+                        <svg class="w-6 h-6 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
+                        </svg>
+                      </div>
+                      <h3 class="ml-4 text-lg font-semibold text-gray-900 dark:text-white">
+                        {t('usecase.coding.name')}
+                      </h3>
+                    </div>
+                    <p class="text-gray-600 dark:text-gray-300">
+                      {t('usecase.coding.description')}
+                    </p>
+                  </div>
+                </div>
+
+                <div class="use-case-card" data-usecase="content-generation">
+                  <div class="p-6 border-2 border-gray-200 dark:border-gray-600 rounded-xl hover:border-blue-500 dark:hover:border-blue-400 cursor-pointer transition-colors">
+                    <div class="flex items-center mb-4">
+                      <div class="w-12 h-12 bg-purple-100 dark:bg-purple-900 rounded-lg flex items-center justify-center">
+                        <svg class="w-6 h-6 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                        </svg>
+                      </div>
+                      <h3 class="ml-4 text-lg font-semibold text-gray-900 dark:text-white">
+                        {t('usecase.content.name')}
+                      </h3>
+                    </div>
+                    <p class="text-gray-600 dark:text-gray-300">
+                      {t('usecase.content.description')}
+                    </p>
+                  </div>
+                </div>
+
+                <div class="use-case-card" data-usecase="analysis">
+                  <div class="p-6 border-2 border-gray-200 dark:border-gray-600 rounded-xl hover:border-blue-500 dark:hover:border-blue-400 cursor-pointer transition-colors">
+                    <div class="flex items-center mb-4">
+                      <div class="w-12 h-12 bg-orange-100 dark:bg-orange-900 rounded-lg flex items-center justify-center">
+                        <svg class="w-6 h-6 text-orange-600 dark:text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                        </svg>
+                      </div>
+                      <h3 class="ml-4 text-lg font-semibold text-gray-900 dark:text-white">
+                        {t('usecase.analysis.name')}
+                      </h3>
+                    </div>
+                    <p class="text-gray-600 dark:text-gray-300">
+                      {t('usecase.analysis.description')}
+                    </p>
+                  </div>
+                </div>
+
+                <div class="use-case-card" data-usecase="fine-tuning">
+                  <div class="p-6 border-2 border-gray-200 dark:border-gray-600 rounded-xl hover:border-blue-500 dark:hover:border-blue-400 cursor-pointer transition-colors">
+                    <div class="flex items-center mb-4">
+                      <div class="w-12 h-12 bg-red-100 dark:bg-red-900 rounded-lg flex items-center justify-center">
+                        <svg class="w-6 h-6 text-red-600 dark:text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        </svg>
+                      </div>
+                      <h3 class="ml-4 text-lg font-semibold text-gray-900 dark:text-white">
+                        {t('usecase.finetuning.name')}
+                      </h3>
+                    </div>
+                    <p class="text-gray-600 dark:text-gray-300">
+                      {t('usecase.finetuning.description')}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="flex justify-between">
+                <button
+                  type="button"
+                  id="prev-step-2"
+                  class="text-gray-600 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200 font-medium"
+                >
+                  {t('action.previous')}
+                </button>
+                <button
+                  type="button"
+                  id="next-step-2"
+                  class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  disabled
+                >
+                  {t('action.next')}
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 3: Performance Preferences -->
+          <div id="step-3" class="step-content hidden">
+            <div class="max-w-3xl mx-auto">
+              <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+                {t('preferences.title')}
+              </h2>
+              <p class="text-gray-600 dark:text-gray-300 mb-8">
+                {t('preferences.description')}
+              </p>
+
+              <div class="space-y-6">
+                <!-- Performance Priority -->
+                <div>
+                  <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+                    性能优先级
+                  </h3>
+                  <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="priority-card" data-priority="speed">
+                      <div class="p-4 border-2 border-gray-200 dark:border-gray-600 rounded-lg hover:border-blue-500 dark:hover:border-blue-400 cursor-pointer transition-colors">
+                        <div class="flex items-center mb-2">
+                          <div class="w-8 h-8 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center">
+                            <svg class="w-4 h-4 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                            </svg>
+                          </div>
+                          <h4 class="ml-2 font-medium text-gray-900 dark:text-white">
+                            {t('preferences.speed.name')}
+                          </h4>
+                        </div>
+                        <p class="text-sm text-gray-600 dark:text-gray-300">
+                          {t('preferences.speed.description')}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div class="priority-card" data-priority="accuracy">
+                      <div class="p-4 border-2 border-gray-200 dark:border-gray-600 rounded-lg hover:border-blue-500 dark:hover:border-blue-400 cursor-pointer transition-colors">
+                        <div class="flex items-center mb-2">
+                          <div class="w-8 h-8 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center">
+                            <svg class="w-4 h-4 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                          </div>
+                          <h4 class="ml-2 font-medium text-gray-900 dark:text-white">
+                            {t('preferences.accuracy.name')}
+                          </h4>
+                        </div>
+                        <p class="text-sm text-gray-600 dark:text-gray-300">
+                          {t('preferences.accuracy.description')}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div class="priority-card" data-priority="efficiency">
+                      <div class="p-4 border-2 border-gray-200 dark:border-gray-600 rounded-lg hover:border-blue-500 dark:hover:border-blue-400 cursor-pointer transition-colors">
+                        <div class="flex items-center mb-2">
+                          <div class="w-8 h-8 bg-purple-100 dark:bg-purple-900 rounded-lg flex items-center justify-center">
+                            <svg class="w-4 h-4 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                            </svg>
+                          </div>
+                          <h4 class="ml-2 font-medium text-gray-900 dark:text-white">
+                            {t('preferences.efficiency.name')}
+                          </h4>
+                        </div>
+                        <p class="text-sm text-gray-600 dark:text-gray-300">
+                          {t('preferences.efficiency.description')}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Experience Level -->
+                <div>
+                  <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+                    {t('preferences.experience.label')}
+                  </h3>
+                  <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="experience-card" data-experience="beginner">
+                      <div class="p-4 border-2 border-gray-200 dark:border-gray-600 rounded-lg hover:border-blue-500 dark:hover:border-blue-400 cursor-pointer transition-colors">
+                        <h4 class="font-medium text-gray-900 dark:text-white mb-2">
+                          {t('preferences.experience.beginner')}
+                        </h4>
+                        <p class="text-sm text-gray-600 dark:text-gray-300">
+                          新手，需要简单设置
+                        </p>
+                      </div>
+                    </div>
+
+                    <div class="experience-card" data-experience="intermediate">
+                      <div class="p-4 border-2 border-gray-200 dark:border-gray-600 rounded-lg hover:border-blue-500 dark:hover:border-blue-400 cursor-pointer transition-colors">
+                        <h4 class="font-medium text-gray-900 dark:text-white mb-2">
+                          {t('preferences.experience.intermediate')}
+                        </h4>
+                        <p class="text-sm text-gray-600 dark:text-gray-300">
+                          有一定AI模型使用经验
+                        </p>
+                      </div>
+                    </div>
+
+                    <div class="experience-card" data-experience="advanced">
+                      <div class="p-4 border-2 border-gray-200 dark:border-gray-600 rounded-lg hover:border-blue-500 dark:hover:border-blue-400 cursor-pointer transition-colors">
+                        <h4 class="font-medium text-gray-900 dark:text-white mb-2">
+                          {t('preferences.experience.advanced')}
+                        </h4>
+                        <p class="text-sm text-gray-600 dark:text-gray-300">
+                          有丰富的AI模型和微调经验
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="flex justify-between mt-8">
+                <button
+                  type="button"
+                  id="prev-step-3"
+                  class="text-gray-600 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200 font-medium"
+                >
+                  {t('action.previous')}
+                </button>
+                <button
+                  type="button"
+                  id="next-step-3"
+                  class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  disabled
+                >
+                  {t('action.get-recommendations')}
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 4: Results -->
+          <div id="step-4" class="step-content hidden">
+            <div class="max-w-4xl mx-auto">
+              <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+                {t('results.title')}
+              </h2>
+              <p class="text-gray-600 dark:text-gray-300 mb-8">
+                {t('results.description')}
+              </p>
+
+              <div id="results-container">
+                <!-- Results will be populated by JavaScript -->
+              </div>
+
+              <div class="flex justify-center mt-8">
+                <button
+                  type="button"
+                  id="start-over-btn"
+                  class="bg-gray-600 hover:bg-gray-700 text-white px-6 py-3 rounded-lg font-medium transition-colors"
+                >
+                  {t('action.start-over')}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</MainLayout>
+
+<style>
+  .step-item {
+    @apply flex items-center space-x-2 cursor-pointer;
+  }
+  
+  .step-item.active .step-number {
+    @apply bg-blue-600 text-white;
+  }
+  
+  .step-item:not(.active) .step-number {
+    @apply bg-gray-200 text-gray-600 dark:bg-gray-600 dark:text-gray-300;
+  }
+  
+  .step-number {
+    @apply w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium transition-colors;
+  }
+  
+  .step-label {
+    @apply text-sm font-medium text-gray-600 dark:text-gray-300;
+  }
+  
+  .step-item.active .step-label {
+    @apply text-blue-600 dark:text-blue-400;
+  }
+  
+  .step-content {
+    @apply transition-all duration-300;
+  }
+  
+  .use-case-card.selected > div,
+  .priority-card.selected > div,
+  .experience-card.selected > div {
+    @apply border-blue-500 dark:border-blue-400 bg-blue-50 dark:bg-blue-900/20;
+  }
+  
+  .score-bar {
+    @apply w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2;
+  }
+  
+  .score-fill {
+    @apply h-2 rounded-full transition-all duration-500;
+  }
+</style>
+
+<script>
+  import { ModelRecommender } from '../../utils/modelRecommender';
+
+  class ModelSelector {
+    constructor() {
+      this.currentStep = 1;
+      this.userInput = {};
+      this.recommender = new ModelRecommender();
+      this.init();
+    }
+
+    init() {
+      this.bindEvents();
+      this.updateStepDisplay();
+    }
+
+    bindEvents() {
+      // Step navigation
+      document.getElementById('next-step-1').addEventListener('click', () => this.validateAndNext(1));
+      document.getElementById('next-step-2').addEventListener('click', () => this.validateAndNext(2));
+      document.getElementById('next-step-3').addEventListener('click', () => this.validateAndNext(3));
+      
+      document.getElementById('prev-step-2').addEventListener('click', () => this.previousStep());
+      document.getElementById('prev-step-3').addEventListener('click', () => this.previousStep());
+      
+      document.getElementById('start-over').addEventListener('click', () => this.startOver());
+      document.getElementById('start-over-btn').addEventListener('click', () => this.startOver());
+
+      // Use case selection
+      document.querySelectorAll('.use-case-card').forEach(card => {
+        card.addEventListener('click', (e) => {
+          this.selectUseCase(e.currentTarget.dataset.usecase);
+        });
+      });
+
+      // Priority selection
+      document.querySelectorAll('.priority-card').forEach(card => {
+        card.addEventListener('click', (e) => {
+          this.selectPriority(e.currentTarget.dataset.priority);
+        });
+      });
+
+      // Experience selection
+      document.querySelectorAll('.experience-card').forEach(card => {
+        card.addEventListener('click', (e) => {
+          this.selectExperience(e.currentTarget.dataset.experience);
+        });
+      });
+
+      // Auto-detect hardware
+      document.getElementById('auto-detect').addEventListener('click', () => {
+        this.autoDetectHardware();
+      });
+    }
+
+    validateAndNext(step) {
+      if (step === 1) {
+        const ram = document.getElementById('ram').value;
+        const gpu = document.getElementById('gpu').value;
+        const cpu = document.getElementById('cpu').value;
+
+        if (!ram || !gpu || !cpu) {
+          alert('请填写所有硬件信息');
+          return;
+        }
+
+        this.userInput.hardware = {
+          ram: parseInt(ram),
+          gpu: gpu,
+          cpu: cpu
+        };
+      }
+
+      this.nextStep();
+    }
+
+    nextStep() {
+      if (this.currentStep < 4) {
+        this.currentStep++;
+        this.updateStepDisplay();
+      }
+    }
+
+    previousStep() {
+      if (this.currentStep > 1) {
+        this.currentStep--;
+        this.updateStepDisplay();
+      }
+    }
+
+    updateStepDisplay() {
+      // Update step indicators
+      document.querySelectorAll('.step-item').forEach((item, index) => {
+        if (index + 1 <= this.currentStep) {
+          item.classList.add('active');
+        } else {
+          item.classList.remove('active');
+        }
+      });
+
+      // Show/hide step content
+      document.querySelectorAll('.step-content').forEach((content, index) => {
+        if (index + 1 === this.currentStep) {
+          content.classList.remove('hidden');
+          content.classList.add('active');
+        } else {
+          content.classList.add('hidden');
+          content.classList.remove('active');
+        }
+      });
+
+      // Show/hide start over button
+      const startOverBtn = document.getElementById('start-over');
+      if (this.currentStep > 1) {
+        startOverBtn.classList.remove('hidden');
+      } else {
+        startOverBtn.classList.add('hidden');
+      }
+
+      // If we're on step 4, calculate results
+      if (this.currentStep === 4) {
+        this.calculateResults();
+      }
+    }
+
+    selectUseCase(usecase) {
+      this.userInput.useCase = usecase;
+      
+      // Update UI
+      document.querySelectorAll('.use-case-card').forEach(card => {
+        card.classList.remove('selected');
+      });
+      document.querySelector(`[data-usecase="${usecase}"]`).classList.add('selected');
+      
+      // Enable next button
+      document.getElementById('next-step-2').disabled = false;
+    }
+
+    selectPriority(priority) {
+      this.userInput.priority = priority;
+      
+      // Update UI
+      document.querySelectorAll('.priority-card').forEach(card => {
+        card.classList.remove('selected');
+      });
+      document.querySelector(`[data-priority="${priority}"]`).classList.add('selected');
+      
+      this.checkStep3Complete();
+    }
+
+    selectExperience(experience) {
+      this.userInput.experience = experience;
+      
+      // Update UI
+      document.querySelectorAll('.experience-card').forEach(card => {
+        card.classList.remove('selected');
+      });
+      document.querySelector(`[data-experience="${experience}"]`).classList.add('selected');
+      
+      this.checkStep3Complete();
+    }
+
+    checkStep3Complete() {
+      const nextBtn = document.getElementById('next-step-3');
+      if (this.userInput.priority && this.userInput.experience) {
+        nextBtn.disabled = false;
+      } else {
+        nextBtn.disabled = true;
+      }
+    }
+
+    async autoDetectHardware() {
+      const detectBtn = document.getElementById('auto-detect');
+      const originalText = detectBtn.textContent;
+      detectBtn.textContent = '检测中...';
+      detectBtn.disabled = true;
+
+      try {
+        // Simple hardware detection using browser APIs
+        const ram = navigator.deviceMemory ? navigator.deviceMemory * 1024 : 8; // Convert to GB
+        const gpu = this.detectGPU();
+        const cpu = this.detectCPU();
+
+        document.getElementById('ram').value = Math.round(ram);
+        document.getElementById('gpu').value = gpu;
+        document.getElementById('cpu').value = cpu;
+
+        // Show success message
+        this.showMessage('硬件检测成功！', 'success');
+      } catch (error) {
+        this.showMessage('硬件检测失败，请手动输入', 'error');
+      } finally {
+        detectBtn.textContent = originalText;
+        detectBtn.disabled = false;
+      }
+    }
+
+    detectGPU() {
+      const canvas = document.createElement('canvas');
+      const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+      
+      if (!gl) {
+        return '未知GPU';
+      }
+
+      const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
+      if (debugInfo) {
+        return gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL);
+      }
+
+      return '未知GPU';
+    }
+
+    detectCPU() {
+      const cores = navigator.hardwareConcurrency || '未知';
+      return `CPU (${cores} 核心)`;
+    }
+
+    calculateResults() {
+      const recommendations = this.recommender.getRecommendations(this.userInput);
+      this.displayResults(recommendations);
+    }
+
+    displayResults(recommendations) {
+      const container = document.getElementById('results-container');
+      
+      if (recommendations.length === 0) {
+        container.innerHTML = `
+          <div class="text-center py-8">
+            <p class="text-gray-600 dark:text-gray-300">未找到合适的模型，请调整你的要求</p>
+          </div>
+        `;
+        return;
+      }
+
+      const topRecommendation = recommendations[0];
+      const otherRecommendations = recommendations.slice(1, 4);
+
+      container.innerHTML = `
+        <!-- Top Recommendation -->
+        <div class="mb-8">
+          <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">最佳推荐</h3>
+          ${this.renderModelCard(topRecommendation, true)}
+        </div>
+
+        <!-- Other Options -->
+        ${otherRecommendations.length > 0 ? `
+          <div>
+            <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">其他选择</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              ${otherRecommendations.map(rec => this.renderModelCard(rec, false)).join('')}
+            </div>
+          </div>
+        ` : ''}
+      `;
+
+      // Bind copy buttons
+      container.querySelectorAll('.copy-command').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const command = e.target.dataset.command;
+          navigator.clipboard.writeText(command);
+          
+          const originalText = e.target.textContent;
+          e.target.textContent = '已复制！';
+          setTimeout(() => {
+            e.target.textContent = originalText;
+          }, 2000);
+        });
+      });
+    }
+
+    renderModelCard(recommendation, isTop) {
+      const { model, totalScore, breakdown, reasoning } = recommendation;
+      
+      return `
+        <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6 ${isTop ? 'ring-2 ring-blue-500' : ''}">
+          <div class="flex items-start justify-between mb-4">
+            <div>
+              <h4 class="text-lg font-semibold text-gray-900 dark:text-white">${model.displayName}</h4>
+              <p class="text-sm text-gray-600 dark:text-gray-300">${model.description}</p>
+            </div>
+            <div class="text-right">
+              <div class="text-2xl font-bold text-blue-600 dark:text-blue-400">${Math.round(totalScore)}%</div>
+              <div class="text-xs text-gray-500">兼容性</div>
+            </div>
+          </div>
+
+          <!-- Score Breakdown -->
+          <div class="mb-4">
+            <h5 class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">评分详情</h5>
+            <div class="space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="text-xs text-gray-600 dark:text-gray-400">硬件</span>
+                <div class="flex items-center space-x-2">
+                  <div class="score-bar w-16">
+                    <div class="score-fill bg-blue-500" style="width: ${breakdown.hardware}%"></div>
+                  </div>
+                  <span class="text-xs text-gray-600 dark:text-gray-400">${Math.round(breakdown.hardware)}%</span>
+                </div>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-xs text-gray-600 dark:text-gray-400">使用场景</span>
+                <div class="flex items-center space-x-2">
+                  <div class="score-bar w-16">
+                    <div class="score-fill bg-green-500" style="width: ${breakdown.useCase}%"></div>
+                  </div>
+                  <span class="text-xs text-gray-600 dark:text-gray-400">${Math.round(breakdown.useCase)}%</span>
+                </div>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-xs text-gray-600 dark:text-gray-400">性能</span>
+                <div class="flex items-center space-x-2">
+                  <div class="score-bar w-16">
+                    <div class="score-fill bg-purple-500" style="width: ${breakdown.performance}%"></div>
+                  </div>
+                  <span class="text-xs text-gray-600 dark:text-gray-400">${Math.round(breakdown.performance)}%</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Memory Requirements -->
+          <div class="mb-4">
+            <h5 class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">内存要求</h5>
+            <div class="grid grid-cols-3 gap-2 text-xs">
+              <div class="text-center">
+                <div class="font-medium text-gray-900 dark:text-white">${model.memory.min}GB</div>
+                <div class="text-gray-500">最低</div>
+              </div>
+              <div class="text-center">
+                <div class="font-medium text-gray-900 dark:text-white">${model.memory.recommended}GB</div>
+                <div class="text-gray-500">推荐</div>
+              </div>
+              <div class="text-center">
+                <div class="font-medium text-gray-900 dark:text-white">${model.memory.optimal}GB</div>
+                <div class="text-gray-500">最佳</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Features & Limitations -->
+          <div class="mb-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <h5 class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">主要特性</h5>
+                <ul class="text-xs text-gray-600 dark:text-gray-400 space-y-1">
+                  ${model.features.slice(0, 3).map(feature => `<li>• ${feature}</li>`).join('')}
+                </ul>
+              </div>
+              <div>
+                <h5 class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">限制</h5>
+                <ul class="text-xs text-gray-600 dark:text-gray-400 space-y-1">
+                  ${model.limitations.slice(0, 2).map(limitation => `<li>• ${limitation}</li>`).join('')}
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- Download & Actions -->
+          <div class="space-y-3">
+            <div class="flex space-x-2">
+              <button class="copy-command flex-1 bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded text-sm font-medium transition-colors" data-command="${model.downloadLinks.ollama}">
+                复制Ollama命令
+              </button>
+              <a href="${model.downloadLinks.huggingface}" target="_blank" class="flex-1 bg-gray-600 hover:bg-gray-700 text-white px-3 py-2 rounded text-sm font-medium transition-colors text-center">
+                Hugging Face
+              </a>
+            </div>
+            <div class="flex space-x-2">
+              <a href="/zh/demo" class="flex-1 bg-green-600 hover:bg-green-700 text-white px-3 py-2 rounded text-sm font-medium transition-colors text-center">
+                试用演示
+              </a>
+              <a href="/zh/blog" class="flex-1 bg-purple-600 hover:bg-purple-700 text-white px-3 py-2 rounded text-sm font-medium transition-colors text-center">
+                阅读指南
+              </a>
+            </div>
+          </div>
+
+          <!-- Reasoning -->
+          ${reasoning.length > 0 ? `
+            <div class="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+              <h5 class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">为什么推荐这个模型？</h5>
+              <ul class="text-xs text-gray-600 dark:text-gray-400 space-y-1">
+                ${reasoning.slice(0, 3).map(reason => `<li>• ${reason}</li>`).join('')}
+              </ul>
+            </div>
+          ` : ''}
+        </div>
+      `;
+    }
+
+    showMessage(message, type) {
+      // Simple message display - you can enhance this with a proper toast system
+      alert(message);
+    }
+
+    startOver() {
+      this.currentStep = 1;
+      this.userInput = {};
+      
+      // Reset form
+      document.getElementById('hardware-form').reset();
+      
+      // Reset selections
+      document.querySelectorAll('.use-case-card, .priority-card, .experience-card').forEach(card => {
+        card.classList.remove('selected');
+      });
+      
+      // Reset buttons
+      document.getElementById('next-step-2').disabled = true;
+      document.getElementById('next-step-3').disabled = true;
+      
+      this.updateStepDisplay();
+    }
+  }
+
+  // Initialize the model selector when the page loads
+  document.addEventListener('DOMContentLoaded', () => {
+    new ModelSelector();
+  });
+</script> 

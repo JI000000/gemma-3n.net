@@ -13,6 +13,7 @@ import { leaderboard } from './leaderboard';
 import { pwa } from './pwa';
 import { legal } from './legal';
 import about from './about';
+import { modelSelector } from './model-selector';
 
 // Merge all modules into a single object
 export const en = {
@@ -30,4 +31,5 @@ export const en = {
   ...pwa,
   ...legal,
   ...about,
+  ...modelSelector,
 } as const; 
