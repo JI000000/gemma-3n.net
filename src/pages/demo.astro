@@ -61,9 +61,14 @@ const t = useTranslations(lang);
           <p class="text-xl text-slate-600 dark:text-gray-400 max-w-3xl mx-auto">
             {t('demo.section.desc')}
           </p>
+          
+          <!-- API Configuration Button moved to floating corner below -->
         </div>
         
-        <InteractiveDemo />
+        <div class="relative">
+          <InteractiveDemo />
+        </div>
+
         
         <!-- Demo 说明 -->
         <div class="mt-16 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-xl p-8">
@@ -74,19 +79,27 @@ const t = useTranslations(lang);
             <div>
               <h4 class="font-semibold mb-3">{t('demo.info.current.title')}</h4>
               <ul class="space-y-2 text-sm">
-                <li>{t('demo.info.current.feature1')}</li>
-                <li>{t('demo.info.current.feature2')}</li>
-                <li>{t('demo.info.current.feature3')}</li>
-                <li>{t('demo.info.current.feature4')}</li>
+                <li>✅ {t('demo.info.current.feature1')}</li>
+                <li>✅ {t('demo.info.current.feature2')}</li>
+                <li>✅ {t('demo.info.current.feature3')}</li>
+                <li>✅ {t('demo.info.current.feature4')}</li>
+                <li>✅ {t('demo.info.current.feature5')}</li>
+                <li>✅ {t('demo.info.current.feature6')}</li>
+                <li>✅ {t('demo.info.current.feature7')}</li>
+                <li>✅ {t('demo.info.current.feature8')}</li>
               </ul>
             </div>
             <div>
               <h4 class="font-semibold mb-3">{t('demo.info.prod.title')}</h4>
               <ul class="space-y-2 text-sm">
-                <li>{t('demo.info.prod.feature1')}</li>
-                <li>{t('demo.info.prod.feature2')}</li>
-                <li>{t('demo.info.prod.feature3')}</li>
-                <li>{t('demo.info.prod.feature4')}</li>
+                <li>🔄 {t('demo.info.prod.feature1')}</li>
+                <li>🔄 {t('demo.info.prod.feature2')}</li>
+                <li>🔄 {t('demo.info.prod.feature3')}</li>
+                <li>🔄 {t('demo.info.prod.feature4')}</li>
+                <li>🔄 {t('demo.info.prod.feature5')}</li>
+                <li>🔄 {t('demo.info.prod.feature6')}</li>
+                <li>🔄 {t('demo.info.prod.feature7')}</li>
+                <li>🔄 {t('demo.info.prod.feature8')}</li>
               </ul>
             </div>
           </div>
@@ -105,102 +118,98 @@ const t = useTranslations(lang);
             {t('demo.tech.desc')}
           </p>
         </div>
-        
-        <div class="space-y-8">
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
           <!-- 前端架构 -->
-          <div class="bg-slate-50 dark:bg-gray-800 rounded-xl p-8">
-            <h3 class="text-2xl font-bold text-slate-900 dark:text-white mb-4 flex items-center">
-              <span class="text-3xl mr-3">🌐</span>
+          <div class="bg-gray-50 dark:bg-gray-800 p-6 rounded-xl">
+            <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-4">
               {t('demo.tech.frontend.title')}
             </h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            
+            <div class="space-y-4">
               <div>
-                <h4 class="font-semibold text-lg mb-3 text-slate-700 dark:text-gray-300">
+                <h4 class="font-semibold text-slate-800 dark:text-gray-200 mb-2">
                   {t('demo.tech.frontend.engine')}
                 </h4>
-                <pre class="bg-gray-900 text-green-400 p-4 rounded text-sm overflow-x-auto"><code>{t('demo.tech.frontend.engine.code')}</code></pre>
+                <pre class="bg-gray-900 text-green-400 p-4 rounded-lg text-sm overflow-x-auto">
+                  <code>{t('demo.tech.frontend.engine.code')}</code>
+                </pre>
               </div>
+              
               <div>
-                <h4 class="font-semibold text-lg mb-3 text-slate-700 dark:text-gray-300">
+                <h4 class="font-semibold text-slate-800 dark:text-gray-200 mb-2">
                   {t('demo.tech.frontend.wasm')}
                 </h4>
-                <pre class="bg-gray-900 text-green-400 p-4 rounded text-sm overflow-x-auto"><code>{t('demo.tech.frontend.wasm.code')}</code></pre>
+                <pre class="bg-gray-900 text-green-400 p-4 rounded-lg text-sm overflow-x-auto">
+                  <code>{t('demo.tech.frontend.wasm.code')}</code>
+                </pre>
               </div>
             </div>
           </div>
 
           <!-- 模型部署 -->
-          <div class="bg-slate-50 dark:bg-gray-800 rounded-xl p-8">
-            <h3 class="text-2xl font-bold text-slate-900 dark:text-white mb-4 flex items-center">
-              <span class="text-3xl mr-3">🤖</span>
+          <div class="bg-gray-50 dark:bg-gray-800 p-6 rounded-xl">
+            <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-4">
               {t('demo.tech.deploy.title')}
             </h3>
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-              <div class="bg-white dark:bg-gray-700 rounded-lg p-6">
-                <h4 class="font-semibold mb-3 text-blue-600 dark:text-blue-400">
+            
+            <div class="space-y-4">
+              <div>
+                <h4 class="font-semibold text-slate-800 dark:text-gray-200 mb-2">
                   {t('demo.tech.deploy.convert')}
                 </h4>
-                <ul class="space-y-2 text-sm text-slate-600 dark:text-gray-400">
-                  <li>{t('demo.tech.deploy.convert1')}</li>
-                  <li>{t('demo.tech.deploy.convert2')}</li>
-                  <li>{t('demo.tech.deploy.convert3')}</li>
-                  <li>{t('demo.tech.deploy.convert4')}</li>
+                <ul class="text-sm text-slate-600 dark:text-gray-400 space-y-1">
+                  <li>• {t('demo.tech.deploy.convert1')}</li>
+                  <li>• {t('demo.tech.deploy.convert2')}</li>
+                  <li>• {t('demo.tech.deploy.convert3')}</li>
+                  <li>• {t('demo.tech.deploy.convert4')}</li>
                 </ul>
               </div>
-              <div class="bg-white dark:bg-gray-700 rounded-lg p-6">
-                <h4 class="font-semibold mb-3 text-green-600 dark:text-green-400">
+              
+              <div>
+                <h4 class="font-semibold text-slate-800 dark:text-gray-200 mb-2">
                   {t('demo.tech.deploy.cdn')}
                 </h4>
-                <ul class="space-y-2 text-sm text-slate-600 dark:text-gray-400">
-                  <li>{t('demo.tech.deploy.cdn1')}</li>
-                  <li>{t('demo.tech.deploy.cdn2')}</li>
-                  <li>{t('demo.tech.deploy.cdn3')}</li>
-                  <li>{t('demo.tech.deploy.cdn4')}</li>
-                </ul>
-              </div>
-              <div class="bg-white dark:bg-gray-700 rounded-lg p-6">
-                <h4 class="font-semibold mb-3 text-purple-600 dark:text-purple-400">
-                  {t('demo.tech.deploy.optimize')}
-                </h4>
-                <ul class="space-y-2 text-sm text-slate-600 dark:text-gray-400">
-                  <li>{t('demo.tech.deploy.optimize1')}</li>
-                  <li>{t('demo.tech.deploy.optimize2')}</li>
-                  <li>{t('demo.tech.deploy.optimize3')}</li>
-                  <li>{t('demo.tech.deploy.optimize4')}</li>
+                <ul class="text-sm text-slate-600 dark:text-gray-400 space-y-1">
+                  <li>• {t('demo.tech.deploy.cdn1')}</li>
+                  <li>• {t('demo.tech.deploy.cdn2')}</li>
+                  <li>• {t('demo.tech.deploy.cdn3')}</li>
+                  <li>• {t('demo.tech.deploy.cdn4')}</li>
                 </ul>
               </div>
             </div>
           </div>
+        </div>
 
-          <!-- 成本分析 -->
-          <div class="bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 rounded-xl p-8 border border-green-200 dark:border-green-800">
-            <h3 class="text-2xl font-bold text-slate-900 dark:text-white mb-4 flex items-center">
-              <span class="text-3xl mr-3">💰</span>
-              {t('demo.tech.cost.title')}
-            </h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div>
-                <h4 class="font-semibold text-lg mb-3 text-green-700 dark:text-green-300">
-                  {t('demo.tech.cost.cloud')}
-                </h4>
-                <ul class="space-y-2 text-sm text-slate-600 dark:text-gray-400">
-                  <li>{t('demo.tech.cost.cloud1')}</li>
-                  <li>{t('demo.tech.cost.cloud2')}</li>
-                  <li>{t('demo.tech.cost.cloud3')}</li>
-                  <li>{t('demo.tech.cost.cloud4')}</li>
-                </ul>
-              </div>
-              <div>
-                <h4 class="font-semibold text-lg mb-3 text-blue-700 dark:text-blue-300">
-                  {t('demo.tech.cost.device')}
-                </h4>
-                <ul class="space-y-2 text-sm text-slate-600 dark:text-gray-400">
-                  <li>{t('demo.tech.cost.device1')}</li>
-                  <li>{t('demo.tech.cost.device2')}</li>
-                  <li>{t('demo.tech.cost.device3')}</li>
-                  <li>{t('demo.tech.cost.device4')}</li>
-                </ul>
-              </div>
+        <!-- 成本对比 -->
+        <div class="mt-12 bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 p-8 rounded-xl">
+          <h3 class="text-2xl font-bold text-slate-900 dark:text-white mb-6 text-center">
+            {t('demo.tech.cost.title')}
+          </h3>
+          
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div>
+              <h4 class="text-lg font-semibold text-red-600 dark:text-red-400 mb-4">
+                {t('demo.tech.cost.cloud')}
+              </h4>
+              <ul class="space-y-2 text-sm">
+                <li>{t('demo.tech.cost.cloud1')}</li>
+                <li>{t('demo.tech.cost.cloud2')}</li>
+                <li>{t('demo.tech.cost.cloud3')}</li>
+                <li>{t('demo.tech.cost.cloud4')}</li>
+              </ul>
+            </div>
+            
+            <div>
+              <h4 class="text-lg font-semibold text-green-600 dark:text-green-400 mb-4">
+                {t('demo.tech.cost.device')}
+              </h4>
+              <ul class="space-y-2 text-sm">
+                <li>{t('demo.tech.cost.device1')}</li>
+                <li>{t('demo.tech.cost.device2')}</li>
+                <li>{t('demo.tech.cost.device3')}</li>
+                <li>{t('demo.tech.cost.device4')}</li>
+              </ul>
             </div>
           </div>
         </div>
@@ -210,28 +219,22 @@ const t = useTranslations(lang);
     <!-- CTA Section -->
     <section class="py-20 bg-gradient-to-r from-blue-600 to-indigo-600 text-white">
       <div class="max-w-4xl mx-auto px-4 text-center">
-        <h2 class="text-3xl font-bold mb-4">{t('demo.cta.title')}</h2>
-        <p class="text-xl mb-8 opacity-90">
+        <h2 class="text-3xl font-bold mb-4">
+          {t('demo.cta.title')}
+        </h2>
+        <p class="text-xl mb-8 text-blue-100">
           {t('demo.cta.desc')}
         </p>
+        
         <div class="flex flex-col sm:flex-row gap-4 justify-center">
-          <a 
-            href="/blog/how-to-run-gemma-3n-locally" 
-            class="bg-white text-blue-600 px-8 py-3 rounded-lg font-medium hover:bg-gray-100 transition-colors"
-          >
-            📚 {t('demo.cta.learn')}
+          <a href="/toolkit" class="bg-white text-blue-600 px-8 py-3 rounded-lg font-medium hover:bg-gray-100 transition-colors">
+            {t('demo.cta.toolkit')}
           </a>
-          <a 
-            href="/toolkit" 
-            class="border-2 border-white text-white hover:bg-white hover:text-blue-600 px-8 py-3 rounded-lg font-medium transition-colors"
-          >
-            🛠️ {t('demo.cta.toolkit')}
+          <a href="/blog" class="border-2 border-white text-white px-8 py-3 rounded-lg font-medium hover:bg-white hover:text-blue-600 transition-colors">
+            {t('demo.cta.learn')}
           </a>
-          <a 
-            href="/#resources" 
-            class="border-2 border-white text-white hover:bg-white hover:text-blue-600 px-8 py-3 rounded-lg font-medium transition-colors"
-          >
-            📦 {t('demo.cta.download')}
+          <a href="https://huggingface.co/models?search=gemma+3n" target="_blank" class="border-2 border-white text-white px-8 py-3 rounded-lg font-medium hover:bg-white hover:text-blue-600 transition-colors">
+            {t('demo.cta.download')}
           </a>
         </div>
       </div>

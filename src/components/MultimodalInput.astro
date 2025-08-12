@@ -1,0 +1,432 @@
+---
+import { getLangFromUrl, useTranslations } from '../i18n';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<div class="multimodal-input">
+  <!-- Input Type Selector -->
+  <div class="mb-4">
+    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+      {t('demo.input.type.label')}
+    </label>
+    <div class="flex space-x-2">
+      <button 
+        class="input-type-btn active bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+        data-type="text"
+      >
+        📝 {t('demo.input.type.text')}
+      </button>
+      <button 
+        class="input-type-btn bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+        data-type="image"
+      >
+        🖼️ {t('demo.input.type.image')}
+      </button>
+      <button 
+        class="input-type-btn bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+        data-type="audio"
+      >
+        🎤 {t('demo.input.type.audio')}
+      </button>
+    </div>
+  </div>
+
+  <!-- Text Input -->
+  <div id="text-input" class="input-section active">
+    <label for="demo-input" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+      {t('demo.input.text.label')}
+    </label>
+    <textarea
+      id="demo-input"
+      rows="4"
+      class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white resize-none"
+      placeholder={t('demo.input.text.placeholder')}
+    ></textarea>
+  </div>
+
+  <!-- Image Input -->
+  <div id="image-input" class="input-section hidden">
+    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+      {t('demo.input.image.label')}
+    </label>
+    <div class="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-6 text-center hover:border-blue-500 dark:hover:border-blue-400 transition-colors">
+      <div id="image-upload-area" class="cursor-pointer">
+        <div class="text-4xl mb-2">📷</div>
+        <p class="text-gray-600 dark:text-gray-400 mb-2">{t('demo.input.image.drag_drop')}</p>
+        <p class="text-sm text-gray-500 dark:text-gray-500">{t('demo.input.image.or_click')}</p>
+        <input 
+          type="file" 
+          id="image-file" 
+          accept="image/*" 
+          class="hidden"
+        />
+      </div>
+      <div id="image-preview" class="hidden mt-4">
+        <img id="preview-img" class="max-w-full h-auto max-h-64 mx-auto rounded-lg" />
+        <button id="remove-image" class="mt-2 text-red-600 hover:text-red-700 text-sm">
+          {t('demo.input.image.remove')}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Audio Input -->
+  <div id="audio-input" class="input-section hidden">
+    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+      {t('demo.input.audio.label')}
+    </label>
+    <div class="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-6 text-center">
+      <div id="audio-controls" class="space-y-4">
+        <button 
+          id="record-btn" 
+          class="bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-lg font-medium transition-colors"
+        >
+          🎤 {t('demo.input.audio.record')}
+        </button>
+        <div id="audio-visualizer" class="hidden">
+          <canvas id="audio-canvas" class="w-full h-16 bg-gray-100 dark:bg-gray-700 rounded"></canvas>
+          <div class="flex justify-center space-x-2 mt-2">
+            <button id="stop-record" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded text-sm">
+              {t('demo.input.audio.stop')}
+            </button>
+            <button id="play-audio" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded text-sm">
+              ▶️ {t('demo.input.audio.play')}
+            </button>
+          </div>
+        </div>
+        <div id="audio-upload" class="hidden">
+          <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">{t('demo.input.audio.or_upload')}</p>
+          <input 
+            type="file" 
+            id="audio-file" 
+            accept="audio/*" 
+            class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Model Selection -->
+  <div class="mt-4">
+    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+      {t('demo.model.label')}
+    </label>
+    <div class="flex space-x-2">
+      <button 
+        class="model-btn active bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+        data-model="e2b"
+      >
+        🚀 E2B (2B)
+      </button>
+      <button 
+        class="model-btn bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+        data-model="e4b"
+      >
+        ⚡ E4B (4B)
+      </button>
+    </div>
+  </div>
+</div>
+
+<script define:vars={{
+  t_input_type_text: t('demo.input.type.text'),
+  t_input_type_image: t('demo.input.type.image'),
+  t_input_type_audio: t('demo.input.type.audio'),
+  t_image_drag_drop: t('demo.input.image.drag_drop'),
+  t_image_or_click: t('demo.input.image.or_click'),
+  t_image_remove: t('demo.input.image.remove'),
+  t_audio_record: t('demo.input.audio.record'),
+  t_audio_stop: t('demo.input.audio.stop'),
+  t_audio_play: t('demo.input.audio.play'),
+  t_audio_or_upload: t('demo.input.audio.or_upload'),
+}}>
+  class MultimodalInput {
+    constructor() {
+      this.currentInputType = 'text';
+      this.currentModel = 'e2b';
+      this.mediaRecorder = null;
+      this.audioChunks = [];
+      
+      this.initEventListeners();
+    }
+
+    initEventListeners() {
+      // 输入类型切换
+      document.querySelectorAll('.input-type-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          this.switchInputType(e.target.dataset.type);
+        });
+      });
+
+      // 模型切换
+      document.querySelectorAll('.model-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          this.switchModel(e.target.dataset.model);
+        });
+      });
+
+      // 图片上传
+      this.initImageUpload();
+      
+      // 音频录制
+      this.initAudioRecording();
+    }
+
+    switchInputType(type) {
+      this.currentInputType = type;
+      
+      // 更新按钮状态
+      document.querySelectorAll('.input-type-btn').forEach(btn => {
+        btn.classList.remove('active', 'bg-blue-100', 'dark:bg-blue-900/30', 'text-blue-700', 'dark:text-blue-300');
+        btn.classList.add('bg-gray-100', 'dark:bg-gray-700', 'text-gray-700', 'dark:text-gray-300');
+      });
+      
+      const activeBtn = document.querySelector(`[data-type="${type}"]`);
+      activeBtn.classList.remove('bg-gray-100', 'dark:bg-gray-700', 'text-gray-700', 'dark:text-gray-300');
+      activeBtn.classList.add('active', 'bg-blue-100', 'dark:bg-blue-900/30', 'text-blue-700', 'dark:text-blue-300');
+      
+      // 切换输入区域
+      document.querySelectorAll('.input-section').forEach(section => {
+        section.classList.add('hidden');
+        section.classList.remove('active');
+      });
+      
+      const activeSection = document.getElementById(`${type}-input`);
+      activeSection.classList.remove('hidden');
+      activeSection.classList.add('active');
+    }
+
+    switchModel(model) {
+      this.currentModel = model;
+      
+      // 更新按钮状态
+      document.querySelectorAll('.model-btn').forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.dataset.model === 'e2b') {
+          btn.classList.remove('bg-green-100', 'dark:bg-green-900/30', 'text-green-700', 'dark:text-green-300');
+          btn.classList.add('bg-gray-100', 'dark:bg-gray-700', 'text-gray-700', 'dark:text-gray-300');
+        } else {
+          btn.classList.remove('bg-blue-100', 'dark:bg-blue-900/30', 'text-blue-700', 'dark:text-blue-300');
+          btn.classList.add('bg-gray-100', 'dark:bg-gray-700', 'text-gray-700', 'dark:text-gray-300');
+        }
+      });
+      
+      const activeBtn = document.querySelector(`[data-model="${model}"]`);
+      activeBtn.classList.add('active');
+      if (model === 'e2b') {
+        activeBtn.classList.remove('bg-gray-100', 'dark:bg-gray-700', 'text-gray-700', 'dark:text-gray-300');
+        activeBtn.classList.add('bg-green-100', 'dark:bg-green-900/30', 'text-green-700', 'dark:text-green-300');
+      } else {
+        activeBtn.classList.remove('bg-gray-100', 'dark:bg-gray-700', 'text-gray-700', 'dark:text-gray-300');
+        activeBtn.classList.add('bg-blue-100', 'dark:bg-blue-900/30', 'text-blue-700', 'dark:text-blue-300');
+      }
+    }
+
+    initImageUpload() {
+      const uploadArea = document.getElementById('image-upload-area');
+      const fileInput = document.getElementById('image-file');
+      const preview = document.getElementById('image-preview');
+      const previewImg = document.getElementById('preview-img');
+      const removeBtn = document.getElementById('remove-image');
+
+      // 点击上传
+      uploadArea.addEventListener('click', () => {
+        fileInput.click();
+      });
+
+      // 拖拽上传
+      uploadArea.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        uploadArea.classList.add('border-blue-500', 'dark:border-blue-400');
+      });
+
+      uploadArea.addEventListener('dragleave', () => {
+        uploadArea.classList.remove('border-blue-500', 'dark:border-blue-400');
+      });
+
+      uploadArea.addEventListener('drop', (e) => {
+        e.preventDefault();
+        uploadArea.classList.remove('border-blue-500', 'dark:border-blue-400');
+        
+        const files = e.dataTransfer.files;
+        if (files.length > 0) {
+          this.handleImageFile(files[0]);
+        }
+      });
+
+      // 文件选择
+      fileInput.addEventListener('change', (e) => {
+        if (e.target.files.length > 0) {
+          this.handleImageFile(e.target.files[0]);
+        }
+      });
+
+      // 移除图片
+      removeBtn.addEventListener('click', () => {
+        preview.classList.add('hidden');
+        uploadArea.classList.remove('hidden');
+        fileInput.value = '';
+      });
+    }
+
+    handleImageFile(file) {
+      if (!file.type.startsWith('image/')) {
+        alert('Please select an image file');
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const preview = document.getElementById('image-preview');
+        const previewImg = document.getElementById('preview-img');
+        const uploadArea = document.getElementById('image-upload-area');
+
+        previewImg.src = e.target.result;
+        preview.classList.remove('hidden');
+        uploadArea.classList.add('hidden');
+      };
+      reader.readAsDataURL(file);
+    }
+
+    initAudioRecording() {
+      const recordBtn = document.getElementById('record-btn');
+      const stopBtn = document.getElementById('stop-record');
+      const playBtn = document.getElementById('play-audio');
+      const visualizer = document.getElementById('audio-visualizer');
+
+      recordBtn.addEventListener('click', () => {
+        this.startRecording();
+      });
+
+      stopBtn.addEventListener('click', () => {
+        this.stopRecording();
+      });
+
+      playBtn.addEventListener('click', () => {
+        this.playRecording();
+      });
+    }
+
+    async startRecording() {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        this.mediaRecorder = new MediaRecorder(stream);
+        this.audioChunks = [];
+
+        this.mediaRecorder.ondataavailable = (event) => {
+          this.audioChunks.push(event.data);
+        };
+
+        this.mediaRecorder.onstop = () => {
+          const audioBlob = new Blob(this.audioChunks, { type: 'audio/wav' });
+          this.audioUrl = URL.createObjectURL(audioBlob);
+          document.getElementById('audio-visualizer').classList.remove('hidden');
+        };
+
+        this.mediaRecorder.start();
+        document.getElementById('record-btn').textContent = '🔴 Recording...';
+        document.getElementById('record-btn').disabled = true;
+      } catch (error) {
+        console.error('Error starting recording:', error);
+        alert('Could not access microphone');
+      }
+    }
+
+    stopRecording() {
+      if (this.mediaRecorder && this.mediaRecorder.state === 'recording') {
+        this.mediaRecorder.stop();
+        this.mediaRecorder.stream.getTracks().forEach(track => track.stop());
+        
+        document.getElementById('record-btn').textContent = '🎤 Record';
+        document.getElementById('record-btn').disabled = false;
+      }
+    }
+
+    playRecording() {
+      if (this.audioUrl) {
+        const audio = new Audio(this.audioUrl);
+        audio.play();
+      }
+    }
+
+    // 获取当前输入数据
+    getInputData() {
+      switch (this.currentInputType) {
+        case 'text':
+          return {
+            type: 'text',
+            content: document.getElementById('demo-input').value,
+            model: this.currentModel
+          };
+        case 'image':
+          const previewImg = document.getElementById('preview-img');
+          return {
+            type: 'image',
+            content: previewImg.src,
+            model: this.currentModel
+          };
+        case 'audio':
+          return {
+            type: 'audio',
+            content: this.audioUrl,
+            model: this.currentModel
+          };
+        default:
+          return null;
+      }
+    }
+  }
+
+  // 初始化多模态输入
+  document.addEventListener('DOMContentLoaded', () => {
+    window.multimodalInput = new MultimodalInput();
+  });
+</script>
+
+<style>
+  .multimodal-input {
+    width: 100%;
+  }
+
+  .input-section {
+    transition: all 0.3s ease;
+  }
+
+  .input-section.hidden {
+    display: none;
+  }
+
+  .input-type-btn, .model-btn {
+    transition: all 0.2s ease;
+  }
+
+  .input-type-btn:hover, .model-btn:hover {
+    transform: translateY(-1px);
+  }
+
+  #image-upload-area {
+    transition: all 0.2s ease;
+  }
+
+  #image-upload-area:hover {
+    background-color: rgba(59, 130, 246, 0.05);
+  }
+
+  #audio-canvas {
+    border-radius: 8px;
+  }
+
+  @media (max-width: 640px) {
+    .flex.space-x-2 {
+      flex-direction: column;
+      gap: 8px;
+    }
+    
+    .flex.space-x-2 > * {
+      width: 100%;
+    }
+  }
+</style>

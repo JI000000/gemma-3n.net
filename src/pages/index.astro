@@ -1,182 +1,80 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
-import Benchmarks from '../components/Benchmarks.astro';
+import HeroSection from '../components/HeroSection.astro';
+import WhatIsGemma from '../components/WhatIsGemma.astro';
 import Architecture from '../components/Architecture.astro';
-import FeaturedPosts from '../components/FeaturedPosts.astro';
+import Benchmarks from '../components/Benchmarks.astro';
+import UseCases from '../components/UseCases.astro';
+import InteractiveDemo from '../components/InteractiveDemo.astro';
+
 import Resources from '../components/Resources.astro';
-import FAQ from '../components/FAQ.astro';
+import { getLangFromUrl, useTranslations } from '../i18n/index.ts';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
 ---
 
-<MainLayout title="Gemma-3n.net: The Ultimate Developer Guide & Tutorials">
-	<main>
-		<!-- Hero Section - English Version -->
-		<section class="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900 text-white relative overflow-hidden">
-			<div class="absolute inset-0 bg-[url('/grid.svg')] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]"></div>
-			<div class="max-w-4xl mx-auto px-4 text-center relative z-10">
-				<h1 class="text-5xl sm:text-7xl font-bold mb-6 bg-gradient-to-r from-white to-blue-200 bg-clip-text text-transparent">
-					Master Gemma 3n
-				</h1>
-				<p class="text-xl sm:text-2xl mb-8 text-gray-300 max-w-3xl mx-auto leading-relaxed">
-					The ultimate guide to on-device multimodal AI. Harness the power of<br/>Google's most efficient open-source model for audio, vision, and text.
-				</p>
-				<div class="flex flex-col sm:flex-row gap-4 justify-center mb-8">
-					<a href="/model-selector" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-lg font-medium text-lg transition-all duration-200 hover:transform hover:scale-105">
-						Choose Your Model →
-					</a>
-					<a href="#what-is-gemma" class="border-2 border-blue-400 text-blue-400 hover:bg-blue-400 hover:text-white px-8 py-4 rounded-lg font-medium text-lg transition-all duration-200">
-						Learn More
-					</a>
-					<a href="/demo" class="border-2 border-green-400 text-green-400 hover:bg-green-400 hover:text-white px-8 py-4 rounded-lg font-medium text-lg transition-all duration-200">
-						Try Demo
-					</a>
-				</div>
-				
-				<!-- Key Metrics -->
-				<div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16 pt-16 border-t border-gray-700">
-					<div class="text-center">
-						<div class="text-3xl font-bold text-blue-400 mb-2">79.8%</div>
-						<div class="text-gray-400">MMLU Accuracy</div>
-					</div>
-					<div class="text-center">
-						<div class="text-3xl font-bold text-green-400 mb-2">4GB</div>
-						<div class="text-gray-400">E4B Memory</div>
-					</div>
-					<div class="text-center">
-						<div class="text-3xl font-bold text-purple-400 mb-2">13x</div>
-						<div class="text-gray-400">Visual Processing</div>
-					</div>
-				</div>
-			</div>
-		</section>
+<MainLayout 
+  title={t('home.page.title')} 
+  description={t('home.page.description')}
+>
+  <main>
+    <!-- Hero Section -->
+    <HeroSection />
+    
+    <!-- Privacy Notice Banner -->
+    <section class="bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 border-b border-green-200 dark:border-green-800">
+      <div class="max-w-7xl mx-auto px-4 py-6">
+        <div class="flex items-center justify-center text-center">
+          <div class="flex items-center space-x-3">
+            <div class="text-2xl">🔒</div>
+            <div>
+              <h3 class="text-lg font-semibold text-green-800 dark:text-green-200">
+                {t('home.privacy.title')}
+              </h3>
+              <p class="text-sm text-green-700 dark:text-green-300">
+                {t('home.privacy.description')}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-		<!-- What is Gemma 3n - English Version -->
-		<section id="what-is-gemma" class="py-20 bg-white dark:bg-slate-900">
-			<div class="max-w-6xl mx-auto px-4">
-				<div class="text-center mb-16">
-					<h2 class="text-4xl font-bold text-slate-900 dark:text-white mb-4">What is Gemma 3n?</h2>
-					<p class="text-xl text-slate-600 dark:text-gray-400 max-w-4xl mx-auto">
-						Gemma 3n is Google's latest generation of generative AI model series, designed to achieve peak performance and efficiency on everyday devices such as mobile phones, laptops, and tablets. It not only processes text but is also a true multimodal platform.
-					</p>
-				</div>
-				
-				<div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
-					<div class="bg-slate-50 dark:bg-gray-800 p-8 rounded-xl">
-						<div class="w-12 h-12 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-lg flex items-center justify-center text-white text-2xl mb-6">
-							🎯
-						</div>
-						<h3 class="text-2xl font-bold text-slate-900 dark:text-white mb-4">Multimodal by Design</h3>
-						<p class="text-slate-600 dark:text-gray-400">
-							Natively processes audio, vision, and text inputs to understand and analyze the world in a comprehensive way.
-						</p>
-					</div>
-					
-					<div class="bg-slate-50 dark:bg-gray-800 p-8 rounded-xl">
-						<div class="w-12 h-12 bg-gradient-to-r from-green-500 to-emerald-500 rounded-lg flex items-center justify-center text-white text-2xl mb-6">
-							📱
-						</div>
-						<h3 class="text-2xl font-bold text-slate-900 dark:text-white mb-4">Optimized for On-Device</h3>
-						<p class="text-slate-600 dark:text-gray-400">
-							Available in efficient E2B and E4B sizes, running with a memory footprint comparable to much smaller models.
-						</p>
-					</div>
-					
-					<div class="bg-slate-50 dark:bg-gray-800 p-8 rounded-xl">
-						<div class="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center text-white text-2xl mb-6">
-							⚡
-						</div>
-						<h3 class="text-2xl font-bold text-slate-900 dark:text-white mb-4">MatFormer Architecture</h3>
-						<p class="text-slate-600 dark:text-gray-400">
-							A novel "nested" transformer architecture that allows for flexible compute and memory usage, adapting to the task at hand.
-						</p>
-					</div>
-					
-					<div class="bg-slate-50 dark:bg-gray-800 p-8 rounded-xl">
-						<div class="w-12 h-12 bg-gradient-to-r from-orange-500 to-red-500 rounded-lg flex items-center justify-center text-white text-2xl mb-6">
-							🛠️
-						</div>
-						<h3 class="text-2xl font-bold text-slate-900 dark:text-white mb-4">Developer Friendly</h3>
-						<p class="text-slate-600 dark:text-gray-400">
-							Supported by a wide range of tools you already love, including Hugging Face, Keras, PyTorch, and Ollama.
-						</p>
-					</div>
-				</div>
-			</div>
-		</section>
+    <!-- What is Gemma 3n -->
+    <WhatIsGemma />
 
-		<!-- Performance Benchmarks -->
-		<Benchmarks />
-		
-		<!-- MatFormer Architecture -->
-		<Architecture />
-		
-		<!-- Use Cases - English Version -->
-		<section id="use-cases" class="py-20 bg-white dark:bg-slate-900">
-			<div class="max-w-6xl mx-auto px-4">
-				<div class="text-center mb-16">
-					<h2 class="text-4xl font-bold text-slate-900 dark:text-white mb-4">Use Cases & Inspiration</h2>
-					<p class="text-xl text-slate-600 dark:text-gray-400">
-						What can you build with Gemma 3n? The possibilities are endless.
-					</p>
-				</div>
-				
-				<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-					<div class="text-center p-6 bg-slate-50 dark:bg-gray-800 rounded-xl hover:shadow-lg transition-shadow">
-						<div class="w-16 h-16 bg-blue-500 rounded-xl flex items-center justify-center text-white text-2xl mx-auto mb-4">
-							🎤
-						</div>
-						<h3 class="text-lg font-semibold text-slate-900 dark:text-white mb-2">On-Device AI Assistants</h3>
-						<p class="text-sm text-slate-600 dark:text-gray-400">
-							Build privacy-first voice assistants that can understand speech, text, and images.
-						</p>
-					</div>
-					
-					<div class="text-center p-6 bg-slate-50 dark:bg-gray-800 rounded-xl hover:shadow-lg transition-shadow">
-						<div class="w-16 h-16 bg-green-500 rounded-xl flex items-center justify-center text-white text-2xl mx-auto mb-4">
-							📸
-						</div>
-						<h3 class="text-lg font-semibold text-slate-900 dark:text-white mb-2">Smart Photo Management</h3>
-						<p class="text-sm text-slate-600 dark:text-gray-400">
-							Automatically tag, describe, and search photos, creating smart metadata for your images.
-						</p>
-					</div>
-					
-					<div class="text-center p-6 bg-slate-50 dark:bg-gray-800 rounded-xl hover:shadow-lg transition-shadow">
-						<div class="w-16 h-16 bg-purple-500 rounded-xl flex items-center justify-center text-white text-2xl mx-auto mb-4">
-							🎵
-						</div>
-						<h3 class="text-lg font-semibold text-slate-900 dark:text-white mb-2">Real-time Audio Transcription</h3>
-						<p class="text-sm text-slate-600 dark:text-gray-400">
-							Create applications that can transcribe meetings, lectures, and conversations without internet connection.
-						</p>
-					</div>
-					
-					<div class="text-center p-6 bg-slate-50 dark:bg-gray-800 rounded-xl hover:shadow-lg transition-shadow">
-						<div class="w-16 h-16 bg-indigo-500 rounded-xl flex items-center justify-center text-white text-2xl mx-auto mb-4">
-							📚
-						</div>
-						<h3 class="text-lg font-semibold text-slate-900 dark:text-white mb-2">Interactive Education Tools</h3>
-						<p class="text-sm text-slate-600 dark:text-gray-400">
-							Develop engaging learning applications where students can "see" and comment on user drawings or charts.
-						</p>
-					</div>
-				</div>
-				
-				<!-- Model Selector CTA -->
-				<div class="text-center mt-12">
-					<a href="/model-selector" class="inline-flex items-center bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4 rounded-lg font-medium text-lg transition-all duration-200 hover:transform hover:scale-105">
-						🎯 Find Your Perfect Model
-						<svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
-						</svg>
-					</a>
-				</div>
-			</div>
-		</section>
+    <!-- Architecture -->
+    <Architecture />
 
-		<FeaturedPosts />
-		<Resources />
-		<FAQ />
-	</main>
+    <!-- Benchmarks -->
+    <Benchmarks />
+
+    <!-- Use Cases -->
+    <UseCases />
+
+    <!-- Interactive Demo Preview -->
+    <section class="py-20 bg-gray-50 dark:bg-slate-900">
+      <div class="max-w-6xl mx-auto px-4">
+        <div class="text-center mb-12">
+          <h2 class="text-3xl font-bold text-slate-900 dark:text-white mb-4">
+            {t('home.demo.title')}
+          </h2>
+          <p class="text-xl text-slate-600 dark:text-gray-400 max-w-3xl mx-auto">
+            {t('home.demo.description')}
+          </p>
+        </div>
+        
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 relative">
+          <InteractiveDemo />
+        </div>
+      </div>
+    </section>
+
+    <!-- Resources -->
+    <Resources />
+
+  </main>
 </MainLayout>
 
 <style>

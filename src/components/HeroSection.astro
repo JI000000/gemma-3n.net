@@ -5,16 +5,46 @@ const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 ---
 
-<section class="flex flex-col items-center justify-center h-screen text-center pt-16 bg-white dark:bg-slate-900">
-  <div class="max-w-3xl px-4">
-    <h1 class="text-5xl font-bold md:text-7xl text-slate-900 dark:text-white">
-      {t('hero.title')}
+<section class="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900 text-white relative overflow-hidden pt-16">
+  <!-- Background Pattern -->
+  <div class="absolute inset-0 bg-[url('/grid.svg')] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]"></div>
+  
+  <!-- Main Content -->
+  <div class="max-w-4xl mx-auto px-4 text-center relative z-10">
+    <h1 class="text-5xl sm:text-7xl font-bold mb-6 bg-gradient-to-r from-white to-blue-200 bg-clip-text text-transparent">
+      {t('home.hero.title')}
     </h1>
-    <h2 class="mt-4 text-xl md:text-2xl text-slate-600 dark:text-gray-400">
-      {t('hero.subtitle')}
-    </h2>
-    <a href="#what-is-gemma" class="inline-block px-8 py-4 mt-8 font-bold text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors">
-      {t('hero.cta.primary')}
-    </a>
+    <p class="text-xl sm:text-2xl mb-8 text-gray-300 max-w-3xl mx-auto leading-relaxed">
+      {t('home.hero.subtitle')}
+    </p>
+    
+    <!-- Call to Action Buttons -->
+    <div class="flex flex-col sm:flex-row gap-4 justify-center mb-8">
+      <a href="/model-selector" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-lg font-medium text-lg transition-all duration-200 hover:transform hover:scale-105">
+        {t('home.hero.cta.model')}
+      </a>
+      <a href="#what-is-gemma" class="border-2 border-blue-400 text-blue-400 hover:bg-blue-400 hover:text-white px-8 py-4 rounded-lg font-medium text-lg transition-all duration-200">
+        {t('home.hero.cta.learn')}
+      </a>
+      <a href="/demo" class="border-2 border-green-400 text-green-400 hover:bg-green-400 hover:text-white px-8 py-4 rounded-lg font-medium text-lg transition-all duration-200">
+        {t('home.hero.cta.demo')}
+      </a>
+    </div>
+    
+    <!-- Key Metrics -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16 pt-16 border-t border-gray-700">
+      <div class="text-center">
+        <div class="text-3xl font-bold text-blue-400 mb-2">79.8%</div>
+        <div class="text-gray-400">{t('home.metrics.mmlu')}</div>
+      </div>
+      <div class="text-center">
+        <div class="text-3xl font-bold text-green-400 mb-2">4GB</div>
+        <div class="text-gray-400">{t('home.metrics.memory')}</div>
+      </div>
+      <div class="text-center">
+        <div class="text-3xl font-bold text-purple-400 mb-2">13x</div>
+        <div class="text-gray-400">{t('home.metrics.visual')}</div>
+      </div>
+    </div>
   </div>
 </section> 

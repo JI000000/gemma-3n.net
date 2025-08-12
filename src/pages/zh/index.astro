@@ -5,12 +5,16 @@ import Architecture from '../../components/Architecture.astro';
 import FeaturedPosts from '../../components/FeaturedPosts.astro';
 import Resources from '../../components/Resources.astro';
 import FAQ from '../../components/FAQ.astro';
+import { getLangFromUrl, useTranslations } from '../../i18n/index.ts';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
 ---
 
 <MainLayout title="Gemma-3n.net: 终极开发者指南与教程">
 	<main>
 		<!-- Hero Section - 中文版本 -->
-		<section class="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900 text-white relative overflow-hidden">
+		<section class="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900 text-white relative overflow-hidden" style="padding-top: 6rem;">
 			<div class="absolute inset-0 bg-[url('/grid.svg')] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]"></div>
 			<div class="max-w-4xl mx-auto px-4 text-center relative z-10">
 				<h1 class="text-5xl sm:text-7xl font-bold mb-6 bg-gradient-to-r from-white to-blue-200 bg-clip-text text-transparent">
@@ -44,6 +48,25 @@ import FAQ from '../../components/FAQ.astro';
 					<div class="text-center">
 						<div class="text-3xl font-bold text-purple-400 mb-2">13x</div>
 						<div class="text-gray-400">视觉处理</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- 隐私保护横幅 -->
+		<section class="bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 border-b border-green-200 dark:border-green-800">
+			<div class="max-w-7xl mx-auto px-4 py-6">
+				<div class="flex items-center justify-center text-center">
+					<div class="flex items-center space-x-3">
+						<div class="text-2xl">🔒</div>
+						<div>
+							<h3 class="text-lg font-semibold text-green-800 dark:text-green-200">
+								隐私优先 - 所有数据本地处理
+							</h3>
+							<p class="text-sm text-green-700 dark:text-green-300">
+								您的数据永远不会离开您的设备。无服务器端收集，无云端处理，完全隐私保护。
+							</p>
+						</div>
 					</div>
 				</div>
 			</div>

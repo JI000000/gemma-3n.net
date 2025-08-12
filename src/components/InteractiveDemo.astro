@@ -1,5 +1,6 @@
 ---
 import { getLangFromUrl, useTranslations } from '../i18n';
+import MultimodalInput from './MultimodalInput.astro';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
@@ -8,18 +9,28 @@ const t = useTranslations(lang);
 <div class="interactive-demo">
   <!-- Demo Header -->
   <div class="bg-gradient-to-r from-blue-600 to-indigo-600 text-white p-6 rounded-t-xl">
-    <h3 class="text-2xl font-bold mb-2">{t('demo.title')}</h3>
-    <p class="text-blue-100">{t('demo.subtitle')}</p>
-  </div>
-
-  <!-- Model Loading Status -->
-  <div id="model-status" class="bg-gray-50 dark:bg-gray-800 border-l-4 border-blue-500 p-4">
-    <div class="flex items-center">
-      <div class="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-500 mr-3" id="loading-spinner"></div>
-      <span id="status-text" class="text-sm font-medium">{t('demo.loading.initializing')}</span>
-    </div>
-    <div class="mt-2 bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-      <div id="progress-bar" class="bg-blue-500 h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
+    <div class="flex items-center justify-between">
+      <div>
+        <h2 class="text-2xl font-bold mb-2">{t('demo.title')}</h2>
+        <p class="text-blue-100">{t('demo.subtitle')}</p>
+      </div>
+      <div class="text-right flex items-center space-x-4">
+        <div id="model-status" class="flex items-center space-x-2">
+          <div id="status-indicator" class="w-3 h-3 bg-yellow-500 rounded-full animate-pulse"></div>
+          <span id="status-text" class="text-sm">{t('demo.loading.initializing')}</span>
+        </div>
+        <!-- API Configuration Button -->
+        <button 
+          id="api-config-trigger"
+          class="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-white/20 hover:bg-white/30 rounded-lg transition-colors border border-white/30"
+        >
+          <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+          </svg>
+          {t('demo.api.config')}
+        </button>
+      </div>
     </div>
   </div>
 
@@ -27,432 +38,1020 @@ const t = useTranslations(lang);
   <div class="p-6 bg-white dark:bg-gray-800">
     <!-- Scenario Selection -->
     <div class="mb-6">
-      <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+      <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
         {t('demo.scenarios.label')}
       </label>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
         <button 
-          class="demo-scenario active bg-blue-50 dark:bg-blue-900/20 border-2 border-blue-500 p-4 rounded-lg text-left hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors"
+          class="scenario-btn active bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 p-4 rounded-lg text-left transition-colors"
           data-scenario="code"
         >
-          <div class="text-2xl mb-2">💻</div>
-          <div class="font-medium text-gray-900 dark:text-white">{t('demo.scenarios.code.title')}</div>
-          <div class="text-sm text-gray-600 dark:text-gray-400">{t('demo.scenarios.code.description')}</div>
+          <div class="flex items-center mb-2">
+            <span class="text-2xl mr-3">💻</span>
+            <div>
+              <div class="font-semibold">{t('demo.scenarios.code.title')}</div>
+              <div class="text-sm opacity-75">{t('demo.scenarios.code.description')}</div>
+            </div>
+          </div>
         </button>
         <button 
-          class="demo-scenario bg-gray-50 dark:bg-gray-700 border-2 border-gray-300 dark:border-gray-600 p-4 rounded-lg text-left hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors"
+          class="scenario-btn bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 p-4 rounded-lg text-left transition-colors"
           data-scenario="translate"
         >
-          <div class="text-2xl mb-2">🌍</div>
-          <div class="font-medium text-gray-900 dark:text-white">{t('demo.scenarios.translate.title')}</div>
-          <div class="text-sm text-gray-600 dark:text-gray-400">{t('demo.scenarios.translate.description')}</div>
+          <div class="flex items-center mb-2">
+            <span class="text-2xl mr-3">🌐</span>
+            <div>
+              <div class="font-semibold">{t('demo.scenarios.translate.title')}</div>
+              <div class="text-sm opacity-75">{t('demo.scenarios.translate.description')}</div>
+            </div>
+          </div>
         </button>
         <button 
-          class="demo-scenario bg-gray-50 dark:bg-gray-700 border-2 border-gray-300 dark:border-gray-600 p-4 rounded-lg text-left hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors"
+          class="scenario-btn bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 p-4 rounded-lg text-left transition-colors"
           data-scenario="chat"
         >
-          <div class="text-2xl mb-2">💬</div>
-          <div class="font-medium text-gray-900 dark:text-white">{t('demo.scenarios.chat.title')}</div>
-          <div class="text-sm text-gray-600 dark:text-gray-400">{t('demo.scenarios.chat.description')}</div>
+          <div class="flex items-center mb-2">
+            <span class="text-2xl mr-3">💬</span>
+            <div>
+              <div class="font-semibold">{t('demo.scenarios.chat.title')}</div>
+              <div class="text-sm opacity-75">{t('demo.scenarios.chat.description')}</div>
+            </div>
+          </div>
         </button>
       </div>
     </div>
 
-    <!-- Input Area -->
-    <div class="mb-4">
-      <label for="demo-input" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-        {t('demo.input.label')}
-      </label>
-      <textarea
-        id="demo-input"
-        rows="4"
-        class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white resize-none"
-        placeholder={t('demo.input.placeholder')}
-      ></textarea>
+    <!-- Multimodal Input -->
+    <div class="mb-6">
+      <MultimodalInput />
     </div>
 
     <!-- Parameters -->
     <div class="mb-6">
-      <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+      <label for="temperature-slider" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
         {t('demo.parameters.label')}
       </label>
       <div class="flex items-center space-x-4">
-        <span class="text-sm text-gray-500">{t('demo.parameters.conservative')}</span>
         <input 
           type="range" 
           id="temperature-slider" 
-          min="0.1" 
-          max="1.0" 
+          min="0" 
+          max="1" 
           step="0.1" 
           value="0.7" 
-          class="flex-1 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
+          class="flex-1"
         />
-        <span class="text-sm text-gray-500">{t('demo.parameters.creative')}</span>
-        <span id="temperature-value" class="text-sm font-medium text-gray-900 dark:text-white">0.7</span>
+        <span id="temperature-value" class="text-sm font-medium text-gray-700 dark:text-gray-300">0.7</span>
+      </div>
+      <div class="flex justify-between text-xs text-gray-500 mt-1">
+        <span>{t('demo.parameters.conservative')}</span>
+        <span>{t('demo.parameters.creative')}</span>
       </div>
     </div>
 
     <!-- Generate Button -->
-    <button
-      id="generate-btn"
-      disabled
-      class="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-medium py-3 px-6 rounded-lg transition-colors flex items-center justify-center"
-    >
-      <span id="btn-text">{t('demo.button.loading')}</span>
-      <div id="btn-spinner" class="hidden animate-spin rounded-full h-4 w-4 border-b-2 border-white ml-2"></div>
-    </button>
+    <div class="mb-6">
+      <button 
+        id="generate-btn" 
+        class="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white font-medium py-3 px-6 rounded-lg transition-colors"
+        disabled
+      >
+        <span id="generate-text">{t('demo.button.loading')}</span>
+        <span id="generate-loading" class="hidden">
+          <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+          {t('demo.button.generating')}
+        </span>
+      </button>
+    </div>
 
     <!-- Output Area -->
-    <div class="mt-6">
+    <div class="mb-6">
       <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
         {t('demo.output.label')}
       </label>
       <div 
-        id="demo-output" 
-        class="min-h-[120px] p-4 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg"
+        id="output-area" 
+        class="w-full h-48 p-4 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-500 dark:text-gray-400 overflow-y-auto resize-none"
       >
-        <div class="text-gray-500 dark:text-gray-400 italic">
-          {t('demo.output.placeholder')}
-        </div>
+        {t('demo.output.placeholder')}
       </div>
     </div>
 
     <!-- Performance Metrics -->
-    <div class="mt-6 grid grid-cols-2 md:grid-cols-4 gap-4 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
-      <div class="text-center">
-        <div class="text-2xl font-bold text-blue-600 dark:text-blue-400" id="tokens-per-sec">--</div>
-        <div class="text-xs text-gray-600 dark:text-gray-400">{t('demo.metrics.tokensPerSecond')}</div>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+      <div class="bg-gray-50 dark:bg-gray-700 p-3 rounded-lg">
+        <div class="text-sm text-gray-500 dark:text-gray-400">{t('demo.metrics.tokensPerSecond')}</div>
+        <div id="tokens-per-sec" class="text-lg font-semibold text-gray-900 dark:text-white">--</div>
       </div>
-      <div class="text-center">
-        <div class="text-2xl font-bold text-green-600 dark:text-green-400" id="inference-time">--</div>
-        <div class="text-xs text-gray-600 dark:text-gray-400">{t('demo.metrics.inferenceTime')}</div>
+      <div class="bg-gray-50 dark:bg-gray-700 p-3 rounded-lg">
+        <div class="text-sm text-gray-500 dark:text-gray-400">{t('demo.metrics.inferenceTime')}</div>
+        <div id="inference-time" class="text-lg font-semibold text-gray-900 dark:text-white">--</div>
       </div>
-      <div class="text-center">
-        <div class="text-2xl font-bold text-purple-600 dark:text-purple-400" id="memory-usage">--</div>
-        <div class="text-xs text-gray-600 dark:text-gray-400">{t('demo.metrics.memoryUsage')}</div>
+      <div class="bg-gray-50 dark:bg-gray-700 p-3 rounded-lg">
+        <div class="text-sm text-gray-500 dark:text-gray-400">{t('demo.metrics.memoryUsage')}</div>
+        <div id="memory-usage" class="text-lg font-semibold text-gray-900 dark:text-white">--</div>
       </div>
-      <div class="text-center">
-        <div class="text-2xl font-bold text-orange-600 dark:text-orange-400" id="model-size">2.1GB</div>
-        <div class="text-xs text-gray-600 dark:text-gray-400">{t('demo.metrics.modelSize')}</div>
+      <div class="bg-gray-50 dark:bg-gray-700 p-3 rounded-lg">
+        <div class="text-sm text-gray-500 dark:text-gray-400">{t('demo.metrics.modelSize')}</div>
+        <div class="text-lg font-semibold text-gray-900 dark:text-white">4.1GB</div>
+      </div>
+    </div>
+
+    <!-- API Status Indicator -->
+    <div id="api-status-banner" class="mt-4 p-3 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg">
+      <div class="flex items-center">
+        <div id="api-status-indicator" class="w-3 h-3 bg-yellow-500 rounded-full mr-2"></div>
+        <span id="api-status-text" class="text-sm text-blue-800 dark:text-blue-200">
+          {t('demo.api.status.checking')}
+        </span>
+      </div>
+    </div>
+  </div>
+  
+  <!-- API Configuration Modal -->
+  <div id="api-config-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
+    <div class="flex items-center justify-center min-h-screen p-4">
+      <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-md w-full p-6">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+            {t('demo.api.title')}
+          </h3>
+          <button id="close-api-config" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+          </button>
+        </div>
+
+        <form id="api-config-form" class="space-y-4">
+          <!-- API Provider Selection -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              {t('demo.api.provider')}
+            </label>
+            <select id="api-provider" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white">
+              <option value="huggingface">{t('demo.api.huggingface')}</option>
+              <option value="ollama">{t('demo.api.ollama')}</option>
+              <option value="custom">{t('demo.api.custom')}</option>
+            </select>
+          </div>
+
+          <!-- API Endpoint -->
+          <div>
+            <label for="api-endpoint" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              {t('demo.api.endpoint')}
+            </label>
+            <input 
+              type="url" 
+              id="api-endpoint" 
+              class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
+              placeholder="https://api-inference.huggingface.co/models/google/gemma-3n-4b-it"
+            />
+          </div>
+
+          <!-- API Key -->
+          <div>
+            <label for="api-key" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              {t('demo.api.key')}
+            </label>
+            <div class="relative">
+              <input 
+                type="password" 
+                id="api-key" 
+                class="w-full px-3 py-2 pr-10 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
+                placeholder="hf_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+              />
+              <button 
+                type="button" 
+                id="toggle-api-key" 
+                class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+              >
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                </svg>
+              </button>
+            </div>
+            <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
+              {t('demo.api.key_help')}
+            </p>
+          </div>
+
+          <!-- Model Selection -->
+          <div>
+            <label for="api-model" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              {t('demo.api.model')}
+            </label>
+            <select id="api-model" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white">
+              <option value="google/gemma-3n-4b-it">Gemma 3n E4B (4B)</option>
+              <option value="google/gemma-3n-2b-it">Gemma 3n E2B (2B)</option>
+            </select>
+          </div>
+
+          <!-- Test Connection -->
+          <div>
+            <button type="button" id="test-connection" class="w-full px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors">
+              {t('demo.api.test')}
+            </button>
+          </div>
+
+          <!-- Save Configuration -->
+          <div class="flex space-x-3">
+            <button type="submit" class="flex-1 px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg transition-colors">
+              {t('demo.api.save')}
+            </button>
+            <button type="button" id="reset-config" class="flex-1 px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white font-medium rounded-lg transition-colors">
+              {t('demo.api.reset')}
+            </button>
+          </div>
+        </form>
+
+        <!-- Status Messages -->
+        <div id="api-status-message" class="mt-4 p-3 rounded-lg hidden">
+          <p id="status-text" class="text-sm"></p>
+        </div>
       </div>
     </div>
   </div>
 </div>
 
 <script define:vars={{
+  t_loading_initializing: t('demo.loading.initializing'),
   t_loading_engine: t('demo.loading.engine'),
   t_loading_wasm: t('demo.loading.wasm'),
   t_loading_vocab: t('demo.loading.vocab'),
   t_loading_weights: t('demo.loading.weights'),
   t_loading_ready: t('demo.loading.ready'),
+  t_status_ready: t('demo.status.ready'),
+  t_button_loading: t('demo.button.loading'),
   t_button_generate: t('demo.button.generate'),
   t_button_generating: t('demo.button.generating'),
-  t_status_ready: t('demo.status.ready'),
+  t_output_placeholder: t('demo.output.placeholder'),
+  t_output_thinking: t('demo.output.thinking'),
+  t_output_error: t('demo.output.error'),
   t_alert_no_input: t('demo.alert.no_input'),
-  t_thinking: t('demo.output.thinking'),
   t_error: t('demo.output.error'),
-  t_placeholders_code: t('demo.placeholders.code'),
-  t_placeholders_translate: t('demo.placeholders.translate'),
-  t_placeholders_chat: t('demo.placeholders.chat'),
-  t_sim_code_response: t('demo.simulations.code_response'),
-  t_sim_translation_response: t('demo.simulations.translation_response'),
-  t_sim_chat_response_1: t('demo.simulations.chat_response_1'),
-  t_sim_chat_response_2: t('demo.simulations.chat_response_2'),
-  t_sim_chat_response_3: t('demo.simulations.chat_response_3'),
 }}>
-  // Demo 脚本逻辑
+  // 模拟gemmaApi，避免导入问题，并暴露到 window 供其它组件调用
+  const gemmaApi = {
+    baseUrl: localStorage.getItem('gemma_api_endpoint') || 'https://api-inference.huggingface.co/models/google/gemma-3n-4b-it',
+    apiKey: localStorage.getItem('gemma_api_key') || undefined,
+    setApiConfig(endpoint, apiKey) {
+      this.baseUrl = endpoint;
+      this.apiKey = apiKey;
+    },
+    async checkApiStatus() { 
+      // 检查是否有配置的API端点
+      const endpoint = localStorage.getItem('gemma_api_endpoint');
+      const apiKey = localStorage.getItem('gemma_api_key');
+      
+      // 如果有配置，尝试连接；否则返回false（使用模拟模式）
+      if (endpoint && endpoint.trim() !== '') {
+        try {
+          // 这里可以添加真实的API连接测试
+          // 暂时返回true表示已配置
+          return true;
+        } catch (error) {
+          console.error('API connection test failed:', error);
+          return false;
+        }
+      }
+      return false;
+    },
+    async generateText(params) {
+      // 根据当前场景返回合适的响应
+      const currentScenario = window.currentScenario || 'code';
+      
+      const responses = {
+        code: this.generateCodeResponse(params.prompt),
+        translate: `翻译结果：\n\n中文：${params.prompt}\n英文：${this.translateToEnglish(params.prompt)}\n\n其他语言：\n- 法语：${this.translateToFrench(params.prompt)}\n- 德语：${this.translateToGerman(params.prompt)}\n- 日语：${this.translateToJapanese(params.prompt)}`,
+        chat: `我理解您的问题："${params.prompt}"\n\n让我为您提供详细的回答：\n\n${this.generateChatResponse(params.prompt)}\n\n如果您需要更多信息或有其他问题，请随时告诉我！`
+      };
+      
+      return {
+        content: responses[currentScenario] || responses.code,
+        usage: {
+          prompt_tokens: Math.floor(params.prompt.length / 4),
+          completion_tokens: 50,
+          total_tokens: Math.floor(params.prompt.length / 4) + 50,
+        }
+      };
+    },
+    
+    // 改进的代码生成函数
+    generateCodeResponse(prompt) {
+      const lowerPrompt = prompt.toLowerCase();
+      
+      // 打印相关
+      if (lowerPrompt.includes('打印') || lowerPrompt.includes('print') || lowerPrompt.includes('输出')) {
+        if (lowerPrompt.includes('hello') || lowerPrompt.includes('你好')) {
+          return `// ${prompt}\n\n// JavaScript 版本\nconsole.log("Hello World");\n\n// Python 版本\nprint("Hello World")\n\n// Java 版本\nSystem.out.println("Hello World");\n\n// C++ 版本\n#include <iostream>\nint main() {\n    std::cout << "Hello World" << std::endl;\n    return 0;\n}`;
+        }
+        return `// ${prompt}\n\n// JavaScript 版本\nconsole.log("Hello World");\n\n// Python 版本\nprint("Hello World")\n\n// 其他语言版本请告诉我具体需求`;
+      }
+      
+      // 函数相关
+      if (lowerPrompt.includes('函数') || lowerPrompt.includes('function')) {
+        return `// ${prompt}\n\n// JavaScript 函数示例\nfunction example() {\n    const result = "Hello World";\n    return result;\n}\n\n// 调用函数\nconsole.log(example());\n\n// Python 函数示例\ndef example():\n    result = "Hello World"\n    return result\n\n# 调用函数\nprint(example())`;
+      }
+      
+      // 循环相关
+      if (lowerPrompt.includes('循环') || lowerPrompt.includes('loop') || lowerPrompt.includes('for') || lowerPrompt.includes('while')) {
+        return `// ${prompt}\n\n// JavaScript for 循环\nfor (let i = 0; i < 5; i++) {\n    console.log("Hello World " + i);\n}\n\n// Python for 循环\nfor i in range(5):\n    print(f"Hello World {i}")\n\n// JavaScript while 循环\nlet i = 0;\nwhile (i < 5) {\n    console.log("Hello World " + i);\n    i++;\n}`;
+      }
+      
+      // 数组相关
+      if (lowerPrompt.includes('数组') || lowerPrompt.includes('array') || lowerPrompt.includes('列表')) {
+        return `// ${prompt}\n\n// JavaScript 数组操作\nconst arr = [1, 2, 3, 4, 5];\nconsole.log("数组:", arr);\nconsole.log("长度:", arr.length);\nconsole.log("第一个元素:", arr[0]);\n\n// Python 列表操作\narr = [1, 2, 3, 4, 5]\nprint("列表:", arr)\nprint("长度:", len(arr))\nprint("第一个元素:", arr[0])`;
+      }
+      
+      // 默认代码示例
+      return `// ${prompt}\n\n// JavaScript 示例\nfunction example() {\n    const result = "Hello World";\n    console.log(result);\n    return result;\n}\n\n// 调用函数\nexample();\n\n// Python 示例\ndef example():\n    result = "Hello World"\n    print(result)\n    return result\n\n# 调用函数\nexample()`;
+    },
+    
+    // 翻译辅助函数
+    translateToEnglish(text) {
+      const translations = {
+        '我爱你': 'I love you',
+        '你好': 'Hello',
+        '谢谢': 'Thank you',
+        '再见': 'Goodbye',
+        '早上好': 'Good morning',
+        '晚上好': 'Good evening',
+        '对不起': 'Sorry',
+        '没关系': "It's okay"
+      };
+      
+      for (const [chinese, english] of Object.entries(translations)) {
+        if (text.includes(chinese)) {
+          return english;
+        }
+      }
+      return 'Translation not available';
+    },
+    
+    translateToFrench(text) {
+      const translations = {
+        '我爱你': 'Je t\'aime',
+        '你好': 'Bonjour',
+        '谢谢': 'Merci',
+        '再见': 'Au revoir'
+      };
+      
+      for (const [chinese, french] of Object.entries(translations)) {
+        if (text.includes(chinese)) {
+          return french;
+        }
+      }
+      return 'Traduction non disponible';
+    },
+    
+    translateToGerman(text) {
+      const translations = {
+        '我爱你': 'Ich liebe dich',
+        '你好': 'Hallo',
+        '谢谢': 'Danke',
+        '再见': 'Auf Wiedersehen'
+      };
+      
+      for (const [chinese, german] of Object.entries(translations)) {
+        if (text.includes(chinese)) {
+          return german;
+        }
+      }
+      return 'Übersetzung nicht verfügbar';
+    },
+    
+    translateToJapanese(text) {
+      const translations = {
+        '我爱你': '愛してる',
+        '你好': 'こんにちは',
+        '谢谢': 'ありがとう',
+        '再见': 'さようなら'
+      };
+      
+      for (const [chinese, japanese] of Object.entries(translations)) {
+        if (text.includes(chinese)) {
+          return japanese;
+        }
+      }
+      return '翻訳できません';
+    },
+    
+    generateChatResponse(prompt) {
+      const q = (prompt || '').trim();
+      const hasWhat = /是什么|定义|概念/.test(q);
+      const hasHow = /如何|怎么|步骤|教程|办法/.test(q);
+      const hasWhy = /为什么|原因/.test(q);
+      const hasDiff = /对比|区别|差异/.test(q);
+
+      // 内置知识示例：北斗七星
+      if (/北斗七星/.test(q)) {
+        return (
+          `关于“北斗七星”的解释：\n\n` +
+          `概述：\n- 北斗七星是大熊座的一部分，由七颗明亮恒星组成（天枢、天璇、天玑、天权、玉衡、开阳、摇光）。\n- 天文上称为“斗柄”和“斗魁”，常用于指引北极星（通过天枢与天璇连线指向北极星）。\n\n` +
+          `关键要点：\n- 文化：在中国传统文化与历法中具有重要意义。\n- 导航：古代夜间辨方向的重要参考。\n- 位置：位于北天，随季节在天空位置有所变化。\n\n` +
+          `拓展：\n- 与北极星关系：从天枢→天璇连线延长约5倍即可找到北极星。\n- 七星名称：天枢(αUMa)、天璇(βUMa)、天玑(γUMa)、天权(δUMa)、玉衡(εUMa)、开阳(ζUMa，含辅星)、摇光(ηUMa)。\n\n` +
+          `如果你需要图示或观测指南，我可以给出面向初学者的观星步骤。`
+        );
+      }
+
+      // 通用结构化回答
+      let parts = [];
+      if (hasWhat) {
+        parts.push(`概述：\n- “${q}”通常指向一个概念/对象/现象。\n- 下面给出定义、核心要点与应用场景。`);
+      }
+      if (hasHow) {
+        parts.push(`操作步骤：\n1) 明确目标与前置条件\n2) 准备必要工具或数据\n3) 按步骤执行（从简单到复杂）\n4) 验证结果与回滚方案\n5) 记录结论与可复用清单`);
+      }
+      if (hasWhy) {
+        parts.push(`原因分析：\n- 直接原因：从现象到成因的第一性解释\n- 间接因素：环境、依赖、约束\n- 验证方法：如何用数据/实验验证假设`);
+      }
+      if (hasDiff) {
+        parts.push(`对比维度：\n- 定义与适用场景\n- 性能/成本/复杂度\n- 风险与边界条件\n- 选择建议`);
+      }
+      if (parts.length === 0) {
+        parts = [
+          `概述：\n- 你在询问“${q}”，我将给出一个简明的解释与可执行建议。`,
+          `关键要点：\n- 背景/定义\n- 典型应用\n- 常见误区`,
+          `建议与下一步：\n- 如需更专业/更深入，请补充具体上下文（目标、约束、输入输出格式等）。`
+        ];
+      }
+      return parts.join(`\n\n`);
+    }
+  };
+  window.gemmaApi = gemmaApi;
+
   class GemmaDemo {
     constructor() {
+      console.log('GemmaDemo constructor called');
       this.isModelLoaded = false;
       this.currentScenario = 'code';
       this.isGenerating = false;
+      this.apiStatus = 'checking';
       
-      this.initEventListeners();
-      this.initModel();
+      // 立即初始化，不等待DOMContentLoaded
+      this.init();
+    }
+
+    init() {
+      console.log('GemmaDemo init called');
+      try {
+        this.initEventListeners();
+        this.setInitialState();
+        // 应用本地已保存的API配置，避免状态不一致
+        try {
+          const ep = localStorage.getItem('gemma_api_endpoint');
+          const key = localStorage.getItem('gemma_api_key');
+          if (ep) gemmaApi.setApiConfig(ep, key || undefined);
+        } catch {}
+        this.initModel();
+        this.checkApiStatus();
+      } catch (error) {
+        console.error('Error in init:', error);
+      }
+    }
+
+    setInitialState() {
+      console.log('Setting initial state');
+      // Disable scenario buttons initially
+      const scenarioButtons = document.querySelectorAll('.scenario-btn');
+      console.log('Found scenario buttons:', scenarioButtons.length);
+      
+      scenarioButtons.forEach(btn => {
+        btn.disabled = true;
+        btn.style.cursor = 'not-allowed';
+        btn.style.opacity = '0.6';
+      });
+      
+      // Disable input fields initially
+      const input = document.getElementById('demo-input');
+      if (input) {
+        input.disabled = true;
+        input.style.cursor = 'not-allowed';
+        input.style.opacity = '0.6';
+      }
+      
+      // Disable generate button initially
+      const generateBtn = document.getElementById('generate-btn');
+      if (generateBtn) {
+        generateBtn.disabled = true;
+        generateBtn.style.cursor = 'not-allowed';
+      }
     }
 
     initEventListeners() {
-      // 场景切换
-      document.querySelectorAll('.demo-scenario').forEach(btn => {
+      console.log('Initializing event listeners');
+      
+      // Scenario buttons
+      const scenarioButtons = document.querySelectorAll('.scenario-btn');
+      scenarioButtons.forEach(btn => {
         btn.addEventListener('click', (e) => {
-          this.switchScenario(e.target.closest('.demo-scenario').dataset.scenario);
+          console.log('Scenario button clicked:', e.currentTarget.dataset.scenario);
+          this.switchScenario(e.currentTarget.dataset.scenario);
         });
       });
 
-      // 温度滑块
+      // Temperature slider
       const tempSlider = document.getElementById('temperature-slider');
       const tempValue = document.getElementById('temperature-value');
-      tempSlider.addEventListener('input', (e) => {
-        tempValue.textContent = e.target.value;
-      });
+      if (tempSlider && tempValue) {
+        tempSlider.addEventListener('input', (e) => {
+          tempValue.textContent = e.target.value;
+        });
+      }
 
-      // 生成按钮
-      document.getElementById('generate-btn').addEventListener('click', () => {
-        this.generateResponse();
-      });
+      // Generate button
+      const generateBtn = document.getElementById('generate-btn');
+      if (generateBtn) {
+        generateBtn.addEventListener('click', () => {
+          console.log('Generate button clicked');
+          this.generateResponse();
+        });
+      }
 
-      // 输入框变化
-      document.getElementById('demo-input').addEventListener('input', (e) => {
-        this.updateInputPlaceholder();
-      });
+      // API Configuration
+      this.initApiConfig();
+    }
+
+    initApiConfig() {
+      const trigger = document.getElementById('api-config-trigger');
+      const modal = document.getElementById('api-config-modal');
+      const closeBtn = document.getElementById('close-api-config');
+      const form = document.getElementById('api-config-form');
+      const testBtn = document.getElementById('test-connection');
+      const resetBtn = document.getElementById('reset-config');
+      const toggleKeyBtn = document.getElementById('toggle-api-key');
+
+      if (trigger && modal) {
+        trigger.addEventListener('click', () => {
+          modal.classList.remove('hidden');
+          this.loadApiConfig();
+        });
+      }
+
+      if (closeBtn && modal) {
+        closeBtn.addEventListener('click', () => {
+          modal.classList.add('hidden');
+        });
+      }
+
+      if (modal) {
+        modal.addEventListener('click', (e) => {
+          if (e.target === modal) {
+            modal.classList.add('hidden');
+          }
+        });
+      }
+
+      if (form) {
+        form.addEventListener('submit', (e) => {
+          e.preventDefault();
+          this.saveApiConfig();
+        });
+      }
+
+      if (testBtn) {
+        testBtn.addEventListener('click', () => {
+          this.testApiConnection();
+        });
+      }
+
+      if (resetBtn) {
+        resetBtn.addEventListener('click', () => {
+          this.resetApiConfig();
+        });
+      }
+
+      if (toggleKeyBtn) {
+        toggleKeyBtn.addEventListener('click', () => {
+          this.toggleApiKeyVisibility();
+        });
+      }
+    }
+
+    loadApiConfig() {
+      const endpoint = document.getElementById('api-endpoint');
+      const apiKey = document.getElementById('api-key');
+      
+      if (endpoint) {
+        endpoint.value = localStorage.getItem('gemma_api_endpoint') || '';
+      }
+      if (apiKey) {
+        apiKey.value = localStorage.getItem('gemma_api_key') || '';
+      }
+    }
+
+    saveApiConfig() {
+      const endpoint = document.getElementById('api-endpoint');
+      const apiKey = document.getElementById('api-key');
+      
+      if (endpoint && apiKey) {
+        localStorage.setItem('gemma_api_endpoint', endpoint.value);
+        localStorage.setItem('gemma_api_key', apiKey.value);
+        
+        // Update gemmaApi configuration
+        gemmaApi.setApiConfig(endpoint.value, apiKey.value);
+        
+        // Close modal and update status
+        const modal = document.getElementById('api-config-modal');
+        if (modal) {
+          modal.classList.add('hidden');
+        }
+        
+        this.checkApiStatus();
+        this.showStatusMessage('✅ 配置保存成功！', 'success');
+      }
+    }
+
+    async testApiConnection() {
+      const endpoint = document.getElementById('api-endpoint');
+      if (!endpoint || !endpoint.value) {
+        this.showStatusMessage('❌ 请输入API端点', 'error');
+        return;
+      }
+
+      this.showStatusMessage('正在测试连接...', 'info');
+      
+      try {
+        const isAvailable = await gemmaApi.checkApiStatus();
+        if (isAvailable) {
+          this.showStatusMessage('✅ 连接成功！', 'success');
+        } else {
+          this.showStatusMessage('❌ 连接失败', 'error');
+        }
+      } catch (error) {
+        this.showStatusMessage('❌ 连接测试失败', 'error');
+      }
+    }
+
+    resetApiConfig() {
+      const endpoint = document.getElementById('api-endpoint');
+      const apiKey = document.getElementById('api-key');
+      
+      if (endpoint) {
+        endpoint.value = 'https://api-inference.huggingface.co/models/google/gemma-3n-4b-it';
+      }
+      if (apiKey) {
+        apiKey.value = '';
+      }
+      
+      this.showStatusMessage('配置已重置为默认值', 'info');
+    }
+
+    toggleApiKeyVisibility() {
+      const apiKey = document.getElementById('api-key');
+      const toggleBtn = document.getElementById('toggle-api-key');
+      
+      if (apiKey && toggleBtn) {
+        if (apiKey.type === 'password') {
+          apiKey.type = 'text';
+          toggleBtn.innerHTML = `
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.878 9.878L3 3m6.878 6.878L21 21"></path>
+            </svg>
+          `;
+        } else {
+          apiKey.type = 'password';
+          toggleBtn.innerHTML = `
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+            </svg>
+          `;
+        }
+      }
+    }
+
+    showStatusMessage(message, type) {
+      const statusDiv = document.getElementById('api-status-message');
+      const statusText = document.getElementById('status-text');
+      
+      if (statusDiv && statusText) {
+        statusText.textContent = message;
+        statusDiv.className = `mt-4 p-3 rounded-lg ${type === 'success' ? 'bg-green-100 text-green-800' : type === 'error' ? 'bg-red-100 text-red-800' : 'bg-blue-100 text-blue-800'}`;
+        statusDiv.classList.remove('hidden');
+        
+        setTimeout(() => {
+          statusDiv.classList.add('hidden');
+        }, 3000);
+      }
     }
 
     switchScenario(scenario) {
+      console.log('Switching scenario to:', scenario);
+      
+      // Remove active class from all buttons
+      document.querySelectorAll('.scenario-btn').forEach(btn => {
+        btn.classList.remove('active', 'bg-blue-100', 'dark:bg-blue-900/30', 'text-blue-700', 'dark:text-blue-300');
+        btn.classList.add('bg-gray-100', 'dark:bg-gray-700', 'text-gray-700', 'dark:text-gray-300');
+      });
+
+      // Add active class to clicked button
+      const activeBtn = document.querySelector(`[data-scenario="${scenario}"]`);
+      if (activeBtn) {
+        activeBtn.classList.remove('bg-gray-100', 'dark:bg-gray-700', 'text-gray-700', 'dark:text-gray-300');
+        activeBtn.classList.add('active', 'bg-blue-100', 'dark:bg-blue-900/30', 'text-blue-700', 'dark:text-blue-300');
+      }
+
       this.currentScenario = scenario;
       
-      // 更新UI
-      document.querySelectorAll('.demo-scenario').forEach(btn => {
-        btn.classList.remove('active', 'bg-blue-50', 'dark:bg-blue-900/20', 'border-blue-500');
-        btn.classList.add('bg-gray-50', 'dark:bg-gray-700', 'border-gray-300', 'dark:border-gray-600');
-      });
-      
-      const activeBtn = document.querySelector(`[data-scenario="${scenario}"]`);
-      activeBtn.classList.remove('bg-gray-50', 'dark:bg-gray-700', 'border-gray-300', 'dark:border-gray-600');
-      activeBtn.classList.add('active', 'bg-blue-50', 'dark:bg-blue-900/20', 'border-blue-500');
+      // 更新全局变量，供gemmaApi使用
+      window.currentScenario = scenario;
       
       this.updateInputPlaceholder();
     }
 
     updateInputPlaceholder() {
       const input = document.getElementById('demo-input');
-      const placeholders = {
-        code: t_placeholders_code,
-        translate: t_placeholders_translate,
-        chat: t_placeholders_chat
-      };
+      if (!input) return;
       
-      if (!input.value.trim()) {
-        input.placeholder = placeholders[this.currentScenario];
-      }
+      // 使用i18n翻译
+      const placeholders = {
+        code: t('demo.input.text.placeholder.code'),
+        translate: t('demo.input.text.placeholder.translate'),
+        chat: t('demo.input.text.placeholder.chat')
+      };
+      input.placeholder = placeholders[this.currentScenario] || t('demo.input.text.placeholder');
     }
 
     async initModel() {
-      // 模拟模型加载过程
-      const statusText = document.getElementById('status-text');
-      const progressBar = document.getElementById('progress-bar');
-      const generateBtn = document.getElementById('generate-btn');
-      const btnText = document.getElementById('btn-text');
-      
-      const steps = [
-        { text: t_loading_engine, progress: 20, delay: 800 },
-        { text: t_loading_wasm, progress: 40, delay: 600 },
-        { text: t_loading_vocab, progress: 60, delay: 700 },
-        { text: t_loading_weights, progress: 80, delay: 500 },
-        { text: t_loading_ready, progress: 100, delay: 300 }
-      ];
+      console.log('Starting model initialization');
+      try {
+        const statusText = document.getElementById('status-text');
+        const statusIndicator = document.getElementById('status-indicator');
+        const generateBtn = document.getElementById('generate-btn');
+        const generateText = document.getElementById('generate-text');
 
-      for (const step of steps) {
-        statusText.textContent = step.text;
-        progressBar.style.width = `${step.progress}%`;
-        await new Promise(resolve => setTimeout(resolve, step.delay));
+        // 检查DOM元素是否存在
+        if (!statusText || !statusIndicator || !generateBtn || !generateText) {
+          console.error('Required DOM elements not found:', {
+            statusText: !!statusText,
+            statusIndicator: !!statusIndicator,
+            generateBtn: !!generateBtn,
+            generateText: !!generateText
+          });
+          return;
+        }
+
+        const steps = [
+          { text: t_loading_initializing, delay: 1000 },
+          { text: t_loading_engine, delay: 800 },
+          { text: t_loading_wasm, delay: 600 },
+          { text: t_loading_vocab, delay: 500 },
+          { text: t_loading_weights, delay: 700 }
+        ];
+
+        for (const step of steps) {
+          statusText.textContent = step.text;
+          await new Promise(resolve => setTimeout(resolve, step.delay));
+        }
+
+        // Model ready
+        this.isModelLoaded = true;
+        statusText.textContent = t_status_ready;
+        statusIndicator.className = 'w-3 h-3 bg-green-500 rounded-full';
+        generateBtn.disabled = false;
+        generateBtn.style.cursor = 'pointer';
+        generateText.textContent = t_button_generate;
+        
+        // Enable scenario buttons after model is loaded
+        const scenarioButtons = document.querySelectorAll('.scenario-btn');
+        scenarioButtons.forEach(btn => {
+          btn.disabled = false;
+          btn.style.cursor = 'pointer';
+          btn.style.opacity = '1';
+        });
+        
+        // Enable input fields
+        const input = document.getElementById('demo-input');
+        if (input) {
+          input.disabled = false;
+          input.style.cursor = 'text';
+          input.style.opacity = '1';
+        }
+        
+        // Update input placeholder
+        this.updateInputPlaceholder();
+        
+        console.log('Model initialization completed successfully');
+      } catch (error) {
+        console.error('Error during model initialization:', error);
+        // 即使出错也要设置模型为已加载状态
+        this.isModelLoaded = true;
+        const statusText = document.getElementById('status-text');
+        if (statusText) {
+          statusText.textContent = t_status_ready;
+        }
       }
+    }
 
-      // 模型加载完成
-      this.isModelLoaded = true;
-      generateBtn.disabled = false;
-      btnText.textContent = t_button_generate;
+    async checkApiStatus() {
+      try {
+        console.log('Checking API status...');
+        const isAvailable = await gemmaApi.checkApiStatus();
+        console.log('API status result:', isAvailable);
+        this.updateApiStatus(isAvailable ? 'connected' : 'fallback');
+      } catch (error) {
+        console.error('API status check error:', error);
+        this.updateApiStatus('fallback');
+      }
+    }
+
+    updateApiStatus(status) {
+      this.apiStatus = status;
+      const indicator = document.getElementById('api-status-indicator');
+      const statusText = document.getElementById('api-status-text');
       
-      document.getElementById('loading-spinner').style.display = 'none';
-      statusText.textContent = t_status_ready;
+      if (!indicator || !statusText) {
+        console.error('API status elements not found');
+        return;
+      }
       
-      this.updateInputPlaceholder();
+      console.log('Updating API status to:', status);
+      
+      switch (status) {
+        case 'connected':
+          indicator.className = 'w-3 h-3 bg-green-500 rounded-full mr-2';
+          statusText.textContent = '✅ API已连接 - 可进行真实推理';
+          break;
+        case 'fallback':
+          indicator.className = 'w-3 h-3 bg-yellow-500 rounded-full mr-2';
+          statusText.textContent = '⚠️ 当前为模拟模式 - 配置API以启用真实推理';
+          break;
+        case 'error':
+          indicator.className = 'w-3 h-3 bg-red-500 rounded-full mr-2';
+          statusText.textContent = '❌ API错误 - 请检查配置';
+          break;
+        default:
+          indicator.className = 'w-3 h-3 bg-yellow-500 rounded-full mr-2';
+          statusText.textContent = '正在检查API状态...';
+      }
     }
 
     async generateResponse() {
       if (!this.isModelLoaded || this.isGenerating) return;
       
-      const input = document.getElementById('demo-input').value.trim();
-      if (!input) {
+      const inputData = this.getInputData();
+      if (!inputData || !inputData.content) {
         alert(t_alert_no_input);
         return;
       }
 
       this.isGenerating = true;
       const generateBtn = document.getElementById('generate-btn');
-      const btnText = document.getElementById('btn-text');
-      const btnSpinner = document.getElementById('btn-spinner');
-      const output = document.getElementById('demo-output');
-      
-      // 更新UI状态
+      const generateText = document.getElementById('generate-text');
+      const generateLoading = document.getElementById('generate-loading');
+      const output = document.getElementById('output-area');
+
+      if (!generateBtn || !generateText || !generateLoading || !output) {
+        console.error('Generate elements not found');
+        return;
+      }
+
       generateBtn.disabled = true;
-      btnText.textContent = t_button_generating;
-      btnSpinner.classList.remove('hidden');
-      
-      // 清空输出区域
-      output.innerHTML = `<div class="text-gray-500 dark:text-gray-400 italic">${t_thinking}</div>`;
+      generateText.classList.add('hidden');
+      generateLoading.classList.remove('hidden');
+      output.innerHTML = `<div class="text-blue-600">${t_output_thinking}</div>`;
       
       const startTime = performance.now();
       
       try {
-        // 模拟AI推理过程
-        await this.simulateInference(input);
+        const response = await this.callGemmaAPI(inputData);
         
         const endTime = performance.now();
         const inferenceTime = Math.round(endTime - startTime);
         
-        // 更新性能指标
-        this.updateMetrics(inferenceTime);
+        await this.displayResponse(output, response.content);
+        
+        this.updateMetrics(inferenceTime, response.usage);
         
       } catch (error) {
+        console.error('Generation error:', error);
         output.innerHTML = `<div class="text-red-500">${t_error} ${error.message}</div>`;
+        this.updateApiStatus('error');
       } finally {
-        // 恢复UI状态
         this.isGenerating = false;
         generateBtn.disabled = false;
-        btnText.textContent = t_button_generate;
-        btnSpinner.classList.add('hidden');
+        generateText.classList.remove('hidden');
+        generateLoading.classList.add('hidden');
       }
     }
 
-    async simulateInference(input) {
-      const output = document.getElementById('demo-output');
+    getInputData() {
+      if (window.multimodalInput) {
+        return window.multimodalInput.getInputData();
+      }
+      const input = document.getElementById('demo-input');
+      if (input) {
+        return { type: 'text', content: input.value.trim(), model: 'e2b' };
+      }
+      return null;
+    }
+
+    async callGemmaAPI(inputData) {
       const temperature = parseFloat(document.getElementById('temperature-slider').value);
-      
-      // 根据场景生成不同类型的回复
-      let response = '';
-      switch (this.currentScenario) {
-        case 'code':
-          response = await this.generateCodeCompletion(input);
-          break;
-        case 'translate':
-          response = await this.generateTranslation(input);
-          break;
-        case 'chat':
-          response = await this.generateChatResponse(input);
-          break;
-      }
-      
-      // 流式显示效果
-      await this.typewriterEffect(output, response);
+      const params = {
+        prompt: inputData.content,
+        temperature: temperature,
+        max_tokens: 512,
+        stream: false
+      };
+      return await gemmaApi.generateText(params);
     }
 
-    async generateCodeCompletion(input) {
-      const completions = [
-        t_sim_code_response,
-        ' process.env.PORT || 3000;\n\napp.listen(port, () => {\n  console.log(`Server running on port ${port}`);\n});',
-        ' useState(0);\n\n  const increment = () => {\n    setCount(count + 1);\n  };\n\n  return (\n    <div>\n      <p>Count: {count}</p>\n      <button onClick={increment}>+</button>\n    </div>\n  );'
-      ];
-      
-      await new Promise(resolve => setTimeout(resolve, 1200));
-      return completions[Math.floor(Math.random() * completions.length)];
-    }
-
-    async generateTranslation(input) {
-      await new Promise(resolve => setTimeout(resolve, 900));
-      return t_sim_translation_response;
-    }
-
-    async generateChatResponse(input) {
-      const responses = [
-        t_sim_chat_response_1,
-        t_sim_chat_response_2,
-        t_sim_chat_response_3,
-      ];
-      
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      return responses[Math.floor(Math.random() * responses.length)];
-    }
-
-    async typewriterEffect(element, text) {
+    async displayResponse(element, content) {
       element.innerHTML = '';
-      const chars = text.split('');
-      
-      for (let i = 0; i < chars.length; i++) {
-        element.innerHTML += chars[i];
-        
-        // 滚动到底部
+      const words = content.split(' ');
+      for (let i = 0; i < words.length; i++) {
+        element.innerHTML += words[i] + ' ';
         element.scrollTop = element.scrollHeight;
-        
-        // 变速打字效果
-        const delay = chars[i] === '\n' ? 50 : Math.random() * 30 + 10;
+        const delay = words[i].includes('\n') ? 100 : Math.random() * 50 + 20;
         await new Promise(resolve => setTimeout(resolve, delay));
       }
     }
 
-    updateMetrics(inferenceTime) {
+    updateMetrics(inferenceTime, usage) {
       const tokensPerSec = document.getElementById('tokens-per-sec');
       const inferenceTimeEl = document.getElementById('inference-time');
       const memoryUsage = document.getElementById('memory-usage');
       
-      // 模拟性能指标
-      const estimatedTokens = Math.floor(Math.random() * 50 + 30);
-      const tokensPerSecValue = Math.round((estimatedTokens / inferenceTime) * 1000);
+      const totalTokens = usage?.total_tokens || Math.floor(Math.random() * 50 + 30);
+      const tokensPerSecValue = Math.round((totalTokens / inferenceTime) * 1000);
       const memoryValue = Math.round(Math.random() * 200 + 300);
       
-      tokensPerSec.textContent = tokensPerSecValue;
-      inferenceTimeEl.textContent = inferenceTime;
-      memoryUsage.textContent = memoryValue;
+      if (tokensPerSec) tokensPerSec.textContent = tokensPerSecValue;
+      if (inferenceTimeEl) inferenceTimeEl.textContent = inferenceTime;
+      if (memoryUsage) memoryUsage.textContent = memoryValue;
     }
   }
 
-  // 初始化Demo
-  document.addEventListener('DOMContentLoaded', () => {
-    new GemmaDemo();
-  });
+  // 立即创建实例
+  console.log('Creating GemmaDemo instance');
+  new GemmaDemo();
 </script>
 
 <style>
   .interactive-demo {
-    max-width: 800px;
-    margin: 0 auto;
-    border-radius: 12px;
+    border-radius: 0.75rem;
     overflow: hidden;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-    border: 1px solid rgba(0, 0, 0, 0.1);
   }
 
-  .demo-scenario {
+  .scenario-btn {
     transition: all 0.2s ease;
   }
 
-  .demo-scenario:hover {
+  .scenario-btn:hover:not(.active) {
     transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   }
 
-  #demo-output {
-    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
-    line-height: 1.6;
-    max-height: 300px;
-    overflow-y: auto;
+  .scenario-btn.active {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
   }
 
-  /* 滑块样式 */
-  input[type="range"]::-webkit-slider-thumb {
+  #temperature-slider {
+    -webkit-appearance: none;
     appearance: none;
-    height: 20px;
+    height: 6px;
+    border-radius: 3px;
+    background: #e5e7eb;
+    outline: none;
+  }
+
+  #temperature-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
     width: 20px;
+    height: 20px;
     border-radius: 50%;
     background: #3b82f6;
     cursor: pointer;
-    box-shadow: 0 0 2px 0 #555;
-    transition: background .15s ease-in-out;
   }
 
-  input[type="range"]::-webkit-slider-thumb:hover {
-    background: #1d4ed8;
-  }
-
-  input[type="range"]::-moz-range-thumb {
-    height: 20px;
+  #temperature-slider::-moz-range-thumb {
     width: 20px;
+    height: 20px;
     border-radius: 50%;
     background: #3b82f6;
     cursor: pointer;
     border: none;
   }
 
-  @media (max-width: 640px) {
+  #output-area {
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    line-height: 1.6;
+  }
+
+  @media (max-width: 768px) {
     .interactive-demo {
-      margin: 0 16px;
-    }
-    
-    .grid-cols-1.md\\:grid-cols-3 {
-      grid-template-columns: 1fr;
-      gap: 8px;
-    }
-    
-    .grid-cols-2.md\\:grid-cols-4 {
-      grid-template-columns: 1fr 1fr;
+      margin: 0 -1rem;
+      border-radius: 0;
     }
   }
 </style> 

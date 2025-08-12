@@ -1,0 +1,314 @@
+---
+import { getLangFromUrl, useTranslations } from '../i18n';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<div class="api-config">
+  <!-- API Configuration Modal Trigger -->
+  <button 
+    id="api-config-trigger"
+    class="fixed bottom-4 right-4 z-[9999] inline-flex items-center px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors shadow-lg backdrop-blur-sm"
+    style="position: fixed !important; bottom: 1rem !important; right: 1rem !important; z-index: 9999 !important;"
+  >
+    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+    </svg>
+    {t('demo.api.config')}
+  </button>
+
+  <!-- API Configuration Modal -->
+  <div id="api-config-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
+    <div class="flex items-center justify-center min-h-screen p-4">
+      <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-md w-full p-6">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+            {t('demo.api.title')}
+          </h3>
+          <button id="close-api-config" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+          </button>
+        </div>
+
+        <form id="api-config-form" class="space-y-4">
+          <!-- API Provider Selection -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              {t('demo.api.provider')}
+            </label>
+            <select id="api-provider" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white">
+              <option value="huggingface">{t('demo.api.huggingface')}</option>
+              <option value="ollama">{t('demo.api.ollama')}</option>
+              <option value="custom">{t('demo.api.custom')}</option>
+            </select>
+          </div>
+
+          <!-- API Endpoint -->
+          <div>
+            <label for="api-endpoint" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              {t('demo.api.endpoint')}
+            </label>
+            <input 
+              type="url" 
+              id="api-endpoint" 
+              class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
+              placeholder="https://api-inference.huggingface.co/models/google/gemma-3n-4b-it"
+            />
+          </div>
+
+          <!-- API Key -->
+          <div>
+            <label for="api-key" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              {t('demo.api.key')}
+            </label>
+            <div class="relative">
+              <input 
+                type="password" 
+                id="api-key" 
+                class="w-full px-3 py-2 pr-10 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
+                placeholder="hf_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+              />
+              <button 
+                type="button" 
+                id="toggle-api-key" 
+                class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+              >
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                </svg>
+              </button>
+            </div>
+            <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
+              {t('demo.api.key_help')}
+            </p>
+          </div>
+
+          <!-- Model Selection -->
+          <div>
+            <label for="api-model" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              {t('demo.api.model')}
+            </label>
+            <select id="api-model" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white">
+              <option value="google/gemma-3n-4b-it">Gemma 3n E4B (4B)</option>
+              <option value="google/gemma-3n-2b-it">Gemma 3n E2B (2B)</option>
+            </select>
+          </div>
+
+          <!-- Test Connection -->
+          <div>
+            <button 
+              type="button" 
+              id="test-connection" 
+              class="w-full px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors"
+            >
+              {t('demo.api.test')}
+            </button>
+          </div>
+
+          <!-- Save Configuration -->
+          <div class="flex space-x-3">
+            <button 
+              type="submit" 
+              class="flex-1 px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg transition-colors"
+            >
+              {t('demo.api.save')}
+            </button>
+            <button 
+              type="button" 
+              id="reset-config" 
+              class="flex-1 px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white font-medium rounded-lg transition-colors"
+            >
+              {t('demo.api.reset')}
+            </button>
+          </div>
+        </form>
+
+        <!-- Status Messages -->
+        <div id="api-status-message" class="mt-4 p-3 rounded-lg hidden">
+          <p id="status-text" class="text-sm"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script define:vars={{
+  t_api_config: t('demo.api.config'),
+  t_api_title: t('demo.api.title'),
+  t_api_provider: t('demo.api.provider'),
+  t_api_huggingface: t('demo.api.huggingface'),
+  t_api_ollama: t('demo.api.ollama'),
+  t_api_custom: t('demo.api.custom'),
+  t_api_endpoint: t('demo.api.endpoint'),
+  t_api_key: t('demo.api.key'),
+  t_api_key_help: t('demo.api.key_help'),
+  t_api_model: t('demo.api.model'),
+  t_api_test: t('demo.api.test'),
+  t_api_save: t('demo.api.save'),
+  t_api_reset: t('demo.api.reset'),
+  t_api_test_success: t('demo.api.test_success'),
+  t_api_test_failed: t('demo.api.test_failed'),
+  t_api_save_success: t('demo.api.save_success'),
+  t_api_save_failed: t('demo.api.save_failed'),
+}}>
+  // 注意：不要在此处使用 import 语句（避免 "Cannot use import statement outside a module"）
+  // 通过 window.gemmaApi（若存在）或安全降级stub访问APIimage.png
+
+  class ApiConfig {
+    constructor() {
+      this.modal = document.getElementById('api-config-modal');
+      this.form = document.getElementById('api-config-form');
+      this.trigger = document.getElementById('api-config-trigger');
+      this.closeBtn = document.getElementById('close-api-config');
+      this.testBtn = document.getElementById('test-connection');
+      this.resetBtn = document.getElementById('reset-config');
+      this.toggleKeyBtn = document.getElementById('toggle-api-key');
+      this.apiKeyInput = document.getElementById('api-key');
+      this.providerSelect = document.getElementById('api-provider');
+      this.endpointInput = document.getElementById('api-endpoint');
+      this.modelSelect = document.getElementById('api-model');
+
+      // 安全获取API句柄
+      this.api = (window && window.gemmaApi) ? window.gemmaApi : {
+        setApiConfig: () => {},
+        async checkApiStatus() { return false; }
+      };
+      
+      this.initEventListeners();
+      this.loadCurrentConfig();
+    }
+
+    initEventListeners() {
+      if (this.trigger) this.trigger.addEventListener('click', () => this.openModal());
+      if (this.closeBtn) this.closeBtn.addEventListener('click', () => this.closeModal());
+      if (this.modal) this.modal.addEventListener('click', (e) => { if (e.target === this.modal) this.closeModal(); });
+      if (this.toggleKeyBtn) this.toggleKeyBtn.addEventListener('click', () => this.toggleApiKeyVisibility());
+      if (this.providerSelect) this.providerSelect.addEventListener('change', () => this.updateEndpointPlaceholder());
+      if (this.testBtn) this.testBtn.addEventListener('click', () => this.testConnection());
+      if (this.resetBtn) this.resetBtn.addEventListener('click', () => this.resetConfig());
+      if (this.form) this.form.addEventListener('submit', (e) => { e.preventDefault(); this.saveConfig(); });
+    }
+
+    openModal() {
+      this.modal.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    }
+
+    closeModal() {
+      this.modal.classList.add('hidden');
+      document.body.style.overflow = 'auto';
+    }
+
+    toggleApiKeyVisibility() {
+      const type = this.apiKeyInput.type === 'password' ? 'text' : 'password';
+      this.apiKeyInput.type = type;
+    }
+
+    updateEndpointPlaceholder() {
+      const provider = this.providerSelect.value;
+      switch (provider) {
+        case 'huggingface':
+          this.endpointInput.placeholder = 'https://api-inference.huggingface.co/models/google/gemma-3n-4b-it';
+          break;
+        case 'ollama':
+          this.endpointInput.placeholder = 'http://localhost:11434/api/generate';
+          break;
+        case 'custom':
+          this.endpointInput.placeholder = 'https://your-api-endpoint.com/v1/chat/completions';
+          break;
+      }
+    }
+
+    async testConnection() {
+      const endpoint = this.endpointInput.value.trim();
+      const apiKey = this.apiKeyInput.value.trim();
+      if (!endpoint) { this.showStatus('Please enter an API endpoint', 'error'); return; }
+
+      this.testBtn.disabled = true;
+      this.testBtn.textContent = 'Testing...';
+      try {
+        // 临时设置API配置进行测试
+        if (this.api && this.api.setApiConfig) {
+          const original = {
+            baseUrl: this.api.baseUrl,
+            apiKey: this.api.apiKey
+          };
+          this.api.setApiConfig(endpoint, apiKey || undefined);
+          const ok = await this.api.checkApiStatus();
+          this.showStatus(ok ? t_api_test_success : t_api_test_failed, ok ? 'success' : 'error');
+          // 恢复
+          this.api.setApiConfig(original?.baseUrl || 'https://api-inference.huggingface.co/models/google/gemma-3n-4b-it', original?.apiKey);
+        } else {
+          this.showStatus('Simulation mode: cannot reach API in current setup', 'error');
+        }
+      } catch (e) {
+        this.showStatus(`${t_api_test_failed}: ${e?.message || e}`, 'error');
+      } finally {
+        this.testBtn.disabled = false;
+        this.testBtn.textContent = t_api_test;
+      }
+    }
+
+    saveConfig() {
+      const endpoint = this.endpointInput.value.trim();
+      const apiKey = this.apiKeyInput.value.trim();
+      const model = this.modelSelect.value;
+      if (!endpoint) { this.showStatus('Please enter an API endpoint', 'error'); return; }
+      try {
+        localStorage.setItem('gemma_api_endpoint', endpoint);
+        if (apiKey) localStorage.setItem('gemma_api_key', apiKey);
+        localStorage.setItem('gemma_api_model', model);
+        if (this.api && this.api.setApiConfig) this.api.setApiConfig(endpoint, apiKey || undefined);
+        this.showStatus(t_api_save_success, 'success');
+        setTimeout(() => this.closeModal(), 1200);
+      } catch (e) {
+        this.showStatus(`${t_api_save_failed}: ${e?.message || e}`, 'error');
+      }
+    }
+
+    resetConfig() {
+      localStorage.removeItem('gemma_api_endpoint');
+      localStorage.removeItem('gemma_api_key');
+      localStorage.removeItem('gemma_api_model');
+      this.endpointInput.value = '';
+      this.apiKeyInput.value = '';
+      this.providerSelect.value = 'huggingface';
+      this.modelSelect.value = 'google/gemma-3n-4b-it';
+      if (this.api && this.api.setApiConfig) this.api.setApiConfig('https://api-inference.huggingface.co/models/google/gemma-3n-4b-it');
+      this.showStatus('Configuration reset to defaults', 'success');
+    }
+
+    loadCurrentConfig() {
+      const endpoint = localStorage.getItem('gemma_api_endpoint');
+      const apiKey = localStorage.getItem('gemma_api_key');
+      const model = localStorage.getItem('gemma_api_model');
+      if (endpoint) this.endpointInput.value = endpoint;
+      if (apiKey) this.apiKeyInput.value = apiKey;
+      if (model) this.modelSelect.value = model;
+      if (endpoint?.includes('huggingface')) this.providerSelect.value = 'huggingface';
+      else if (endpoint?.includes('localhost:11434')) this.providerSelect.value = 'ollama';
+      else if (endpoint) this.providerSelect.value = 'custom';
+    }
+
+    showStatus(message, type) {
+      const statusDiv = document.getElementById('api-status-message');
+      const statusText = document.getElementById('status-text');
+      statusText.textContent = message;
+      statusDiv.className = `mt-4 p-3 rounded-lg ${type === 'success' ? 'bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-200' : 'bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-200'}`;
+      statusDiv.classList.remove('hidden');
+      setTimeout(() => statusDiv.classList.add('hidden'), 3000);
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', () => { new ApiConfig(); });
+</script>
+
+<style>
+  .api-config { display: inline-block; }
+  #api-config-modal { backdrop-filter: blur(4px); }
+</style>
