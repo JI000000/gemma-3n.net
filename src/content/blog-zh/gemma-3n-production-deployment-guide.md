@@ -528,4 +528,3 @@ class ModelBackup:
 
 ---
 
-*有关更多部署资源和社区支持，请访问我们的[GitHub仓库](https://github.com/google/gemma)和[Discord社区](https://discord.gg/gemma)。*
